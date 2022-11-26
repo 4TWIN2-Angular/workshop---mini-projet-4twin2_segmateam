@@ -33,17 +33,17 @@ function sort(
 ): Reglement[] {
   if (direction === "" || column === "") {
     return reglements;
-    //   } else {
-    //     return reglements.sort((a, b) => {
-    //       const res = compare(a[column], b[column]);
-    //       return direction === "asc" ? res : -res;
-    //     });
+  } else {
+    return reglements.sort((a, b) => {
+      const res = compare(a[column].toString(), b[column].toString());
+      return direction === "asc" ? res : -res;
+    });
   }
 }
 
-// function matches(reglement: Reglement, term: string, pipe: PipeTransform) {
+// function matches(reglement: Reglement, term: String, pipe: PipeTransform) {
 //   return (
-//    reglement.montantPaye.includes(term.toLowerCase()) ||
+//     reglement.montantPaye.includes(term) ||
 //     pipe.transform(reglement.montantPaye).includes(term) ||
 //     pipe.transform(reglement.montantRestant).includes(term)
 //   );
@@ -136,11 +136,10 @@ export class ReglementService {
     // );
     const total = reglements.length;
 
-    // 3. paginate
-    reglements = reglements.slice(
-      (page - 1) * pageSize,
-      (page - 1) * pageSize + pageSize
-    );
+    console.log("trahh", total);
+    console.log("page size", pageSize);
+    console.log("reglement", reglements);
+
     return of({ reglements, total });
   }
 }

@@ -16,6 +16,7 @@
           data-dismiss="modal"
           aria-label="Close"
           (click)="toggleSidebar('new-reglement-sidebar')"
+          [routerLink]="['/reglement']"
         >
           ×
         </button>
@@ -33,6 +34,7 @@
               id="basic-icon-default-fullname"
               placeholder="Montant paye"
               name="montantpaye"
+              [(ngModel)]="montantpaye"
             />
             <span
               *ngIf="newRegForm.submitted && montantpaye.invalid"
@@ -55,6 +57,7 @@
               id="basic-icon-default-fullname"
               placeholder="Montant restant"
               name="montantrestant"
+              [(ngModel)]="montantrestant"
             />
             <span
               *ngIf="newRegForm.submitted && montantpaye.invalid"
@@ -76,59 +79,17 @@
               maxView="year"
               minView="minute"
               minuteStep="5"
-              [(ngModel)]="selectedDate"
+              name="date"
+              [(ngModel)]="date"
             >
             </dl-date-time-picker>
           </section>
-          <!--
-          <div class="form-group">
-            <label class="form-label" for="basic-icon-default-email"
-              >Email</label
-            >
-            <input
-              type="text"
-              id="basic-icon-default-email"
-              class="form-control dt-email"
-              placeholder="john.doe@example.com"
-              aria-label="john.doe@example.com"
-              aria-describedby="basic-icon-default-email2"
-              name="user-email"
-              [(ngModel)]="email"
-              [class.error]="newUserForm.submitted && FEmailRef.invalid"
-              #FEmailRef="ngModel"
-              required
-            />
-            <span
-              *ngIf="newUserForm.submitted && FEmailRef.invalid"
-              class="invalid-form"
-            >
-              <small
-                class="form-text text-danger"
-                *ngIf="FEmailRef.errors.required"
-                >This field is required!</small
-              >
-            </span>
-            <small class="form-text text-muted">
-              You can use letters, numbers & periods
-            </small>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="user-role">User Role</label>
-            <select id="user-role" class="form-control">
-              <option value="subscriber">Subscriber</option>
-              <option value="editor">Editor</option>
-              <option value="maintainer">Maintainer</option>
-              <option value="author">Author</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
-        
-Modal to add new user Ends-->
 
           <button
             type="submit"
             class="btn btn-primary mr-1"
             (click)="submit(newRegForm)"
+            [routerLink]="['/reglement']"
             rippleEffect
           >
             Submit
@@ -138,6 +99,7 @@ Modal to add new user Ends-->
             class="btn btn-outline-secondary"
             (click)="toggleSidebar('new-reglement-sidebar')"
             rippleEffect
+            [routerLink]="['/reglement']"
           >
             Cancel
           </button>

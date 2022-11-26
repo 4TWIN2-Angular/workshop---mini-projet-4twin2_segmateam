@@ -1,10 +1,22 @@
 import { DecimalPipe } from "@angular/common";
-import { Component, Inject, QueryList, ViewChildren } from "@angular/core";
+import {
+  Component,
+  Inject,
+  Input,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { Observable, Subject } from "rxjs";
 import { Reglement } from "./Reglement";
 import { ReglementService } from "./reglement.service";
 import { NgbdSortableHeader, SortEvent } from "./sortable.directive";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 
 @Component({
   selector: "ngbd-table-complete",
@@ -14,7 +26,8 @@ import { NgbdSortableHeader, SortEvent } from "./sortable.directive";
 export class NgbdTableComplete {
   reglements$: Reglement[];
   total$: Observable<number>;
-
+  editing: Observable<number>;
+  editStatus: Boolean;
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   private _unsubscribeAll: Subject<any>;
   constructor(
@@ -28,15 +41,16 @@ export class NgbdTableComplete {
    *
    * @param name
    */
+  GetReglement(id: Observable<number>) {
+    this.editing = id;
+    this.editStatus = true;
+  }
   toggleSidebar(name): void {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
-
   getAllReglements() {
     this.service.GetAllReglements().subscribe((data) => {
-      this.reglements$ = data;
       this.service.REGLEMENTS = data;
-      console.log("aaaaaaa", this.reglements$);
     });
     this.total$ = this.service.total$;
   }

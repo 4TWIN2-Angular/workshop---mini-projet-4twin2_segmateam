@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { NgForm } from "@angular/forms";
 
@@ -12,7 +12,8 @@ export class NewRegSidebarComponent implements OnInit {
   public montantrestant;
   public payee;
   public selectedDate: Date;
-
+  // @Input() reg!: number;
+  // @Input() edit!: Boolean;
   /**
    * Constructor
    *
@@ -40,5 +41,7 @@ export class NewRegSidebarComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log("loaded");
+  }
 }

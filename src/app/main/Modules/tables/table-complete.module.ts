@@ -4,7 +4,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { CoreSidebarModule } from "@core/components";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { NewRegSidebarComponent } from "app/main/Components/new-user-sidebar/new-reglement-sidebar.component";
+import { NewRegSidebarComponent } from "app/main/Components/new-reglement/new-reglement-sidebar.component";
+import { RouterModule } from "@angular/router";
 
 import { NgbdSortableHeader } from "./sortable.directive";
 import { NgbdTableComplete } from "./table-complete";
@@ -23,6 +24,7 @@ import {
     CoreSidebarModule,
     DlDateTimeDateModule,
     DlDateTimePickerModule,
+    RouterModule,
   ],
   declarations: [NgbdTableComplete, NgbdSortableHeader, NewRegSidebarComponent],
   exports: [NgbdTableComplete],
