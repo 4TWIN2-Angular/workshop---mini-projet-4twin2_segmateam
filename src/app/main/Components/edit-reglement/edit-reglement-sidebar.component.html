@@ -1,0 +1,144 @@
+<div class="slideout-content">
+  <!-- Modal to add reglement starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-user-modal"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-user modal-content pt-0"
+        (ngSubmit)="submit(RegForm)"
+        #RegForm="ngForm"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('edit-reglement-sidebar')"
+          (click)="backClicked()"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Reglement</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-montantpaye"
+              >Montant payee</label
+            >
+            <input
+              type="text"
+              class="form-control dt-montantpaye"
+              id="basic-icon-default-montantpaye"
+              placeholder="Montant paye"
+              name="montantpaye"
+              required
+              maxlength="3"
+              min="10"
+              pattern="^[0-9]*$"
+              [(ngModel)]="form.montantpaye"
+              #mp="ngModel"
+              [ngClass]="{
+                'is-invalid': RegForm.submitted && mp.invalid
+              }"
+            />
+            <span class="invalid-form">
+              <small
+                class="form-text text-danger"
+                *ngIf="mp.errors?.['required']"
+                >This field is required!</small
+              >
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-montantrestant"
+              >Montant Restant</label
+            >
+            <input
+              type="text"
+              class="form-control dt-montant-restant"
+              id="basic-icon-default-montantrestant"
+              placeholder="Montant restant"
+              name="montantrestant"
+              required
+              [(ngModel)]="form.montantrestant"
+              maxlength="3"
+              #mr="ngModel"
+              [ngClass]="{
+                'is-invalid':
+                  (RegForm.submitted && mr.invalid) || form.montantrestant <= 10
+              }"
+            />
+            <span class="invalid-form">
+              <small
+                class="form-text text-danger"
+                *ngIf="form.montantrestant <= 10"
+                >Le montant restant doit etre superieur à 10!</small
+              >
+              <small
+                class="form-text text-danger"
+                *ngIf="mr.errors?.['required']"
+                >This field is required!</small
+              >
+            </span>
+          </div>
+          <label class="form-label" for="basic-icon-default-date"
+            >Date de reglement</label
+          >
+
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="date"
+                [(ngModel)]="form.date"
+                ngbDatepicker
+                #dt="ngModel"
+                required
+                #d="ngbDatepicker"
+              />
+              <button
+                class="btn btn-primary bi bi-calendar-event"
+                (click)="d.toggle()"
+                type="button"
+              ></button>
+            </div>
+          </div>
+          <div class="custom-control custom-control-success custom-switch">
+            <p class="mb-50">Regelement payé</p>
+            <input
+              type="checkbox"
+              [checked]="form.payee"
+              class="custom-control-input"
+              id="customSwitch4"
+            />
+            <label class="custom-control-label" for="customSwitch4"></label>
+          </div>
+          <br />
+          <button
+            type="submit"
+            class="btn btn-primary mr-1"
+            (click)="submit(RegForm)"
+            [routerLink]="['/reglement']"
+            rippleEffect
+            [disabled]="RegForm.form.status === 'INVALID'"
+          >
+            Submit
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('edit-reglement-sidebar')"
+            rippleEffect
+            (click)="backClicked()"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

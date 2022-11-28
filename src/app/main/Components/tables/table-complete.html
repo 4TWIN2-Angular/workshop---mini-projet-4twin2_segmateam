@@ -25,6 +25,13 @@
     ><span class="d-none d-sm-inline-block">Ajouter Reglement</span>
   </button>
 </div>
+<core-sidebar
+  class="modal modal-slide-in sidebar-todo-modal fade"
+  name="new-reglement-sidebar"
+  overlayClass="modal-backdrop"
+>
+  <router-outlet></router-outlet>
+</core-sidebar>
 
 <table class="table table-striped">
   <thead>
@@ -90,10 +97,11 @@
       </td>
       <td>
         <a
-          (click)="GetReglement(reglement.idReglement);toggleSidebar('new-reglement-sidebar');"
+          [routerLink]="['edit-reglement', reglement.idReglement]"
+          (click)="toggleSidebar('edit-reglement-sidebar');"
         >
           <i class="feather icon-edit" style="color: rgb(55, 106, 247)"></i>
-          &nbsp;
+          &nbsp;&nbsp;
         </a>
         <i class="feather icon-trash" style="color: rgb(194, 78, 0)"> </i>
       </td>
@@ -120,10 +128,11 @@
     <option [ngValue]="6">6 items per page</option>
   </select>
 </div>
+<!-- SIDEBARS -->
 
 <core-sidebar
   class="modal modal-slide-in sidebar-todo-modal fade"
-  name="new-reglement-sidebar"
+  name="edit-reglement-sidebar"
   overlayClass="modal-backdrop"
 >
   <router-outlet></router-outlet>

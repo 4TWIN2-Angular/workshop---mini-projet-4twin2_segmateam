@@ -5,11 +5,7 @@
     id="modals-slide-in"
   >
     <div class="modal-dialog">
-      <form
-        class="add-new-user modal-content pt-0"
-        (ngSubmit)="(newRegForm.form.valid)"
-        #newRegForm="ngForm"
-      >
+      <form class="add-new-user modal-content pt-0" [formGroup]="regform">
         <button
           type="button"
           class="close"
@@ -34,18 +30,18 @@
               id="basic-icon-default-fullname"
               placeholder="Montant paye"
               name="montantpaye"
-              [(ngModel)]="montantpaye"
+              formControlName="montantpaye"
             />
-            <span
-              *ngIf="newRegForm.submitted && montantpaye.invalid"
+            <!-- <span
+              *ngIf="newRegForm.submitted && form.montantpaye.invalid"
               class="invalid-form"
             >
               <small
                 class="form-text text-danger"
-                *ngIf="montantpaye.errors.required"
+                *ngIf="form.montantpaye.errors.required"
                 >This field is required!</small
               >
-            </span>
+            </span> -->
           </div>
           <div class="form-group">
             <label class="form-label" for="basic-icon-default-fullname"
@@ -57,10 +53,10 @@
               id="basic-icon-default-fullname"
               placeholder="Montant restant"
               name="montantrestant"
-              [(ngModel)]="montantrestant"
+              formControlName="montantrestant"
             />
-            <span
-              *ngIf="newRegForm.submitted && montantpaye.invalid"
+            <!-- <span
+              *ngIf="newRegForm.submitted && form.montantpaye.invalid"
               class="invalid-form"
             >
               <small
@@ -68,41 +64,59 @@
                 *ngIf="montantpaye.errors.required"
                 >This field is required!</small
               >
-            </span>
+            </span> -->
           </div>
           <label class="form-label" for="basic-icon-default-fullname"
             >Date de reglement</label
           >
-          <section id="default-date-and-range">
-            <dl-date-time-picker
-              startView="day"
-              maxView="year"
-              minView="minute"
-              minuteStep="5"
-              name="date"
-              [(ngModel)]="date"
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="date"
+                formControlName="date"
+                ngbDatepicker
+                required
+                #d="ngbDatepicker"
+              />
+              <button
+                class="btn btn-primary bi bi-calendar-event"
+                (click)="d.toggle()"
+                type="button"
+              ></button>
+            </div>
+            <br />
+            <div class="custom-control custom-control-success custom-switch">
+              <p class="mb-50">Regelement payé</p>
+              <input
+                type="checkbox"
+                formControlName="payee"
+                class="custom-control-input"
+                id="customSwitch4"
+              />
+              <label class="custom-control-label" for="customSwitch4"></label>
+            </div>
+            <br />
+            <button
+              type="submit"
+              class="btn btn-primary mr-1"
+              (click)="AddReglement()"
+              [routerLink]="['/reglement']"
+              rippleEffect
             >
-            </dl-date-time-picker>
-          </section>
-
-          <button
-            type="submit"
-            class="btn btn-primary mr-1"
-            (click)="submit(newRegForm)"
-            [routerLink]="['/reglement']"
-            rippleEffect
-          >
-            Submit
-          </button>
-          <button
-            type="reset"
-            class="btn btn-outline-secondary"
-            (click)="toggleSidebar('new-reglement-sidebar')"
-            rippleEffect
-            [routerLink]="['/reglement']"
-          >
-            Cancel
-          </button>
+              Submit
+            </button>
+            <button
+              type="reset"
+              class="btn btn-outline-secondary"
+              (click)="toggleSidebar('new-reglement-sidebar')"
+              rippleEffect
+              [routerLink]="['/reglement']"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </form>
     </div>

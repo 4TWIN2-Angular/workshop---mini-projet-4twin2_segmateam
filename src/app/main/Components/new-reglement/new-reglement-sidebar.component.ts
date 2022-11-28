@@ -1,17 +1,19 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
-import { NgForm } from "@angular/forms";
+import { FormGroup, FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-new-reglement-sidebar",
   templateUrl: "./new-reglement-sidebar.component.html",
 })
 export class NewRegSidebarComponent implements OnInit {
-  public date;
-  public montantpaye;
-  public montantrestant;
-  public payee;
-  public selectedDate: Date;
+  regform = new FormGroup({
+    date: new FormControl(""),
+    montantpaye: new FormControl(""),
+    montantrestant: new FormControl(""),
+    payee: new FormControl(""),
+  });
+
   // @Input() reg!: number;
   // @Input() edit!: Boolean;
   /**
@@ -30,6 +32,9 @@ export class NewRegSidebarComponent implements OnInit {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
 
+  AddReglement() {
+    console.log(this.regform.value);
+  }
   /**
    * Submit
    *

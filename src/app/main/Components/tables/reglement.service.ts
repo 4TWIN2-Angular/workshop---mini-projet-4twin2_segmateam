@@ -122,7 +122,9 @@ export class ReglementService {
     Object.assign(this._state, patch);
     this._search$.next();
   }
-
+  GetReglementById(id: number) {
+    return this.REGLEMENTS.find((reglement) => reglement.idReglement == id);
+  }
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } =
       this._state;

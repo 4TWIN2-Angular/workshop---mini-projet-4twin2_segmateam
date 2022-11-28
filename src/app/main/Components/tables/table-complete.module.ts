@@ -13,6 +13,7 @@ import {
   DlDateTimeDateModule,
   DlDateTimePickerModule,
 } from "angular-bootstrap-datetimepicker";
+import { EditRegSidebarComponent } from "app/main/Components/edit-reglement/edit-reglement-sidebar.component";
 
 @NgModule({
   imports: [
@@ -26,7 +27,12 @@ import {
     DlDateTimePickerModule,
     RouterModule,
   ],
-  declarations: [NgbdTableComplete, NgbdSortableHeader, NewRegSidebarComponent],
+  declarations: [
+    NgbdTableComplete,
+    NgbdSortableHeader,
+    NewRegSidebarComponent,
+    EditRegSidebarComponent,
+  ],
   exports: [NgbdTableComplete],
   bootstrap: [],
 })
