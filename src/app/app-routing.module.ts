@@ -10,6 +10,11 @@ const routes: Routes = [
       import("./main/pages/pages.module").then((m) => m.PagesModule),
   },
   {
+    path: 'produit', loadChildren: () =>
+      import('./main/Modules/produit/produit.module').then(m => m.ProduitModule)
+  }
+  ,
+  {
     path: "home",
     component: HomeComponent,
   },
@@ -29,4 +34,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes), ReglementModule],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
