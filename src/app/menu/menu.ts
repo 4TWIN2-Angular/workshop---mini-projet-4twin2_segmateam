@@ -20,7 +20,7 @@ export const menu: CoreMenu[] = [
     id: "Produit",
     title: "Produit",
     type: "item",
-    icon: "inbox",
+    icon: "shopping-cart",
     url: "produit",
   },
 ];
