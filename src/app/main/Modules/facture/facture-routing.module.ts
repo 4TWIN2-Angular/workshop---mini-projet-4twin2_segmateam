@@ -7,7 +7,7 @@ import {DetailFactureComponent} from "./DetailFacture/detail-facture/detail-fact
 
 const routes: Routes = [
   {
-    path: "facture",
+    path: '',
     component: FactureComponent,
     children: [
       {

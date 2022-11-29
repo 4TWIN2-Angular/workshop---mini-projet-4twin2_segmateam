@@ -11,6 +11,11 @@ const routes: Routes = [
       import("./main/pages/pages.module").then((m) => m.PagesModule),
   },
   {
+    path: "facture",
+    loadChildren: () =>
+        import("./main/Modules/facture/facture.module").then((m) => m.FactureModule),
+  },
+  {
     path: "home",
     component: HomeComponent,
   },
@@ -27,7 +32,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), ReglementModule,FactureModule],
+  imports: [RouterModule.forRoot(routes), ReglementModule],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
