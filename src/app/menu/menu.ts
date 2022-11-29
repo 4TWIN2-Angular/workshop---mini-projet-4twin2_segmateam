@@ -16,4 +16,11 @@ export const menu: CoreMenu[] = [
     icon: "inbox",
     url: "reglement",
   },
+  {
+    id: "facture",
+    title: "Factures",
+    type: "item",
+    icon: "inbox",
+    url: "facture",
+  },
 ];

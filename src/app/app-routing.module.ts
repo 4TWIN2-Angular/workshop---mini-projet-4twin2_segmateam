@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from "./main/Modules/home/home.component";
 import { ReglementModule } from "./main/Modules/reglement/reglement.module";
+import {FactureModule} from "./main/Modules/facture/facture.module";
 
 const routes: Routes = [
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), ReglementModule],
+  imports: [RouterModule.forRoot(routes), ReglementModule,FactureModule],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
