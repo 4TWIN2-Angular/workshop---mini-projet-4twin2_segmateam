@@ -37,7 +37,7 @@ const appRoutes: Routes = [];
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    ReglementModule,
+    
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes, {

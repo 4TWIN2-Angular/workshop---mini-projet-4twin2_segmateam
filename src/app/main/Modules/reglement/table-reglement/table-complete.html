@@ -30,7 +30,7 @@
   name="new-reglement-sidebar"
   overlayClass="modal-backdrop"
 >
-  <router-outlet></router-outlet>
+  <app-new-reglement-sidebar></app-new-reglement-sidebar>
 </core-sidebar>
 
 <table class="table table-striped">
@@ -53,7 +53,7 @@
       *ngFor="let reglement of this.service.REGLEMENTS.slice((service.page - 1) * service.pageSize,
         (service.page - 1) * service.pageSize + service.pageSize);let i = index" [attr.data-index]="i"
     >
-      <th scope="row">{{ page<=1? i+service.pageSize :i+1}}</th>
+      <th scope="row">{{ page<=1? i+(service.pageSize-1) :i+1}}</th>
       <td>
         <ngb-highlight
           [result]="reglement.date"
