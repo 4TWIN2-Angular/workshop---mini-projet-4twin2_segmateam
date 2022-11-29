@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import {Facture} from "../facture";
-import {SortColumn, SortDirection} from "../../tables/sortable.directive";
-import {Reglement} from "../../tables/Reglement";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {DecimalPipe} from "@angular/common";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
@@ -17,25 +15,24 @@ interface State {
   page: number;
   pageSize: number;
   searchTerm: string;
-  sortColumn: SortColumn;
-  sortDirection: SortDirection;
+
 }
-const compare = (v1: string | number, v2: string | number) =>
-    v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
-function sort(
-    factures: Facture[],
-    column: SortColumn,
-    direction: string
-): Facture[] {
-  if (direction === "" || column === "") {
-    return factures;
-  } else {
-    return factures.sort((a, b) => {
-      const res = compare(a[column].toString(), b[column].toString());
-      return direction === "asc" ? res : -res;
-    });
-  }
-}
+// const compare = (v1: string | number, v2: string | number) =>
+//     v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+// function sort(
+//     factures: Facture[],
+//     // column: SortColumn,
+//     direction: string
+// ): Facture[] {
+//   if (direction === "" || column === "") {
+//     return factures;
+//   } else {
+//     return factures.sort((a, b) => {
+//       const res = compare(a[column].toString(), b[column].toString());
+//       return direction === "asc" ? res : -res;
+//     });
+//   }
+// }
 
 
 @Injectable({
@@ -54,13 +51,13 @@ export class FactureServiceService {
   private _factures$ = new BehaviorSubject<Facture[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
 
-  private _state: State = {
-    page: 1,
-    pageSize: 4,
-    searchTerm: "",
-    sortColumn: "",
-    sortDirection: "",
-  };
+  // private _state: State = {
+  //   page: 1,
+  //   pageSize: 4,
+  //   // searchTerm: "",
+  //   // sortColumn: "",
+  //   // sortDirection: "",
+  // };
   constructor(private http:HttpClient) {
 
   }
