@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { HomeComponent } from "./main/Modules/home/home.component";
 
+
 const routes: Routes = [
   {
     path: "pages",
@@ -20,9 +21,13 @@ const routes: Routes = [
     path: "reglement",
     loadChildren: () =>
       import("./main/Modules/reglement/reglement.module").then(
-        (m) => m.ReglementModule 
+        (m) => m.ReglementModule
       ),
-      
+  },
+   {   
+    path: "facture",
+    loadChildren: () =>
+        import("./main/Modules/facture/facture.module").then((m) => m.FactureModule),
   },
   {
     path: "home",
