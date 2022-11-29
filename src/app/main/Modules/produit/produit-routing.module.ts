@@ -5,7 +5,8 @@ import { FormProduitComponent } from './form-produit/form-produit.component';
 import { ListProduitComponent } from './list-produit/list-produit.component';
 import { MainProduitComponent } from './main-produit/main-produit.component';
 
-const routes: Routes = [ {path: '', component: MainProduitComponent , 
+const routes: Routes = [ 
+  {path: '', component: MainProduitComponent , 
 children:[
   {path: 'category/:type', component: ListProduitComponent , 
   children:[

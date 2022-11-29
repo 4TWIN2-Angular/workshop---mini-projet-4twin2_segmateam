@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
+import { Form, NgForm } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
-import { ReglementService } from "../table-reglement/reglement.service";
+import { ReglementService } from "../reglement.service";
 import { DateFormatter } from "utils/dateformat";
 
 @Component({

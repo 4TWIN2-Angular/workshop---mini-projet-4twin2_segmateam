@@ -39,7 +39,7 @@
       <th scope="col">#</th>
       <th scope="col" sortable="date" (sort)="onSort($event)">date</th>
       <th scope="col" sortable="montantPaye" (sort)="onSort($event)">
-        montant Paye
+        montant Paye 
       </th>
       <th scope="col" sortable="montantRestant" (sort)="onSort($event)">
         Montant Restant
@@ -51,9 +51,9 @@
   <tbody>
     <tr
       *ngFor="let reglement of this.service.REGLEMENTS.slice((service.page - 1) * service.pageSize,
-        (service.page - 1) * service.pageSize + service.pageSize)"
+        (service.page - 1) * service.pageSize + service.pageSize);let i = index" [attr.data-index]="i"
     >
-      <th scope="row">{{ reglement.idReglement }}</th>
+      <th scope="row">{{ page<=1? i+service.pageSize :i+1}}</th>
       <td>
         <ngb-highlight
           [result]="reglement.date"
@@ -103,7 +103,9 @@
           <i class="feather icon-edit" style="color: rgb(55, 106, 247)"></i>
           &nbsp;&nbsp;
         </a>
-        <i class="feather icon-trash" style="color: rgb(194, 78, 0)"> </i>
+        <a (click)="DeleteReglement(reglement.idReglement)">
+        <i  class="feather icon-trash" style="color: rgb(194, 78, 0)"> </i>
+      </a>
       </td>
     </tr>
   </tbody>

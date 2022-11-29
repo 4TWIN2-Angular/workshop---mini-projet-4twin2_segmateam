@@ -1,17 +1,36 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
-import { FormGroup, FormControl } from "@angular/forms";
-
+import { FormGroup, FormControl,Validators } from "@angular/forms";
+import { ReglementService } from "../reglement.service";
 @Component({
   selector: "app-new-reglement-sidebar",
   templateUrl: "./new-reglement-sidebar.component.html",
+  styleUrls: ["./new-reglement-sidebar..component.scss"],
 })
 export class NewRegSidebarComponent implements OnInit {
   regform = new FormGroup({
-    date: new FormControl(""),
-    montantpaye: new FormControl(""),
-    montantrestant: new FormControl(""),
-    payee: new FormControl(""),
+    date: new FormControl("",[
+      Validators.required,
+   
+    ]),
+    montantPaye: new FormControl("",[  
+      Validators.required,
+      Validators.maxLength(3),
+      Validators.minLength(2),
+      Validators.min(10),
+      Validators.pattern("^[0-9]*$")
+    ]),
+    
+    montantRestant: new FormControl("",[
+      Validators.required,
+      Validators.maxLength(3),
+      Validators.minLength(2),Validators.min(5)]
+      
+      
+    ),
+    payee: new FormControl(
+      
+    ),
   });
 
   // @Input() reg!: number;
@@ -21,7 +40,7 @@ export class NewRegSidebarComponent implements OnInit {
    *
    * @param {CoreSidebarService} _coreSidebarService
    */
-  constructor(private _coreSidebarService: CoreSidebarService) {}
+  constructor(private _coreSidebarService: CoreSidebarService,private service: ReglementService) {}
 
   /**
    * Toggle the sidebar
@@ -33,8 +52,10 @@ export class NewRegSidebarComponent implements OnInit {
   }
 
   AddReglement() {
-    console.log(this.regform.value);
+    console.log("form updated",this.regform.value);
+    this.service.AddReglement(this.regform.value);
   }
+ 
   /**
    * Submit
    *
@@ -43,10 +64,13 @@ export class NewRegSidebarComponent implements OnInit {
   submit(form) {
     if (form.valid) {
       this.toggleSidebar("new-reglement-sidebar");
+      form.reset();
     }
   }
 
   ngOnInit(): void {
     console.log("loaded");
+    
   }
+  ngOnDestroy(): void {}
 }

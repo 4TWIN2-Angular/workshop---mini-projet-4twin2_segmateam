@@ -17,7 +17,6 @@ import { EditRegSidebarComponent } from "../edit-reglement/edit-reglement-sideba
 
 @NgModule({
   imports: [
-    BrowserModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
