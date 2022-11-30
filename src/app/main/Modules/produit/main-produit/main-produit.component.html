@@ -1,4 +1,5 @@
-
+<div class="incenter">
+  
 <div class="accordian">
   <ul>
   <li   *ngFor="
@@ -7,14 +8,14 @@
       <a >{{product.libelleProduit}}</a>
     </div> 
     <a   [routerLink]="['/produit/info', product.idProduit]">
-      <img [src]="product.image"/>
+     <div class="image-cont"> <img [src]="product.image" /></div>
       
     </a>
   </li>
  
 </ul>
 </div>
-
+</div>
 
 <a [routerLink]="['/produit/list']" class="btn btn-primary"
             >show all</a
