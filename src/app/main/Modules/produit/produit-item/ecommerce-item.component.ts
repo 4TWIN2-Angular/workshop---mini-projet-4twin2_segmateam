@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { EcommerceService } from 'app/main/Modules/produit/ecommerce.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-ecommerce-item',
   templateUrl: './ecommerce-item.component.html',
@@ -17,9 +17,22 @@ export class EcommerceItemComponent implements OnInit {
    *
    * @param {EcommerceService} _ecommerceService
    */
-  constructor(private _ecommerceService: EcommerceService) {
+  
+  /**
+   * Constructor
+   *
+   * @param {NgbModal} modalService
+   */
+
+  constructor(private _ecommerceService: EcommerceService,private modalService: NgbModal) {
    
   }
 
   ngOnInit(): void {}
+  modalOpenVC(modalVC) {
+    this.modalService.open(modalVC, {
+      centered: true ,
+      size: "lg"
+    });}
+
 }

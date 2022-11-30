@@ -1,6 +1,7 @@
 <!-- Ecommerce Item -->
 <div class="item-img text-center">
-  <a   [routerLink]="'/apps/e-commerce/details/' + product.idProduit">
+  <a  
+ >
     <img class="img-fluid card-img-top" [src]="product.image" alt="img-placeholder" />
   </a>
 </div>
@@ -50,6 +51,7 @@
     *ngIf="product.stock != null"
     class="btn btn-primary btn-cart"  
     rippleEffect
+    (click)="modalOpenVC(modalXL)" [routerLink]="['/produit/list/info', product.idProduit]"
   >
     <i data-feather="info" class="mr-25"></i>
     <span class="add-to-cart">See Details</span>
@@ -57,3 +59,27 @@
  
 </div>
 <!--/ Ecommerce Item -->
+<ng-template #modalXL let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="exampleModalCenterTitle">Produt details</h4>
+    <button type="button" class="close " (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true" style="color: red;">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus style="display: flex;justify-content: center">
+
+
+
+<div class="immg" style="display: flex;justify-content: center;width: 90%;">
+    <router-outlet> </router-outlet>
+   
+  </div>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Accept click')" rippleEffect>
+     Back
+    </button>
+  </div>
+</ng-template>

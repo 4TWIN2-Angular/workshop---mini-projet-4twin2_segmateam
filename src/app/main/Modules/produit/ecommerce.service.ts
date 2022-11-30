@@ -65,15 +65,15 @@ export class EcommerceService implements Resolve<any> {
   getProductsById(id:number): Observable<products[]> {
     return this.http.get<products[]>('http://localhost:8090/Produit/'+id.toString());
   }
-  addProduct(pro:any){
-    console.log(pro)
-    return this.http.post<products>('http://localhost:8090/Produit',pro )
-  }
+  
 
   postData(data: any): Observable<any> {
     return this.http.post('http://localhost:8090/Produit', data)
 }
 
+del(id: number): Observable<any> {
+  return this.http.post('http://localhost:8090/Produit', id)
+}
 
    }
 

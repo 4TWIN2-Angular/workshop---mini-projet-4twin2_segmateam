@@ -12,7 +12,9 @@ const routes: Routes = [ {path: 'home', component: MainProduitComponent ,childre
 ]
 
 },
-{path: 'list', component: ListProduitComponent }
+{path: 'list', component: ListProduitComponent ,children:[
+  {path: 'info/:id' , component:DetailsProduitComponent}
+]}
 ];
 
 @NgModule({
