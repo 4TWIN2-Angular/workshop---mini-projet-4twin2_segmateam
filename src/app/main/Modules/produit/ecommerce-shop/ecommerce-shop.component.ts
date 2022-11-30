@@ -74,7 +74,7 @@ export class EcommerceShopComponent implements OnInit {
           {
             name: 'Produit',
             isLink: true,
-            link: '/produit'
+            link: '/produit/home'
           },
           {
             name: 'Produits',

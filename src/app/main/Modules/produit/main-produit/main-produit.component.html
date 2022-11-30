@@ -1,38 +1,21 @@
-<div class="incenter">
-  
-<div class="accordian">
-  <ul>
-  <li   *ngFor="
-  let product of products" >
-    <div class="image_title">
-      <a >{{product.libelleProduit}}</a>
-    </div> 
-    <a   [routerLink]="['/produit/info', product.idProduit]">
-     <div class="image-cont"> <img [src]="product.image" /></div>
-      
-    </a>
-  </li>
- 
-</ul>
-</div>
+<div class="incenter"style="margin-bottom: 8px;">
+  <div class="accordian">
+    <ul>
+      <li *ngFor="let product of products">
+        <div class="image_title">
+          <a>{{ product.libelleProduit }}</a>
+        </div>
+        <a [routerLink]="['/produit/home/info', product.idProduit]">
+          <div class="image-cont"><img [src]="product.image" /></div>
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>
 
-<a [routerLink]="['/produit/list']" class="btn btn-primary"
-            >show all</a
-          >
-          <button
-            type="button"
-            class="btn btn-warning"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            style="margin-left: 10px"
-           
-          >
-            Ajouter
-          </button>
- <router-outlet></router-outlet>
-  
- 
+<!-- <a [routerLink]="['/produit/list']" class="btn btn-primary">show all</a>
+ -->
+<router-outlet ></router-outlet>
 
 
- 
+<app-form-produit></app-form-produit>

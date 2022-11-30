@@ -112,9 +112,9 @@
           <div class="col-sm-12">
             <div class="d-flex justify-content-center">
               <ngb-pagination
-              [collectionSize]="(products | filter: searchText:'libelleProduit').length"
+              [collectionSize]="(products | filter: searchText:'libelleProduit').length+10"
               [(page)]="page"
-              [maxSize]="5"
+              [maxSize]="4"
               [rotate]="true"
               [ellipses]="false"
               [boundaryLinks]="true"

@@ -1,25 +1,47 @@
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-5">
-            <div class="card ecommerce-card">
-            <div class="project-info-box ">
-                <h5>Product ID: {{prod.idProduit}}</h5>
-                <p class="mb-0">Description: this is an awesome {{prod.libelleProduit}}</p>
-            </div><!-- / project-info-box -->
-            <div class="project-info-box mt-4">
-                <p><b>Creation: </b> {{prod.dateCreation}}</p>
-                <p><b>Modification: </b>{{prod.dateDernierModification}}</p>
-                <p><b>Stock: </b>   <i class="fa mr-25" [ngClass]="prod.stock != null ? 'fa-heart text-danger' : 'fa-heart-o'"></i></p>
-                <p><b>Code: </b>  {{prod.codeProduit}}</p>
-                <p class="mb-0"><b>Prix:</b> {{prod.prix}}DT</p>
-            </div>
-            </div>
-        <!-- / column -->
+<div class="container" >
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card ecommerce-card" style="margin-left: 10%; margin-top: 10px;">
+        <div class="project-info-box">
+          <h5>Product ID: {{ prod.idProduit }}</h5>
+          <p class="mb-0">
+            Description: this is an awesome {{ prod.libelleProduit }}
+          </p>
         </div>
-        <div class="col-md-7">
-            <img [src]="prod.image" alt="project-image" class="rounded">
-        </div><!-- / column -->
+        <div class="project-info-box mt-4">
+          <p><b>Creation: </b> {{ prod.dateCreation }}</p>
+          <p><b>Modification: </b>{{ prod.dateDernierModification }}</p>
+          <p>
+            <b>Stock: </b>
+            <i
+              class="fa mr-25"
+              [ngClass]="
+                prod.stock != null ? 'fa-heart text-danger' : 'fa-heart-o'
+              "
+            ></i>
+          </p>
+        
+          <p class="mb-0"><b>Prix:</b> {{ prod.prix }}DT 
+            <a>
+            <i class="feather icon-edit"  style="float: right;color: orange; font-size: 1.5rem;"></i>
+          </a>
+        </div>
+      </div>
     </div>
-
+    <div class="col-md-7">
+      <img [src]="prod.image" alt="project-image" class="rounded" />
+    </div>
+  </div>
+</div>
+<div class="col-md-3">
+<a
+  type="button"
+  class="btn btn-danger"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+  style="float: right; margin-top:-5px;"
+ 
+>
+  Supprimer
+</a>
 </div>
