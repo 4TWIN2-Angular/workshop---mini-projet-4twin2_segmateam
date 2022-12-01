@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EcommerceService } from '../ecommerce.service';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-details-produit',
   templateUrl: './details-produit.component.html',
@@ -10,8 +11,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 export class DetailsProduitComponent implements OnInit {
 public id 
 public prod
-  constructor(private activatedroute: ActivatedRoute, private router: Router,private _ecommerceService: EcommerceService) {
-    //this.router.routeReuseStrategy.shouldReuseRoute = () => false
+  constructor(private activatedroute: ActivatedRoute, private router: Router,private _ecommerceService: EcommerceService,private modalService: NgbModal) {
+   // this.router.routeReuseStrategy.shouldReuseRoute = () => false
     this.activatedroute.paramMap.subscribe(result =>{ this.id = result.get('id')
     this.prod=this.getById()
   });
@@ -36,7 +37,13 @@ public prod
         this._ecommerceService.del(id)
         .subscribe(response => {
          console.log(response)
+         
        })
+       console.log(this.router.url)
+       console.log(this.router.url.slice(0,13)) 
+        this.router.navigate([ this.router.url.slice(0,13)]);
+        this.modalService.dismissAll()
+      
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',

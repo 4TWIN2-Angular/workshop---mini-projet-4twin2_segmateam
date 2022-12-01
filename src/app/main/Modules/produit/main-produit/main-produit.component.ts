@@ -8,17 +8,23 @@ import { EcommerceService } from '../ecommerce.service';
 })
 export class MainProduitComponent implements OnInit {
   public products ;
-  constructor( private _ecommerceService: EcommerceService) { }
+  constructor( private _ecommerceService: EcommerceService) { this.getAllProd(); }
   getAllProd() {
     this._ecommerceService.getProducts().subscribe((data) => {
       this.products = data
-      this.products = this.products.slice(5,10)
+      this.products = this.products.slice(11,16)
     //  console.log(this.products)
     //  this._ecommerceService.productList = data;
     });}
   ngOnInit(): void {
     this.getAllProd();
-   
+    this._ecommerceService.refrD$.subscribe(()=>{
+      this._ecommerceService.getProducts().subscribe((data) => {
+        this.products = data
+        this.products = this.products.slice(11,16)
+      
+      })
+    })
     
   }
 

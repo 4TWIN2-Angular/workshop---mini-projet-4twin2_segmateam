@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { products } from './Model/Product';
 
 @Injectable({
@@ -17,10 +17,10 @@ export class EcommerceService implements Resolve<any> {
   public onSelectedProductChange: BehaviorSubject<any>;
   // Private
   private idHandel;
+
   private sortRef = key => (a, b) => {
     const fieldA = a[key];
     const fieldB = b[key];
-
     let comparison = 0;
     if (fieldA > fieldB) {
       comparison = 1;
@@ -29,7 +29,7 @@ export class EcommerceService implements Resolve<any> {
     }
     return comparison;
   };
-
+  private _refrD$ = new Subject ;
   /**
    * Constructor
    *
@@ -68,12 +68,25 @@ export class EcommerceService implements Resolve<any> {
   
 
   postData(data: any): Observable<any> {
-    return this.http.post('http://localhost:8090/Produit', data)
+    return this.http.post('http://localhost:8090/Produit', data).pipe(tap(()=>{  
+    this._refrD$.next()
+    }))
+
 }
 
-del(id: number): Observable<any> {
-  return this.http.post('http://localhost:8090/Produit', id)
+del(id: number){
+  return this.http.delete('http://localhost:8090/Produit/'+id).pipe(tap(()=>{  
+    this._refrD$.next()
+    }))
+
 }
+
+get refrD$(){
+  return this._refrD$
+ }
+
+
+
 
    }
 

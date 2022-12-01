@@ -59,7 +59,13 @@ export class EcommerceShopComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getAllProd();
-  
+    this._ecommerceService.refrD$.subscribe(()=>{
+      this._ecommerceService.getProducts().subscribe((data) => {
+        this.products = data
+     
+      
+      })
+    })
     this.contentHeader = {
       headerTitle: 'Liste Produit',
       actionButton:false,

@@ -48,7 +48,7 @@
     <span>In Stock</span>
   </a>
   <a
-    *ngIf="product.stock != null"
+  
     class="btn btn-primary btn-cart"  
     rippleEffect
     (click)="modalOpenVC(modalXL)" [routerLink]="['/produit/list/info', product.idProduit]"

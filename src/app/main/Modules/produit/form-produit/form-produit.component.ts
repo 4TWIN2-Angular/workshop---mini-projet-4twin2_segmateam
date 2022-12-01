@@ -52,6 +52,8 @@ export class FormProduitComponent implements OnInit {
   constructor(private ecomService: EcommerceService,private modalService: NgbModal,public datepipe: DatePipe) { }
 
   ngOnInit(): void {
+  
+
   }
   modalOpen(modalBasic) {
     this.modalService.open(modalBasic, {
