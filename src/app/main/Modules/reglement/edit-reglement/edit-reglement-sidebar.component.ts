@@ -13,13 +13,10 @@ import { DateFormatter } from "utils/dateformat";
 })
 export class EditRegSidebarComponent implements OnInit {
   reglement: any;
+  
+  datereg:any;
   id: any;
-  form = {
-    date: { year: null, month: null, day: null },
-    montantpaye: null,
-    montantrestant: null,
-    payee: false,
-  };
+  payee=false;
 
   /**
    * Constructor
@@ -53,36 +50,38 @@ export class EditRegSidebarComponent implements OnInit {
     if (form.valid) {
       this.toggleSidebar("edit-reglement-sidebar");
     }
-    console.warn(form);
+    this.EditReglement();
+    console.warn(form.value);
   }
   GetReglementById(id: number) {
     this.reglement = this.service.GetReglementById(id);
   }
+  EditReglement(){
+    var changeddate=DateFormatter.DateFromObject(this.datereg.year,this.datereg.month,this.datereg.day)
+    this.reglement.date=changeddate;
+    this.service.EditReglement(this.reglement,this.id);
+    console.log("date to push ",this.reglement.date);
+    this.ngOnInit();
+    
+// this.editedreglement=this.reglement;
+// this.editedreglement.date=this.datereg;
 
+  }
+  
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.id = params.get("id");
-      console.log(this.id);
       this.GetReglementById(this.id);
+      console.log(this.reglement);
+      
       // GET DATE and conver to object for input
-      var datereg = new Date(this.reglement.date);
-      this.form.date.year = datereg.getFullYear();
-      this.form.date.month = datereg.getMonth() + 1;
-      this.form.date.day = datereg.getDate();
-      // Convert from date object to Date yyyy-mm-dd
-      DateFormatter.DateFromObject(
-        this.form.date.year,
-        this.form.date.month,
-        this.form.date.day
-      );
-
-      console.log("aaaaaaaa");
-      //////////////////
-      this.form.montantpaye = this.reglement.montantPaye;
-      this.form.montantrestant = this.reglement.montantRestant;
-      this.form.payee = this.reglement.payee;
-      console.log("loaded", this.reglement);
-      console.log("trahhh", this.form.montantrestant, this.form.date);
+      var date_converted = new Date(this.reglement.date);
+      var year = date_converted.getFullYear();
+      var month = date_converted.getMonth() + 1;
+      var day = date_converted.getDate();
+      console.log("AAAAAAAAAAAAAAAA",{year:year,month:month,day:day});
+      this.datereg={year:year,month:month,day:day}
+  
     });
   }
   ngOnDestroy(): void {}

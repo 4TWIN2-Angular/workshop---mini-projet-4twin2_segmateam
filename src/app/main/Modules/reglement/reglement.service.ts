@@ -56,9 +56,13 @@ export class ReglementService {
   api: string = "http://localhost:9090";
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
+  private _refresh$ = new Subject<void>();
   private _reglements$ = new BehaviorSubject<Reglement[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
 
+  get refresh$(){
+    return this._refresh$;
+  }
   private _state: State = {
     page: 1,
     pageSize: 4,
@@ -88,30 +92,50 @@ export class ReglementService {
     return this.http.get<Reglement[]>(this.api + "/reglement/all");
   }
   AddReglement(reglement:any){
-    
     var datereg=reglement.date;
+    if (datereg.month<10){
+      datereg.month='0'+datereg.month;
+      console.log("aaaa",datereg);
+    } 
+    if(datereg.day<10){
+      datereg.day='0'+datereg.day;
+    }
     datereg=DateFormatter.DateFromObject(datereg.year,datereg.month,datereg.day)
     reglement.date=datereg;
     console.log("DATE RECEIVED",reglement);
-    return this.http.post<Reglement[]>(this.api+"/reglement/add",reglement).subscribe(data=>
-      {
-        Swal.fire('Reglement ajouté!', 'Le reglement a été bien ajouté', 'success')
-        console.log(data)
-  
+    return this.http.post<Reglement[]>(this.api+"/reglement/add",reglement).pipe(
+      tap(()=>{
+        this._refresh$.next()
       }
+      ));
+    
+    
+    
+  }
+ 
+  EditReglement(reglement:any,id:any){
+    
+    
+    console.log("DATE RECEIVED",reglement);
+    return this.http.put<any>(this.api+"/reglement/edit/"+id,reglement).subscribe(data=>
         
-      
+        console.log(data),
+        
+        Swal.fire('Reglement modifié!', 'Le reglement a été bien modifié', 'success')
+        
+  
       
     )
     
   }
   DeleteReglement(reglement:any) {
     
-    return this.http.delete<Reglement[]>(this.api +'/reglement/'+reglement).subscribe(data=>
-      console.log(data)
+    return this.http.delete(this.api +'/reglement/'+reglement).pipe(
+      tap(()=>{
+        this._refresh$.next()
+      }
       )
-      
-
+    );
   }
   get total$() {
     return this._total$.asObservable();

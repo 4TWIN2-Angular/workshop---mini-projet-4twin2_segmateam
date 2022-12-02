@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from "@angular/core";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { FormGroup, FormControl,Validators } from "@angular/forms";
 import { ReglementService } from "../reglement.service";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { NgbdTableComplete } from "../table-reglement/table-complete";
+import { Observable } from "rxjs";
 @Component({
   selector: "app-new-reglement-sidebar",
   templateUrl: "./new-reglement-sidebar.component.html",
@@ -29,7 +32,7 @@ export class NewRegSidebarComponent implements OnInit {
       
     ),
     payee: new FormControl(
-      
+      false,
     ),
   });
 
@@ -53,7 +56,10 @@ export class NewRegSidebarComponent implements OnInit {
 
   AddReglement() {
     console.log("form updated",this.regform.value);
-    this.service.AddReglement(this.regform.value);
+    this.service.AddReglement(this.regform.value).subscribe((result)=>{
+    
+      Swal.fire('Reglement ajouté!', 'Le reglement a été bien ajouté', 'success');
+    })
   }
  
   /**
@@ -69,6 +75,16 @@ export class NewRegSidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  
+    this.service.refresh$.subscribe(()=>
+    {
+      this.service.GetAllReglements().subscribe((data)=>
+      this.service.REGLEMENTS=data
+      )
+    });
+    this.service.GetAllReglements().subscribe((data)=>
+    this.service.REGLEMENTS=data
+    )
     console.log("loaded");
     
   }

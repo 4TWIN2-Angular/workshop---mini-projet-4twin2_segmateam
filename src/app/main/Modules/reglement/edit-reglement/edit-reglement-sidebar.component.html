@@ -7,7 +7,7 @@
     <div class="modal-dialog">
       <form
         class="edit-reglement modal-content pt-0"
-        (ngSubmit)="submit(RegForm)"
+      
         #RegForm="ngForm"
       >
         <button
@@ -15,8 +15,9 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
-          (click)="toggleSidebar('edit-reglement-sidebar')"
-          (click)="backClicked()"
+          (click)="toggleSidebar('edit-reglement-sidebar');"
+          [routerLink]="['/reglement']"
+          
         >
           ×
         </button>
@@ -38,7 +39,7 @@
               maxlength="3"
               min="10"
               pattern="^[0-9]*$"
-              [(ngModel)]="form.montantpaye"
+              [(ngModel)]="reglement.montantPaye"
               #mp="ngModel"
               [ngClass]="{
                 'is-invalid': RegForm.submitted && mp.invalid
@@ -63,18 +64,18 @@
               placeholder="Montant restant"
               name="montantrestant"
               required
-              [(ngModel)]="form.montantrestant"
+              [(ngModel)]="reglement.montantRestant"
               maxlength="3"
               #mr="ngModel"
               [ngClass]="{
                 'is-invalid':
-                  (RegForm.submitted && mr.invalid) || form.montantrestant <= 10
+                  (RegForm.submitted && mr.invalid) || reglement.montantRestant <= 10
               }"
             />
             <span class="invalid-form">
               <small
                 class="form-text text-danger"
-                *ngIf="form.montantrestant <= 10"
+                *ngIf="reglement.montantRestant <= 10"
                 >Le montant restant doit etre superieur à 10!</small
               >
               <small
@@ -94,7 +95,7 @@
                 class="form-control"
                 placeholder="yyyy-mm-dd"
                 name="date"
-                [(ngModel)]="form.date"
+                [(ngModel)]="datereg"
                 ngbDatepicker
                 #dt="ngModel"
                 required
@@ -111,11 +112,15 @@
             <p class="mb-50">Regelement payé</p>
             <input
               type="checkbox"
-              [checked]="form.payee"
+              
+              [(ngModel)]="reglement.payee"
+              name="payee"
               class="custom-control-input"
-              id="customSwitch4"
+              id="customSwitch5"
             />
-            <label class="custom-control-label" for="customSwitch4"></label>
+
+
+            <label class="custom-control-label" for="customSwitch5"></label>
           </div>
           <br />
           <button
@@ -129,11 +134,10 @@
             Submit
           </button>
           <button
-            type="reset"
             class="btn btn-outline-secondary"
-            (click)="toggleSidebar('edit-reglement-sidebar')"
             rippleEffect
-            (click)="backClicked()"
+            (click)="toggleSidebar('edit-reglement-sidebar')"
+            
           >
             Cancel
           </button>
