@@ -13,6 +13,7 @@ import { ReglementService } from "../reglement.service";
 import { NgbdSortableHeader, SortEvent } from "./sortable.directive";
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -22,12 +23,15 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 })
 export class NgbdTableComplete {
   reglements$: Reglement[];
+  currentfacture:any;
+   toggle :Boolean=false;
   total$: Observable<number>;
   editing: Observable<number>;
   editStatus: Boolean;
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   private _unsubscribeAll: Subject<any>;
   constructor(
+    private router : Router,
     public service: ReglementService,
     private _coreSidebarService: CoreSidebarService
   ) {
@@ -47,7 +51,7 @@ export class NgbdTableComplete {
   }
   getAllReglements() {
     this.service.GetAllReglements().subscribe((data) => {
-      this.service.REGLEMENTS = data;
+      this.service.REGLEMENTS = data;  
     });
     this.total$ = this.service.total$;
   }
@@ -57,8 +61,16 @@ export class NgbdTableComplete {
       Swal.fire('Reglement supprimé!', 'Le reglement a été bien supprimé' ,'success');
     }
     )
-
-      
+  
+  }
+  Toggledetail(facture:any){
+    
+    this.currentfacture=facture;
+    console.log(this.currentfacture);
+    this.toggle=!this.toggle;
+    if (this.toggle==false){
+      this.router.navigate(['reglement']);
+    }
   }
   ngOnInit(): void {
     this.service.refresh$.subscribe(()=>

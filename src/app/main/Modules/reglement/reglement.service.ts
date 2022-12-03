@@ -5,7 +5,6 @@ import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { DateFormatter } from "utils/dateformat";
 import { Reglement } from "./table-reglement/Reglement";
-// import { COUNTRIES } from "./countries";
 import { DecimalPipe } from "@angular/common";
 import { debounceTime, delay, switchMap, tap } from "rxjs/operators";
 import { SortColumn, SortDirection } from "./table-reglement/sortable.directive";
@@ -53,6 +52,7 @@ function sort(
 @Injectable({ providedIn: "root" })
 export class ReglementService {
   REGLEMENTS = [];
+  Countfacture=[];
   api: string = "http://localhost:9090";
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
@@ -89,7 +89,7 @@ export class ReglementService {
   }
 
   GetAllReglements(): Observable<Reglement[]> {
-    return this.http.get<Reglement[]>(this.api + "/reglement/all");
+    return this.http.get<Reglement[]>(this.api + "/reglement/all")
   }
   AddReglement(reglement:any){
     var datereg=reglement.date;
@@ -108,14 +108,11 @@ export class ReglementService {
         this._refresh$.next()
       }
       ));
-    
-    
-    
   }
  
   EditReglement(reglement:any,id:any){
-    
-    
+    console.log("aaaaafff",reglement.date);
+
     console.log("DATE RECEIVED",reglement);
     return this.http.put<any>(this.api+"/reglement/edit/"+id,reglement).subscribe(data=>
         
