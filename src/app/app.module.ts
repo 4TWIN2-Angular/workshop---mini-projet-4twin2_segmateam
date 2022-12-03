@@ -23,7 +23,6 @@ import { ContentHeaderModule } from "./layout/components/content-header/content-
 import { HomeComponent } from "./main/Modules/home/home.component";
 import { ReglementModule } from "./main/Modules/reglement/reglement.module";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
-import { NewRegSidebarComponent } from "./main/Components/new-reglement/new-reglement-sidebar.component";
 import { DatePipe } from '@angular/common'
 const appRoutes: Routes = [];
 
@@ -38,7 +37,7 @@ const appRoutes: Routes = [];
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-
+    
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes, {

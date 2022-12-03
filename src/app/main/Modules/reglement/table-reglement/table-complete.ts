@@ -9,14 +9,11 @@ import {
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { Observable, Subject } from "rxjs";
 import { Reglement } from "./Reglement";
-import { ReglementService } from "./reglement.service";
+import { ReglementService } from "../reglement.service";
 import { NgbdSortableHeader, SortEvent } from "./sortable.directive";
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+
 
 @Component({
   selector: "ngbd-table-complete",
@@ -54,7 +51,20 @@ export class NgbdTableComplete {
     });
     this.total$ = this.service.total$;
   }
+  DeleteReglement(id){
+    this.service.DeleteReglement(id).subscribe((res)=>
+    {
+      Swal.fire('Reglement supprimé!', 'Le reglement a été bien supprimé' ,'success');
+    }
+    )
+
+      
+  }
   ngOnInit(): void {
+    this.service.refresh$.subscribe(()=>
+    {
+      this.getAllReglements();
+    });
     this.getAllReglements();
   }
 

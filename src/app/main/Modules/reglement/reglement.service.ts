@@ -3,12 +3,13 @@ import { Injectable, PipeTransform } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
-
-import { Reglement } from "./Reglement";
+import { DateFormatter } from "utils/dateformat";
+import { Reglement } from "./table-reglement/Reglement";
 // import { COUNTRIES } from "./countries";
 import { DecimalPipe } from "@angular/common";
 import { debounceTime, delay, switchMap, tap } from "rxjs/operators";
-import { SortColumn, SortDirection } from "./sortable.directive";
+import { SortColumn, SortDirection } from "./table-reglement/sortable.directive";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 interface SearchResult {
   reglements: Reglement[];
@@ -55,9 +56,13 @@ export class ReglementService {
   api: string = "http://localhost:9090";
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
+  private _refresh$ = new Subject<void>();
   private _reglements$ = new BehaviorSubject<Reglement[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
 
+  get refresh$(){
+    return this._refresh$;
+  }
   private _state: State = {
     page: 1,
     pageSize: 4,
@@ -85,6 +90,52 @@ export class ReglementService {
 
   GetAllReglements(): Observable<Reglement[]> {
     return this.http.get<Reglement[]>(this.api + "/reglement/all");
+  }
+  AddReglement(reglement:any){
+    var datereg=reglement.date;
+    if (datereg.month<10){
+      datereg.month='0'+datereg.month;
+      console.log("aaaa",datereg);
+    } 
+    if(datereg.day<10){
+      datereg.day='0'+datereg.day;
+    }
+    datereg=DateFormatter.DateFromObject(datereg.year,datereg.month,datereg.day)
+    reglement.date=datereg;
+    console.log("DATE RECEIVED",reglement);
+    return this.http.post<Reglement[]>(this.api+"/reglement/add",reglement).pipe(
+      tap(()=>{
+        this._refresh$.next()
+      }
+      ));
+    
+    
+    
+  }
+ 
+  EditReglement(reglement:any,id:any){
+    
+    
+    console.log("DATE RECEIVED",reglement);
+    return this.http.put<any>(this.api+"/reglement/edit/"+id,reglement).subscribe(data=>
+        
+        console.log(data),
+        
+        Swal.fire('Reglement modifié!', 'Le reglement a été bien modifié', 'success')
+        
+  
+      
+    )
+    
+  }
+  DeleteReglement(reglement:any) {
+    
+    return this.http.delete(this.api +'/reglement/'+reglement).pipe(
+      tap(()=>{
+        this._refresh$.next()
+      }
+      )
+    );
   }
   get total$() {
     return this._total$.asObservable();
@@ -122,7 +173,9 @@ export class ReglementService {
     Object.assign(this._state, patch);
     this._search$.next();
   }
-
+  GetReglementById(id: number) {
+    return this.REGLEMENTS.find((reglement) => reglement.idReglement == id);
+  }
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } =
       this._state;

@@ -7,6 +7,7 @@ import { FormProduitComponent } from './form-produit/form-produit.component';
 import { ListProduitComponent } from './list-produit/list-produit.component';
 import { MainProduitComponent } from './main-produit/main-produit.component';
 
+
 const routes: Routes = [ {path: 'home', component: MainProduitComponent ,children:[
   {path: 'info/:id' , component:DetailsProduitComponent}
 ]
@@ -15,6 +16,7 @@ const routes: Routes = [ {path: 'home', component: MainProduitComponent ,childre
 {path: 'list', component: ListProduitComponent ,children:[
   {path: 'info/:id' , component:DetailsProduitComponent}
 ]}
+
 ];
 
 @NgModule({

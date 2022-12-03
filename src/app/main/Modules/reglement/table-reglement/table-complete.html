@@ -25,6 +25,13 @@
     ><span class="d-none d-sm-inline-block">Ajouter Reglement</span>
   </button>
 </div>
+<core-sidebar
+  class="modal modal-slide-in sidebar-todo-modal fade"
+  name="new-reglement-sidebar"
+  overlayClass="modal-backdrop"
+>
+  <app-new-reglement-sidebar></app-new-reglement-sidebar>
+</core-sidebar>
 
 <table class="table table-striped">
   <thead>
@@ -32,7 +39,7 @@
       <th scope="col">#</th>
       <th scope="col" sortable="date" (sort)="onSort($event)">date</th>
       <th scope="col" sortable="montantPaye" (sort)="onSort($event)">
-        montant Paye
+        montant Paye 
       </th>
       <th scope="col" sortable="montantRestant" (sort)="onSort($event)">
         Montant Restant
@@ -42,11 +49,19 @@
     </tr>
   </thead>
   <tbody>
+  
+    <tr *ngIf="this.service.REGLEMENTS.length==0">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td  style="color: red;font-weight: 900;">Pas de réglements</td>
+    </tr>
     <tr
       *ngFor="let reglement of this.service.REGLEMENTS.slice((service.page - 1) * service.pageSize,
-        (service.page - 1) * service.pageSize + service.pageSize)"
+        (service.page - 1) * service.pageSize + service.pageSize);let i = index" [attr.data-index]="i"
     >
-      <th scope="row">{{ reglement.idReglement }}</th>
+   
+      <th scope="row">{{ page<=1? i+(service.pageSize-1) :i+1}}</th>
       <td>
         <ngb-highlight
           [result]="reglement.date"
@@ -90,12 +105,15 @@
       </td>
       <td>
         <a
-          (click)="GetReglement(reglement.idReglement);toggleSidebar('new-reglement-sidebar');"
+          [routerLink]="['edit-reglement', reglement.idReglement]"
+          (click)="toggleSidebar('edit-reglement-sidebar');"
         >
           <i class="feather icon-edit" style="color: rgb(55, 106, 247)"></i>
-          &nbsp;
+          &nbsp;&nbsp;
         </a>
-        <i class="feather icon-trash" style="color: rgb(194, 78, 0)"> </i>
+        <a (click)="DeleteReglement(reglement.idReglement)">
+        <i  class="feather icon-trash" style="color: rgb(194, 78, 0)"> </i>
+      </a>
       </td>
     </tr>
   </tbody>
@@ -120,10 +138,11 @@
     <option [ngValue]="6">6 items per page</option>
   </select>
 </div>
+<!-- SIDEBARS -->
 
 <core-sidebar
   class="modal modal-slide-in sidebar-todo-modal fade"
-  name="new-reglement-sidebar"
+  name="edit-reglement-sidebar"
   overlayClass="modal-backdrop"
 >
   <router-outlet></router-outlet>
