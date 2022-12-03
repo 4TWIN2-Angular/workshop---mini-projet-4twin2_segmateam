@@ -12,7 +12,7 @@ export class MainProduitComponent implements OnInit {
   getAllProd() {
     this._ecommerceService.getProducts().subscribe((data) => {
       this.products = data
-      this.products = this.products.slice(11,16)
+      this.products = this.products.slice(10,15)
     //  console.log(this.products)
     //  this._ecommerceService.productList = data;
     });}
@@ -21,7 +21,7 @@ export class MainProduitComponent implements OnInit {
     this._ecommerceService.refrD$.subscribe(()=>{
       this._ecommerceService.getProducts().subscribe((data) => {
         this.products = data
-        this.products = this.products.slice(11,16)
+        this.products = this.products.slice(10,15)
       
       })
     })
