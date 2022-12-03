@@ -13,8 +13,7 @@ import { ReglementRoutingModule } from "./reglement-routing.module";
     FormsModule,
     ReactiveFormsModule,
     ReglementRoutingModule,
-    NgbdTableCompleteModule,
-
+    NgbdTableCompleteModule
   ],
 })
 export class ReglementModule {}

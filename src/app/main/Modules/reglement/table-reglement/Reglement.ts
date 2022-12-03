@@ -4,4 +4,5 @@ export interface Reglement {
   montantPaye: Number;
   montantRestant: Number;
   payee: Boolean;
+  facture:any;
 }

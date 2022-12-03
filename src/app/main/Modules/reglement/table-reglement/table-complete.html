@@ -45,6 +45,7 @@
         Montant Restant
       </th>
       <th scope="col" sortable="payee" (sort)="onSort($event)">Payee</th>
+      <th scope="col" sortable="payee" (sort)="onSort($event)">Nombre de factures</th>
       <th scope="col">Outils</th>
     </tr>
   </thead>
@@ -104,6 +105,32 @@
         </ng-template>
       </td>
       <td>
+        <div *ngIf="reglement.facture;else nofacture">
+          <span class="badge bg-success">
+            <ngb-highlight
+              result="Existante"
+              [term]="service.searchTerm"
+            ></ngb-highlight>
+            
+          </span>&nbsp;
+          <a  [routerLink]="['detail-facture', reglement.facture.idFacture]" (click)="Toggledetail(reglement.facture)">
+            <i class="feather icon-info" style="color: rgba(0, 197, 10, 0.541)">
+             
+              
+            </i>
+          </a>
+        </div>
+        <ng-template #nofacture>
+          <span class="badge bg-danger">
+            <ngb-highlight
+              result="Non existante"
+              [term]="service.searchTerm"
+            ></ngb-highlight>
+          </span>
+        </ng-template>
+
+      </td>
+      <td>
         <a
           [routerLink]="['edit-reglement', reglement.idReglement]"
           (click)="toggleSidebar('edit-reglement-sidebar');"
@@ -147,3 +174,4 @@
 >
   <router-outlet></router-outlet>
 </core-sidebar>
+

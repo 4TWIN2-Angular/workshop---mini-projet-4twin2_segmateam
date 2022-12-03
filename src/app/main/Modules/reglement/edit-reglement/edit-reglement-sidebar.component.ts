@@ -57,6 +57,12 @@ export class EditRegSidebarComponent implements OnInit {
     this.reglement = this.service.GetReglementById(id);
   }
   EditReglement(){
+     if (this.datereg.month<10){
+      this.datereg.month='0'+this.datereg.month;
+    } 
+    if(this.datereg.day<10){
+      this.datereg.day='0'+this.datereg.day;
+    }
     var changeddate=DateFormatter.DateFromObject(this.datereg.year,this.datereg.month,this.datereg.day)
     this.reglement.date=changeddate;
     this.service.EditReglement(this.reglement,this.id);
@@ -81,7 +87,6 @@ export class EditRegSidebarComponent implements OnInit {
       var day = date_converted.getDate();
       console.log("AAAAAAAAAAAAAAAA",{year:year,month:month,day:day});
       this.datereg={year:year,month:month,day:day}
-  
     });
   }
   ngOnDestroy(): void {}
