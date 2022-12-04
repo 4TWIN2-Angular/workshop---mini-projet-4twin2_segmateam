@@ -46,7 +46,7 @@
         Montant Restant
       </th>
       <th scope="col" sortable="payee" (sort)="onSort($event)">Payee</th>
-      <th scope="col" sortable="payee" (sort)="onSort($event)">Nombre de factures</th>
+      <th scope="col" sortable="facture" (sort)="onSort($event)">Nombre de factures</th>
       <th scope="col">Outils</th>
     </tr>
   </thead>
@@ -60,7 +60,7 @@
     </tr>
     <tr
   
-      *ngFor="let reglement of searchlist.slice((service.page - 1) * service.pageSize,
+      *ngFor="let reglement of service.reglementsearch.slice((service.page - 1) * service.pageSize,
         (service.page - 1) * service.pageSize + service.pageSize);let i = index" [attr.data-index]="i"
     >
    

@@ -24,7 +24,6 @@ import { Facture } from "../../facture/facture";
 })
 export class NgbdTableComplete {
   reglements$: Reglement[];
-  searchlist : Reglement[]
   public val!:any;
   currentfacture:any;
   test:any;
@@ -56,7 +55,7 @@ export class NgbdTableComplete {
     getAllReglements() {
       this.service.GetAllReglements().subscribe((data) => {
       this.service.REGLEMENTS = data; 
-     this.searchlist=data 
+     this.service.reglementsearch=data;
     });
     this.total$ = this.service.total$;
    
@@ -71,7 +70,7 @@ export class NgbdTableComplete {
   }
   liveSearch(){
     this.service.liveSearch(this.val).subscribe((data)=>{
-      this.searchlist=data;
+      this.service.reglementsearch=data;
       console.log("hhhhhhhhhhh",data);
       
     })
@@ -88,14 +87,11 @@ export class NgbdTableComplete {
     }
   }
   ngOnInit(): void {
-     this.searchlist=this.service.REGLEMENTS
-    
     this.service.refresh$.subscribe(()=>
     {
       this.getAllReglements();
     });
     this.getAllReglements();
-    console.log("OFFFFFFFFF YA RABY",this.searchlist);
     
     
   }

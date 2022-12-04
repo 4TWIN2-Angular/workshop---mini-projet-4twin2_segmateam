@@ -202,7 +202,7 @@ export class ReglementService {
       this._state;
 
     // 1. sort
-    let reglements = sort(this.REGLEMENTS, sortColumn, sortDirection);
+    let reglements = sort(this.reglementsearch, sortColumn, sortDirection);
 
     // 2. filter
     // reglements = reglements.filter((reglement) =>
