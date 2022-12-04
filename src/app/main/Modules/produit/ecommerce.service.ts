@@ -80,6 +80,11 @@ del(id: number){
     }))
 
 }
+updateData(data:any) {
+  return this.http.put('http://localhost:8090/Produit/',data).pipe(tap(()=>{  
+    this._refrD$.next()
+    }))
+}
 
 get refrD$(){
   return this._refrD$

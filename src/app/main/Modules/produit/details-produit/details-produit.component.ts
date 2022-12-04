@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EcommerceService } from '../ecommerce.service';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { stat } from 'fs';
 @Component({
   selector: 'app-details-produit',
   templateUrl: './details-produit.component.html',
@@ -11,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class DetailsProduitComponent implements OnInit {
 public id 
 public prod
+open : boolean = false;
   constructor(private activatedroute: ActivatedRoute, private router: Router,private _ecommerceService: EcommerceService,private modalService: NgbModal) {
    // this.router.routeReuseStrategy.shouldReuseRoute = () => false
     this.activatedroute.paramMap.subscribe(result =>{ this.id = result.get('id')
@@ -39,8 +41,7 @@ public prod
          console.log(response)
          
        })
-       console.log(this.router.url)
-       console.log(this.router.url.slice(0,13)) 
+    
         this.router.navigate([ this.router.url.slice(0,13)]);
         this.modalService.dismissAll()
       
@@ -54,16 +55,19 @@ public prod
     })
   }
 
-
+ 
    getById() {
     this._ecommerceService.getProductsById(this.id).subscribe((data) => {
       this.prod = data
-     console.log(this.prod)
+   
     });}
 
   ngOnInit(): void {
     this.getById()
     
   }
-
+  modalOpenVC2() {
+    this.open=!this.open
+    
+  }
 }
