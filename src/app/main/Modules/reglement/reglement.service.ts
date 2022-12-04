@@ -51,6 +51,7 @@ function sort(
 
 @Injectable({ providedIn: "root" })
 export class ReglementService {
+    reglementsearch=[];
   REGLEMENTS = [];
   Countfacture=[];
   api: string = "http://localhost:9090";
@@ -133,6 +134,22 @@ export class ReglementService {
       }
       )
     );
+  }
+
+  liveSearch(val: any): Observable<Reglement[]> {
+  
+    const reglement = of(
+      this.REGLEMENTS.filter((reg) =>
+        reg.montantPaye.toString().includes(val.toString())
+      ),
+      this.REGLEMENTS.filter((reg) =>
+        reg.montantRestant.toString().includes(val.toString())
+      ),
+      this.REGLEMENTS.filter((reg) =>
+      reg.date.toString().includes(val.toString())
+    )
+    );
+    return reglement;
   }
   get total$() {
     return this._total$.asObservable();
