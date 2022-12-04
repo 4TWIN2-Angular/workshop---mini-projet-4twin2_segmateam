@@ -5,8 +5,8 @@ import { products } from '../Model/Product';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { DatePipe, formatDate } from '@angular/common';
-import { Cloudinary } from '@cloudinary/angular-5.x';
-import { HttpClient } from '@angular/common/http';
+
+
 @Component({
   selector: 'app-form-produit',
   templateUrl: './form-produit.component.html',
@@ -58,9 +58,8 @@ export class FormProduitComponent implements OnInit {
    */
 
   constructor(private ecomService: EcommerceService,private modalService: NgbModal,
-    public datepipe: DatePipe,private cloudinary: Cloudinary,
-    private zone: NgZone,
-    private http: HttpClient) { 
+    public datepipe: DatePipe,
+  ) { 
       
       
     }

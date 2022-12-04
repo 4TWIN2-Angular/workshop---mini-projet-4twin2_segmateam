@@ -18,10 +18,7 @@ import { EcommerceItemComponent } from './produit-item/ecommerce-item.component'
 import { ListProduitComponent } from './list-produit/list-produit.component';
 import { ModifierProduitComponent } from './modifier-produit/modifier-produit.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Cloudinary } from 'cloudinary-core';
-import {FileUploadModule} from 'ng2-file-upload';
-// Cloudinary module
-import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
+
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
   observer: true
@@ -52,8 +49,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     NgbModule,
     NouisliderModule,
     ReactiveFormsModule,
-    CloudinaryModule.forRoot({Cloudinary}, { cloud_name: 'dnnhnqiym' } as CloudinaryConfiguration),
-    FileUploadModule,
+  
   ],
   providers: [
     {
