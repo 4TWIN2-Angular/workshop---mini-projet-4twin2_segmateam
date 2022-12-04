@@ -8,7 +8,8 @@
       type="text"
       class="form-control"
       name="searchTerm"
-      [(ngModel)]="service.searchTerm"
+      [(ngModel)]="val" (keyup)="liveSearch()"
+     
     />
     <!-- <span class="col col-form-label" *ngIf="service.loading$ | async"
         >Loading...</span
@@ -58,7 +59,8 @@
       <td  style="color: red;font-weight: 900;">Pas de réglements</td>
     </tr>
     <tr
-      *ngFor="let reglement of this.service.REGLEMENTS.slice((service.page - 1) * service.pageSize,
+  
+      *ngFor="let reglement of searchlist.slice((service.page - 1) * service.pageSize,
         (service.page - 1) * service.pageSize + service.pageSize);let i = index" [attr.data-index]="i"
     >
    
@@ -175,3 +177,4 @@
   <router-outlet></router-outlet>
 </core-sidebar>
 
+<app-detail-facture-reglement [test]="test" [hidden]="!toggle" [facture]="currentfacture"></app-detail-facture-reglement>

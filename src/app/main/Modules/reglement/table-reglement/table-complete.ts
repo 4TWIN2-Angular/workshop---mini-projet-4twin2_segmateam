@@ -14,6 +14,7 @@ import { NgbdSortableHeader, SortEvent } from "./sortable.directive";
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { Router } from "@angular/router";
+import { Facture } from "../../facture/facture";
 
 
 @Component({
@@ -23,7 +24,10 @@ import { Router } from "@angular/router";
 })
 export class NgbdTableComplete {
   reglements$: Reglement[];
+  searchlist : Reglement[]
+  public val!:any;
   currentfacture:any;
+  test:any;
    toggle :Boolean=false;
   total$: Observable<number>;
   editing: Observable<number>;
@@ -49,11 +53,13 @@ export class NgbdTableComplete {
   toggleSidebar(name): void {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
-  getAllReglements() {
-    this.service.GetAllReglements().subscribe((data) => {
-      this.service.REGLEMENTS = data;  
+    getAllReglements() {
+      this.service.GetAllReglements().subscribe((data) => {
+      this.service.REGLEMENTS = data; 
+     this.searchlist=data 
     });
     this.total$ = this.service.total$;
+   
   }
   DeleteReglement(id){
     this.service.DeleteReglement(id).subscribe((res)=>
@@ -63,21 +69,35 @@ export class NgbdTableComplete {
     )
   
   }
+  liveSearch(){
+    this.service.liveSearch(this.val).subscribe((data)=>{
+      this.searchlist=data;
+      console.log("hhhhhhhhhhh",data);
+      
+    })
+  
+  }
   Toggledetail(facture:any){
     
     this.currentfacture=facture;
-    console.log(this.currentfacture);
+    this.test="show";
+    // console.log(this.currentfacture);
     this.toggle=!this.toggle;
     if (this.toggle==false){
       this.router.navigate(['reglement']);
     }
   }
   ngOnInit(): void {
+     this.searchlist=this.service.REGLEMENTS
+    
     this.service.refresh$.subscribe(()=>
     {
       this.getAllReglements();
     });
     this.getAllReglements();
+    console.log("OFFFFFFFFF YA RABY",this.searchlist);
+    
+    
   }
 
   onSort({ column, direction }: SortEvent) {
