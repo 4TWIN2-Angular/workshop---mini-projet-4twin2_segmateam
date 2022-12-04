@@ -23,7 +23,7 @@
           </p>
         
           <p class="mb-0"><b>Prix:</b> {{ prod.prix }}DT 
-            <a>
+            <a  style="float: right;"  (click)="modalOpenVC2()" >
             <i class="feather icon-edit"  style="float: right;color: orange; font-size: 1.5rem;"></i>
           </a>
         </div>
@@ -45,3 +45,4 @@
   Supprimer
 </a>
 </div>
+<app-modifier-produit  [open]="this.open" [prod]="prod" ></app-modifier-produit>

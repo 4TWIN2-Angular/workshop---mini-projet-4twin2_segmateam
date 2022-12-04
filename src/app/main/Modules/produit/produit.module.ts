@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
 import { ProduitRoutingModule } from './produit-routing.module';
 import { FormProduitComponent } from './form-produit/form-produit.component';
 import { MainProduitComponent } from './main-produit/main-produit.component';
@@ -17,7 +16,8 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 import { EcommerceSidebarComponent } from './ecommerce-shop/sidebar/sidebar.component';
 import { EcommerceItemComponent } from './produit-item/ecommerce-item.component';
 import { ListProduitComponent } from './list-produit/list-produit.component';
-
+import { ModifierProduitComponent } from './modifier-produit/modifier-produit.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
@@ -33,7 +33,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     EcommerceShopComponent,
     EcommerceSidebarComponent,
     EcommerceItemComponent,
-    ListProduitComponent
+    ListProduitComponent,
+    ModifierProduitComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +46,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     CoreSidebarModule,
     CoreCommonModule,
     NgbModule,
-    NouisliderModule
+    NouisliderModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
