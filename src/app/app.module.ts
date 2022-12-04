@@ -24,10 +24,11 @@ import { HomeComponent } from "./main/Modules/home/home.component";
 import { ReglementModule } from "./main/Modules/reglement/reglement.module";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { DatePipe } from '@angular/common'
+import { HomeAnimationComponent } from "./main/Components/HomeAnimation/animation.component";
 const appRoutes: Routes = [];
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent,HomeAnimationComponent],
   imports: [
     CommonModule,
     ContentHeaderModule,
