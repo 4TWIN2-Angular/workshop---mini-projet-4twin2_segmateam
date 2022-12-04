@@ -52,19 +52,22 @@
                     <a ngbDropdownItem href="javascript:void(0);" (click)="sortProduct('price-desc')">Highest</a>
                   </div> -->
                 </div>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <div class="btn-group btn-group-toggle" >
+                 
                   <label
                     class="btn btn-icon btn-outline-primary view-btn grid-view-btn"
                     [class.active]="gridViewRef === true"
                   >
-                    <input type="radio" name="radio_options" id="radio_option1" (click)="gridView()" />
-                    <i data-feather="grid" class="font-medium-3"></i>
+                 
+                    <input type="radio" (click)="gridView()" />
+                     <i data-feather="grid" class="font-medium-3"></i>
                   </label>
+                 
                   <label
                     class="btn btn-icon btn-outline-primary view-btn list-view-btn"
                     [class.active]="gridViewRef !== true"
-                  >
-                    <input type="radio" name="radio_options" id="radio_option2" (click)="listView()" />
+                  > 
+                    <input type="radio" (click)="listView()" />
                     <i data-feather="list" class="font-medium-3"></i>
                   </label>
                 </div>
@@ -94,6 +97,7 @@
         </div>
       </section>
       <!-- E-commerce Head Section Starts -->
+      
       <!-- E-commerce Products Starts -->
       <section id="ecommerce-products" [ngClass]="gridViewRef === true ? 'grid-view' : 'list-view'">
         <app-ecommerce-item
@@ -106,12 +110,6 @@
         ></app-ecommerce-item>
       </section>
       <!-- E-commerce Products Ends -->
-
-
-      
-
-
-
 
       <!-- E-commerce Pagination Starts -->
       <section id="ecommerce-pagination">
@@ -144,6 +142,7 @@
           </div>
         </div>
       </section>
+   
       <!-- E-commerce Pagination Ends -->
     </div>
   </div>
