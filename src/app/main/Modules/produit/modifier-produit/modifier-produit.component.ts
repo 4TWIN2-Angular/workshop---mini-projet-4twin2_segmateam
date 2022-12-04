@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+
 @Component({
   selector: 'app-modifier-produit',
   templateUrl: './modifier-produit.component.html',
@@ -23,23 +25,25 @@ export class ModifierProduitComponent implements OnInit {
       prix: new FormControl('', Validators.required),
       dateModif: new FormControl({disabled: true}),
       code: new FormControl('', Validators.required),
+
     });
   
    
 
   submitted = false;
+  myDate: any;
   onSubmit() { this.submitted = true; 
-    console.warn(this.editForm.value);
     
-      this.prod.libelleProduit = this.editForm['libelle'].value
-      this.prod.prix = this.editForm['prix'].value
-      this.prod.dateDernierModification = this.editForm['dateModif'].value
-      this.prod.codeProduit = this.editForm['code'].value
+      
+      this.prod.libelleProduit = this.editForm.value['libelle']
+      this.prod.prix = this.editForm.value['prix']
+      this.prod.dateDernierModification = this.editForm.value['dateModif']
+      this.prod.codeProduit = this.editForm.value['code']
       console.log(this.prod)
-     /*  this.ecomService.updateData(this.editForm.value)
+      this.ecomService.updateData(this.prod)
      .subscribe(response => {
       console.log(response)
-    }) */
+    })
     
   }
 
@@ -49,18 +53,19 @@ export class ModifierProduitComponent implements OnInit {
    *
    * @param {NgbModal} modalService
    */
-  constructor(private ecomService: EcommerceService,private modalService: NgbModal) { 
+  constructor(private ecomService: EcommerceService,private modalService: NgbModal,private datePipe: DatePipe) { 
     
    
   }
 
   ngOnInit(): void {
-  
+    this.myDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    
     this.editForm.setValue({
       id : this.prod.idProduit,
       prix : this.prod.prix,
       libelle : this.prod.libelleProduit,
-      dateModif : new Date (),
+      dateModif :  this.myDate,
       code : this.prod.codeProduit
 
     })
@@ -68,14 +73,23 @@ export class ModifierProduitComponent implements OnInit {
   }
   
 
-   /*  alertWithSuccess(){
-      Swal.fire('Well done...', 'The new '+this.model.libelleProduit+' has been added succesfully!', 'success')
-    } */
+    alertWithSuccess(){
+      Swal.fire('Update Successful...', 'The '+this.prod.libelleProduit+' has been updates succesfully!', 'success')
+    }
     
 
     ngOnChanges(changes: SimpleChanges) {
        console.log(changes.open )
        if(changes.open['previousValue'] !=null){
+        this.myDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+        this.editForm.setValue({
+          id : this.prod.idProduit,
+          prix : this.prod.prix,
+          libelle : this.prod.libelleProduit,
+          dateModif : this.myDate,
+          code : this.prod.codeProduit
+    
+        })
         this.modalService.open(this.input, {
         centered: true
         
