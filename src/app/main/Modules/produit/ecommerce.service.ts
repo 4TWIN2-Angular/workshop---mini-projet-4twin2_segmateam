@@ -10,6 +10,7 @@ import { products } from './Model/Product';
 })
 export class EcommerceService implements Resolve<any> {
   // Public
+  api: string = "http://localhost:9090";
   public productList: Array<any>;
   public selectedProduct;
   public relatedProducts;
@@ -60,28 +61,28 @@ export class EcommerceService implements Resolve<any> {
    * Get Products
    */
    getProducts(): Observable<products[]> {
-    return this.http.get<products[]>('http://localhost:8090/Produit');
+    return this.http.get<products[]>(this.api+'/produit/all');
   }
   getProductsById(id:number): Observable<products[]> {
-    return this.http.get<products[]>('http://localhost:8090/Produit/'+id.toString());
+    return this.http.get<products[]>(this.api+'/produit/retrieve/'+id);
   }
   
 
   postData(data: any): Observable<any> {
-    return this.http.post('http://localhost:8090/Produit', data).pipe(tap(()=>{  
+    return this.http.post(this.api+'/produit/add', data).pipe(tap(()=>{  
     this._refrD$.next()
     }))
 
 }
 
 del(id: number){
-  return this.http.delete('http://localhost:8090/Produit/'+id).pipe(tap(()=>{  
+  return this.http.delete(this.api+'/produit/'+id).pipe(tap(()=>{  
     this._refrD$.next()
     }))
 
 }
 updateData(data:any) {
-  return this.http.put('http://localhost:8090/Produit/',data).pipe(tap(()=>{  
+  return this.http.put(this.api+'/produit/edit',data).pipe(tap(()=>{  
     this._refrD$.next()
     }))
 }

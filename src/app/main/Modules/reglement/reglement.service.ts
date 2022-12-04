@@ -111,21 +111,14 @@ export class ReglementService {
       ));
   }
  
-  EditReglement(reglement:any,id:any){
-    console.log("aaaaafff",reglement.date);
+  EditReglement(reglement:any){
 
-    console.log("DATE RECEIVED",reglement);
-    return this.http.put<any>(this.api+"/reglement/edit/"+id,reglement).subscribe(data=>
-        
-        console.log(data),
-        
-        Swal.fire('Reglement modifié!', 'Le reglement a été bien modifié', 'success')
-        
-  
-      
-    )
-    
-  }
+    return this.http.put<any>(this.api+"/reglement/edit",reglement).pipe(
+      tap(()=>{
+        this._refresh$.next()
+      }
+      )
+  )}
   DeleteReglement(reglement:any) {
     
     return this.http.delete(this.api +'/reglement/'+reglement).pipe(
@@ -136,21 +129,35 @@ export class ReglementService {
     );
   }
 
-  liveSearch(val: any): Observable<Reglement[]> {
+    liveSearch(val: any): Observable<Reglement[]> {
   
     const reglement = of(
+      
       this.REGLEMENTS.filter((reg) =>
-        reg.montantPaye.toString().includes(val.toString())
+        (reg.montantPaye.toString().includes(val.toString())) || (reg.montantRestant.toString().includes(val.toString()) || (reg.date.toString().includes(val.toString())))
       ),
-      this.REGLEMENTS.filter((reg) =>
-        reg.montantRestant.toString().includes(val.toString())
-      ),
-      this.REGLEMENTS.filter((reg) =>
-      reg.date.toString().includes(val.toString())
-    )
+    
+
+     
     );
     return reglement;
   }
+  // liveSearch(val: any): Observable<Reglement[]> {
+  
+  //   const reglement = of(
+      
+  //     this.REGLEMENTS.filter((reg) =>
+  //       reg.montantPaye.toString().includes(val.toString())
+  //     ),
+  //     this.REGLEMENTS.filter((reg) =>
+  //       reg.montantRestant.toString().includes(val.toString())
+  //     ),
+  //     this.REGLEMENTS.filter((reg) =>
+  //     reg.date.toString().includes(val.toString())
+  //   )
+  //   );
+  //   return reglement;
+  // }
   get total$() {
     return this._total$.asObservable();
   }

@@ -5,6 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { ReglementService } from "../reglement.service";
 import { DateFormatter } from "utils/dateformat";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: "edit-new-reglement-sidebar",
@@ -65,7 +66,9 @@ export class EditRegSidebarComponent implements OnInit {
     }
     var changeddate=DateFormatter.DateFromObject(this.datereg.year,this.datereg.month,this.datereg.day)
     this.reglement.date=changeddate;
-    this.service.EditReglement(this.reglement,this.id);
+    this.service.EditReglement(this.reglement).subscribe(data=>
+      Swal.fire('Reglement modifié!', 'Le reglement a été bien modifié', 'success') 
+  )
     console.log("date to push ",this.reglement.date);
     this.ngOnInit();
     
