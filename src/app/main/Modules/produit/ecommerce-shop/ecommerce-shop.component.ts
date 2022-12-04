@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { EcommerceService } from '../ecommerce.service';
 
@@ -35,29 +35,18 @@ export class EcommerceShopComponent implements OnInit {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
 
-  /**
-   * Update to List View
-   */
-  listView() {
-    this.gridViewRef = false;
-  }
-
-  /**
-   * Update to Grid View
-   */
-  gridView() {
-    this.gridViewRef = true;
-  }
+ 
 
  
    getAllProd() {
+    
     this._ecommerceService.getProducts().subscribe((data) => {
       this.products = data
       this._ecommerceService.productList = data;
     });
     
   }
-  ngOnInit(): void {
+  ngOnInit() {
     this.getAllProd();
     this._ecommerceService.refrD$.subscribe(()=>{
       this._ecommerceService.getProducts().subscribe((data) => {
@@ -65,6 +54,10 @@ export class EcommerceShopComponent implements OnInit {
      
       
       })
+
+
+
+
     })
     this.contentHeader = {
       headerTitle: 'Liste Produit',
@@ -90,4 +83,14 @@ export class EcommerceShopComponent implements OnInit {
       }
     };
   }
+
+
+  listView() {
+    this.gridViewRef = false;
+  }
+
+  gridView() {
+    this.gridViewRef = true;
+  }
+
 }
