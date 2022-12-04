@@ -1,5 +1,5 @@
 import { CoreMenu } from "@core/types";
-
+let sed:string ="produit/";
 export const menu: CoreMenu[] = [
   {
     id: "home",
@@ -17,11 +17,30 @@ export const menu: CoreMenu[] = [
     url: "reglement",
   },
   {
-    id: "Produit",
-    title: "Produit",
-    type: "item",
-    icon: "inbox",
-    url: "produit",
+    id: 'Produit',
+    title: 'Produit',
+    type: 'collapsible',
+    icon: 'shopping-cart',
+    badge: {
+      title: '2',
+      classes: 'badge-light-warning badge-pill'
+    },
+    children: [
+      {
+        id: 'Home',
+        title: 'Home',
+        type: 'item',
+        icon: 'layers',
+        url: sed+'home'
+      },
+      {
+        id: 'List',
+        title: 'List',
+        type: 'item',
+        icon: 'archive',
+        url: sed+"list"
+      }
+    ]
   },
   {
     id: "facture",
@@ -30,4 +49,5 @@ export const menu: CoreMenu[] = [
     icon: "inbox",
     url: "facture",
   },
+
 ];

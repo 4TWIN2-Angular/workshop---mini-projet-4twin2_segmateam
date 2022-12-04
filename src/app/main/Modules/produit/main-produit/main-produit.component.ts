@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EcommerceService } from '../ecommerce.service';
 
 @Component({
   selector: 'app-main-produit',
@@ -6,10 +7,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-produit.component.scss']
 })
 export class MainProduitComponent implements OnInit {
-
-  constructor() { }
-
+  public products ;
+  constructor( private _ecommerceService: EcommerceService) { this.getAllProd(); }
+  getAllProd() {
+    this._ecommerceService.getProducts().subscribe((data) => {
+      this.products = data
+      this.products = this.products.slice(10,15)
+    //  console.log(this.products)
+    //  this._ecommerceService.productList = data;
+    });}
   ngOnInit(): void {
+    this.getAllProd();
+    this._ecommerceService.refrD$.subscribe(()=>{
+      this._ecommerceService.getProducts().subscribe((data) => {
+        this.products = data
+        this.products = this.products.slice(10,15)
+      
+      })
+    })
+    
   }
 
 }

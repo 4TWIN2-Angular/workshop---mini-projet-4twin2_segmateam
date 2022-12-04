@@ -23,7 +23,7 @@ import { ContentHeaderModule } from "./layout/components/content-header/content-
 import { HomeComponent } from "./main/Modules/home/home.component";
 import { ReglementModule } from "./main/Modules/reglement/reglement.module";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
-
+import { DatePipe } from '@angular/common'
 const appRoutes: Routes = [];
 
 @NgModule({
@@ -62,5 +62,6 @@ const appRoutes: Routes = [];
 
   bootstrap: [AppComponent],
   exports: [ReactiveFormsModule, FormsModule],
+  providers:[DatePipe]
 })
 export class AppModule {}
