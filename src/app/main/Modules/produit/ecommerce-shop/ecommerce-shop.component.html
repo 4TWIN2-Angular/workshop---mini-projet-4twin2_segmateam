@@ -39,18 +39,17 @@
                     ngbDropdownToggle
                     type="button"
                     class="btn btn-outline-primary mr-1"
-                    data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
                     rippleEffect
                   >
-                    <span class="active-sorting">Featured</span>
+                    <span class="active-sorting">{{sort}}</span>
                   </button>
-                  <!-- <div ngbDropdownMenu>
-                    <a ngbDropdownItem href="javascript:void(0);" (click)="sortProduct('featured')">Featured</a>
-                    <a ngbDropdownItem href="javascript:void(0);" (click)="sortProduct('price-asc')">Lowest</a>
-                    <a ngbDropdownItem href="javascript:void(0);" (click)="sortProduct('price-desc')">Highest</a>
-                  </div> -->
+                  <div ngbDropdownMenu>
+                    <a ngbDropdownItem  (click)="sortProduct('featured')">Featured</a>
+                    <a ngbDropdownItem  (click)="sortProduct('price-asc')">Lowest</a>
+                    <a ngbDropdownItem  (click)="sortProduct('price-desc')">Highest</a>
+                  </div>
                 </div>
                 <div class="btn-group btn-group-toggle" >
                  
@@ -99,7 +98,9 @@
       <!-- E-commerce Head Section Starts -->
       
       <!-- E-commerce Products Starts -->
+      <div *ngIf="products.length == 0 || products == null"  class="alert alert-danger" style="width: 100%; text-align: center;">No products found.</div>
       <section id="ecommerce-products" [ngClass]="gridViewRef === true ? 'grid-view' : 'list-view'">
+       
         <app-ecommerce-item
           class="card ecommerce-card"
           [product]="product"
