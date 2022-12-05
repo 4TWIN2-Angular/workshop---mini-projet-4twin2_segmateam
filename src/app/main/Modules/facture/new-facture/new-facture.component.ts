@@ -18,7 +18,6 @@ export class NewFactureComponent implements OnInit {
  public dateCreationFacture ;
   public dateDerniereModification ;
   public archive
-  facture: Facture =new Facture()
 f:Facture[]
     myForm :FormGroup
   constructor(private _coreSidebarService: CoreSidebarService,private fs:FactureServiceService) { }

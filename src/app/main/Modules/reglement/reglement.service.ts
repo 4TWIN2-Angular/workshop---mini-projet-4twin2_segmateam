@@ -5,7 +5,6 @@ import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { DateFormatter } from "utils/dateformat";
 import { Reglement } from "./table-reglement/Reglement";
-import { DecimalPipe } from "@angular/common";
 import { debounceTime, delay, switchMap, tap } from "rxjs/operators";
 import { SortColumn, SortDirection } from "./table-reglement/sortable.directive";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -72,7 +71,7 @@ export class ReglementService {
     sortDirection: "",
   };
 
-  constructor(private pipe: DecimalPipe, private http: HttpClient) {
+  constructor( private http: HttpClient) {
     this._search$
       .pipe(
         tap(() => this._loading$.next(true)),

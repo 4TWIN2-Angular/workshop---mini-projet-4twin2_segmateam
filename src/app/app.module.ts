@@ -25,10 +25,11 @@ import { ReglementModule } from "./main/Modules/reglement/reglement.module";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
 import { DatePipe } from '@angular/common'
 import { HomeAnimationComponent } from "./main/Components/HomeAnimation/animation.component";
+import { CardBasicComponent } from "./main/Components/card-basic/card-basic.component";
 const appRoutes: Routes = [];
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent,HomeAnimationComponent],
+  declarations: [AppComponent, HomeComponent,HomeAnimationComponent,CardBasicComponent],
   imports: [
     CommonModule,
     ContentHeaderModule,

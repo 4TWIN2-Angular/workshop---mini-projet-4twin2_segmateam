@@ -39,7 +39,7 @@ interface State {
   providedIn: 'root'
 })
 export class FactureServiceService {
-  api: string = "http://localhost:9090/Facture";
+  api: string = "http://localhost:9090/facture";
   newUrl : string
   urlDetailF: string = "http://localhost:9090/DetailFac";
   FACTURES = [];
@@ -68,7 +68,7 @@ public  findByFacture(id:number):Observable<DetailFacture[]>{
 
 
   public GetAllFactures(): Observable<Facture[]> {
-    return this.http.get<Facture[]>(this.api);
+    return this.http.get<Facture[]>(this.api+"/all");
   }
 
   deleteDetailF(dF:DetailFacture):Observable<DetailFacture>{
