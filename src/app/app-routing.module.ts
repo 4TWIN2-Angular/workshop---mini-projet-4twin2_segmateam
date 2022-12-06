@@ -1,7 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AuthGuard } from "./auth/helpers";
+import { AdminModule } from "./main/Modules/Admin/admin.module";
 
 import { HomeComponent } from "./main/Modules/home/home.component";
+import { ProfileModule } from "./main/Modules/profile/profile.module";
 
 
 const routes: Routes = [
@@ -32,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: "home",
-    component: HomeComponent,
+    component: HomeComponent, canActivate: [AuthGuard], data: { roles: ['User'] } 
   },
   {
     path: "",
@@ -47,7 +50,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{onSameUrlNavigation: 'reload'})],
+  imports: [ProfileModule,AdminModule,RouterModule.forRoot(routes,{onSameUrlNavigation: 'reload'})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

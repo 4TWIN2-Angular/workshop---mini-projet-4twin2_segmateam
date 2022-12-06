@@ -1,27 +1,26 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { first, takeUntil } from 'rxjs/operators';
+
+import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Router } from '@angular/router';
+
 import { CoreConfigService } from '@core/services/config.service';
-import { AuthenticationService } from 'app/auth/service';
+import { Route, Router } from '@angular/router';
+import { UserService } from 'app/auth/service';
+import { UserRegisterService } from 'app/auth/service/user-register.service';
 
 @Component({
-  selector: 'app-auth-login-v2',
-  templateUrl: './auth-login-v2.component.html',
-  styleUrls: ['./auth-login-v2.component.scss'],
+  selector: 'app-auth-register-v2',
+  templateUrl: './auth-register-v2.component.html',
+  styleUrls: ['./auth-register-v2.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AuthLoginV2Component implements OnInit {
-  //  Public
+export class AuthRegisterV2Component implements OnInit {
+  // Public
   public coreConfig: any;
-  public loginForm: FormGroup;
-  public loading = false;
-  public submitted = false;
-  public returnUrl: string;
-  public error = '';
   public passwordTextType: boolean;
+  public registerForm: FormGroup;
+  public submitted = false;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -30,18 +29,14 @@ export class AuthLoginV2Component implements OnInit {
    * Constructor
    *
    * @param {CoreConfigService} _coreConfigService
+   * @param {FormBuilder} _formBuilder
    */
   constructor(
-    private _coreConfigService: CoreConfigService,
-    private _formBuilder: FormBuilder,
-    private _route: ActivatedRoute,
-    private _router: Router,
-    private _authenticationService: AuthenticationService
-  ) {
-    // redirect to home if already logged in
-    if (this._authenticationService.currentUserValue) {
-      this._router.navigate(['/home']);
-    }
+    private userService: UserService,//userService c'est sercive dans _services pour http://localhost:9090/...
+    private userRegisterService: UserRegisterService,//userAuthService c'est sercive dans _services pour enregistrer role et token dans localStorage
+    private router: Router,//redirection
+    private _coreConfigService: CoreConfigService, private _formBuilder: FormBuilder
+    ) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -64,7 +59,7 @@ export class AuthLoginV2Component implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() {
-    return this.loginForm.controls;
+    return this.registerForm.controls;
   }
 
   /**
@@ -74,30 +69,17 @@ export class AuthLoginV2Component implements OnInit {
     this.passwordTextType = !this.passwordTextType;
   }
 
+  /**
+   * On Submit
+   */
   onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
+    if (this.registerForm.invalid) {
       return;
     }
-
-    // Login
-    this.loading = true;
-    this._authenticationService
-      .login(this.f.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this._router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.error = error;
-          this.loading = false;
-        }
-      );
   }
-
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -106,13 +88,11 @@ export class AuthLoginV2Component implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    this.loginForm = this._formBuilder.group({
+    this.registerForm = this._formBuilder.group({
       username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 
     // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
@@ -128,21 +108,25 @@ export class AuthLoginV2Component implements OnInit {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
-  login(loginForm: NgForm) {
-    this.loading = true;
-    this._authenticationService.login(loginForm.value).subscribe(
+  register(registerForm: NgForm) {
+    this.userService.register(registerForm.value).subscribe(
       // response c'est la response du spring
       (response: any) => {
-        this._authenticationService.setRoles(response.user.role);
-        this._authenticationService.setToken(response.jwtToken);
+        //this.userRegisterService.setRoles(response.role.roleName);
+        //this.userRegisterService.setToken(response.jwtToken);
 
+        //this.userRegisterService.setuser_first_name(response.user.user_first_name);
+        //this.userRegisterService.setuser_last_name(response.user.user_last_name);
         // redirection 
-        this._router.navigate(['/home']);
-       
+        //const role = response.user.role[0].roleName;
+        //if (role === 'Admin') {
+        //  this.router.navigate(['/admin']);
+        //} else {
+          this.router.navigate(['/login']);
+        //}
       },
       (error) => {
-        this.error = error;
-        this.loading = false;
+        console.log(error);
       }
     );
   }
