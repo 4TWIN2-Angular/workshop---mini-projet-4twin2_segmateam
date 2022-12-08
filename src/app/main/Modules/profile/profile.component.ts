@@ -7,6 +7,7 @@ import { AuthenticationService, UserService } from "app/auth/service";
 import { User } from "app/auth/models";
 
 import { Router } from "@angular/router";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.component.html",
@@ -14,7 +15,11 @@ import { Router } from "@angular/router";
 })
 export class ProfileComponent implements OnInit {
      // public
+  updateForm:FormGroup;
   public user:User;
+  userName:string;
+  userFirstName:string;
+  userLastName:string;
   public currentUser: User;
   public contentHeader: object;
   public data: any;
@@ -29,6 +34,7 @@ export class ProfileComponent implements OnInit {
   // private
   private _unsubscribeAll: Subject<any>;
   
+ 
   constructor(
     private router: Router,private userService: UserService,private _authenticationService: AuthenticationService) {
     this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
@@ -67,6 +73,11 @@ export class ProfileComponent implements OnInit {
    * On init
    */
   ngOnInit() {
+    this.updateForm = new FormGroup({
+      userName: new FormControl(this.currentUser.userName),
+      userFirstName: new FormControl(this.currentUser.userFirstName),
+      userLastName: new FormControl(this.currentUser.userLastName)
+    });
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.contentHeader = {
         headerTitle: ' Paramètres du compte',
@@ -85,8 +96,20 @@ export class ProfileComponent implements OnInit {
     this._unsubscribeAll.complete();
    
   }
-  update() {
-    this.userService.update(this.user).subscribe((result) => {
+
+  
+  update(form: FormGroup) {
+    
+    console.log('this.user:', this.currentUser);
+    this.currentUser.userFirstName=this.updateForm.value.userFirstName;
+    this.currentUser.userLastName=this.updateForm.value.userLastName;
+    localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+    console.log('this.user:', this.currentUser);
+   
+ 
+
+   
+    this.userService.update(this.currentUser).subscribe((result) => {
       if (result) {
         console.log('this.user:', this.user);
         this.router.navigate(['/home'])

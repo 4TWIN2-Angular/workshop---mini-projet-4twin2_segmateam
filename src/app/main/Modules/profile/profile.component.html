@@ -2,7 +2,7 @@
   <div class="content-body">
     <!-- content-header component -->
     <app-content-header [contentHeader]="contentHeader"></app-content-header>
-
+   
     <!-- account setting page -->
     <section id="page-account-settings">
       <div class="row nav-vertical d-flex">
@@ -26,25 +26,19 @@
                     <!-- header media -->
                 
                     <!--/ header media -->
-
+                  
                     <!-- form -->
-                    <form class="validate-form mt-2">
+                    <form class="validate-form mt-2" [formGroup]="updateForm" (ngSubmit)="update(updateForm)">
                       <div class="row">
                         <div class="col-12 col-sm-12">
                           <div class="form-group">
-                            <label for="account-username">Username</label>
+                            <label for="userName">Username</label>
                             <input
                               type="text"
-                             disabled
-                             
-                             ngModel
-                        #userName="ngModel"
-                        
                               class="form-control"
-                              id="account-username"
-                              name="username"
-                              
-                              ngValue="{{ this.currentUser.userName }}"
+                              id="userName"
+                              formControlName="userName"
+                              disabled
                             />
                           </div>
                         </div>
@@ -53,11 +47,9 @@
                             <label for="account-name">First Name</label>
                             <input
                               type="text"
-                              
                               class="form-control"
-                              id="account-name"
-                              name="name"
-                              value="{{ this.currentUser.userFirstName }}"
+                              id="userFirstName"
+                              formControlName="userFirstName"
                             />
                           </div>
                         </div>
@@ -65,12 +57,11 @@
                           <div class="form-group">
                             <label for="account-e-mail">Last Name</label>
                             <input
-                              type="email"
-                              value="{{ this.currentUser.userLastName}}"
+                              type="text"
+                              formControlName="userLastName"
                               class="form-control"
-                              id="account-e-mail"
-                              name="email"
-                              placeholder="Email"
+                              id="userLastName"
+                              
                             />
                           </div>
                         </div>

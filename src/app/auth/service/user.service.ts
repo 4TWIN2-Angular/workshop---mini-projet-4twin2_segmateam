@@ -39,7 +39,7 @@ export class UserService {
     });
   }
   public update(user:User) {
-    return this._http.post(this.PATH_OF_API + '/update',user,this.httpOptions);
+    return this._http.put(this.PATH_OF_API + '/update',user,this.httpOptions);
   }
   public delete(userName:string) {
     return this._http.delete(this.PATH_OF_API + `/delete/${userName}`,this.httpOptions);

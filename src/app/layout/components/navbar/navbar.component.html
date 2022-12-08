@@ -60,7 +60,9 @@
         aria-expanded="false"
       >
         <div class="user-nav d-sm-flex d-none">
-          <span class="user-name font-weight-bolder">{{ this.currentUser.userFirstName }} {{ this.currentUser.userLastName }} </span><span class="user-status">{{ this.currentUser.role[0].roleName }}</span>
+          <span class="user-name font-weight-bolder">{{ this.currentUser.userFirstName }} {{ this.currentUser.userLastName }} </span>
+          <span class="user-status"*ngIf=" this.currentUser.role[0].roleName =='User'">Operateur</span>
+          <span class="user-status"*ngIf=" this.currentUser.role[0].roleName =='Admin'">Admin</span>
         </div>
         <span class="avatar"
           ><img
