@@ -1,7 +1,7 @@
 import { Directive, EventEmitter, Input, Output } from "@angular/core";
-import { Reglement } from "./Reglement";
+import { Fournisseur } from "../Fournisseur";
 
-export type SortColumn = keyof Reglement | "";
+export type SortColumn = keyof Fournisseur | "";
 export type SortDirection = "asc" | "desc" | "";
 const rotate: { [key: string]: SortDirection } = {
   asc: "desc",

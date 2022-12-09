@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReglementComponent } from './reglement.component';
+import { UpdateDFComponent } from './update-df.component';
 
-describe('ReglementComponent', () => {
-  let component: ReglementComponent;
-  let fixture: ComponentFixture<ReglementComponent>;
+describe('UpdateDFComponent', () => {
+  let component: UpdateDFComponent;
+  let fixture: ComponentFixture<UpdateDFComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReglementComponent ]
+      declarations: [ UpdateDFComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReglementComponent);
+    fixture = TestBed.createComponent(UpdateDFComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
