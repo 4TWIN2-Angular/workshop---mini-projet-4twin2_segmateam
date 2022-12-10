@@ -50,4 +50,12 @@ export const menu: CoreMenu[] = [
     url: "facture",
   },
 
+  {
+    id: "fournisseur",
+    title: "Fournisseurs",
+    type: "item",
+    icon: "inbox",
+    url: "fournisseur",
+  }
+
 ];
