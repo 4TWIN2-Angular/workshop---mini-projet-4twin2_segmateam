@@ -56,39 +56,6 @@ export const menu: CoreMenu[] = [
     type: "item",
     icon: "inbox",
     url: "fournisseur",
-  },
-  {
-    id: 'Produit',
-    title: 'Produit',
-    type: 'collapsible',
-    icon: 'shopping-cart',
-    badge: {
-      title: '2',
-      classes: 'badge-light-warning badge-pill'
-    },
-    children: [
-      {
-        id: 'Home',
-        title: 'Home',
-        type: 'item',
-        icon: 'layers',
-        url: sed+'home'
-      },
-      {
-        id: 'List',
-        title: 'List',
-        type: 'item',
-        icon: 'archive',
-        url: sed+"list"
-      }
-    ]
-  },
-  {
-    id: "facture",
-    title: "Factures",
-    type: "item",
-    icon: "inbox",
-    url: "facture",
-  },
+  }
 
 ];
