@@ -3,6 +3,7 @@ import { validateBasis } from "@angular/flex-layout";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
+import { DFournisseur } from "../DFournisseur";
 import { Fournisseur } from "../Fournisseur";
 import { FournisseurService } from "../fournisseur.service";
 import { FournisseurComplete } from "../List-fournisseur/FournisseurComplete";
@@ -12,7 +13,7 @@ import { FournisseurComplete } from "../List-fournisseur/FournisseurComplete";
     templateUrl: "update-fournisseur.html",
   })
     export class UpdateFounisseurSidebarComponent  {
-  DetailF: import("c:/Users/Fritchou/Documents/4EME Twin/Projet_S_A/workshop---mini-projet-4twin2_segmateam/src/app/main/Modules/fournisseur/DFournisseur").DFournisseur;
+  DetailF: DFournisseur;
       ngOnChanges(){ 
         if(this.idFournisseur != undefined){
           console.log(this.idFournisseur);

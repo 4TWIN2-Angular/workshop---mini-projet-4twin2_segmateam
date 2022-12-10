@@ -61,13 +61,42 @@ export class NgbdTableComplete {
    
   }
   DeleteReglement(id){
-    this.service.DeleteReglement(id).subscribe((res)=>
-    {
-      Swal.fire('Reglement supprimé!', 'Le reglement a été bien supprimé' ,'success');
+    
+      Swal.fire({
+        title: 'Voulez-vous vraiment supprimer ce reglement ?',
+        text: 'Vous ne pourrez pas récupérer ce reglement',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui, supprimez-le !',
+        cancelButtonText: 'Non, gardez-le'
+      }).then((result) => {
+        if (result.value) {
+          this.service.DeleteReglement(id).subscribe((res)=>
+     {
+      Swal.fire(
+        'Supprimé !',
+        'Le reglement a été supprimé.',
+        'success'
+      )     }
+     )
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+            'Annulé',
+            'La suppression a été bien annulée :)',
+            'error'
+          )
+        }
+      })
     }
-    )
+
+    
+    // this.service.DeleteReglement(id).subscribe((res)=>
+    // {
+    //   Swal.fire('Reglement supprimé!', 'Le reglement a été bien supprimé' ,'success');
+    // }
+    // )
   
-  }
+  
   liveSearch(){
     this.service.liveSearch(this.val).subscribe((data)=>{
       this.service.reglementsearch=data;
