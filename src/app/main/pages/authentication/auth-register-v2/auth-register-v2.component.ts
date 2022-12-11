@@ -122,7 +122,7 @@ export class AuthRegisterV2Component implements OnInit {
         //if (role === 'Admin') {
         //  this.router.navigate(['/admin']);
         //} else {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/pages/authentication/login-v2']);
         //}
       },
       (error) => {

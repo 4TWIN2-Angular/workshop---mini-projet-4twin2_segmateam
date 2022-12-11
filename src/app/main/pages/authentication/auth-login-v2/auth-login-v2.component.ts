@@ -137,7 +137,13 @@ export class AuthLoginV2Component implements OnInit {
         this._authenticationService.setToken(response.jwtToken);
 
         // redirection 
-        this._router.navigate(['/home']);
+        const role = response.user.role[0].roleName;
+        if (role === 'Admin') {
+          this._router.navigate(['/admin']);
+        } else {
+          this._router.navigate(['/home']);
+        }
+        
        
       },
       (error) => {

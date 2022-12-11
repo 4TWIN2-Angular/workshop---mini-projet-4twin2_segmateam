@@ -6,7 +6,7 @@ import { AdminComponent } from "./admin.component";
 const routes: Routes = [
   {
     path: "admin",
-    component:  AdminComponent, canActivate: [AuthGuard], data: { roles: ['User'] } 
+    component:  AdminComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } 
     
   },
 ];

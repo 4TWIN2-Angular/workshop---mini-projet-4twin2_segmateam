@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'app/auth/models';
-import { UserService } from 'app/auth/service';
+import { AuthenticationService, UserService } from 'app/auth/service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-reglement',
@@ -8,12 +9,33 @@ import { UserService } from 'app/auth/service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
+  
 user:User;
 userList:User[];
+c:number;
+co:number;
+ca:number;
+public currentUser: User;
 public contentHeader: object;
-  constructor(private userService:UserService) { }
+count=this.userService.count().subscribe((data: number) => {
+  this.c = data;
+});
+countoperateur=this.userService.countoperateur().subscribe((data: number) => {
+  this.co = data;
+});
+countadmin=this.userService.countadmin().subscribe((data: number) => {
+  this.ca = data;
+});
+ // private
+ private _unsubscribeAll: Subject<any>;
+  constructor(private userService:UserService,private _authenticationService: AuthenticationService) {
+    this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
+    this._unsubscribeAll = new Subject();
+   }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log(this.c);
     this.contentHeader = {
       headerTitle: '  Admin',
       actionButton: true,

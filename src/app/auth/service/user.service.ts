@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { User } from 'app/auth/models';
 import { AuthenticationService } from './authentication.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -43,6 +44,15 @@ export class UserService {
   }
   public delete(userName:string) {
     return this._http.delete(this.PATH_OF_API + `/delete/${userName}`,this.httpOptions);
+  }
+  public count() {
+    return this._http.get<number>(this.PATH_OF_API + `/count`,this.httpOptions);
+  }
+  public countoperateur() {
+    return this._http.get<number>(this.PATH_OF_API + `/countoperateur`,this.httpOptions);
+  }
+  public countadmin() {
+    return this._http.get<number>(this.PATH_OF_API + `/countadmin`,this.httpOptions);
   }
   
   public roleMatch(allowedRoles): boolean {
