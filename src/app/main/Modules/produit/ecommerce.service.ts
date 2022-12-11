@@ -93,36 +93,51 @@ get refrD$(){
  }
 
 
-
-
-   }
-
-
-  /**
+/**
    * Sort Product
    *
    * @param sortBy
    */
- /*  sortProduct(sortBy) {
-    let sortDesc = false;
+ sortProduct(sortBy,list) {
+  let sortDesc = false;
 
-    const sortByKey = (() => {
-      if (sortBy === 'price-desc') {
-        sortDesc = true;
-        return 'price';
-      }
-      if (sortBy === 'price-asc') {
-        return 'price';
-      }
+  const sortByKey = (() => {
+    if (sortBy === 'price-desc') {
       sortDesc = true;
-      return 'id';
-    })();
+      return 'prix';
+    }
+    if (sortBy === 'price-asc') {
+      return 'prix';
+    }
+    if (sortBy === 'featured') {
+      return 'idProduit';
+    }
+  })();
 
-    const sortedData = this.productList.sort(this.sortRef(sortByKey));
-    if (sortDesc) sortedData.reverse();
-    this.productList = sortedData;
-    this.onProductListChange.next(this.productList);
-  } */
+  const sortedData = list.sort(this.sortRef(sortByKey));
+  if (sortDesc) sortedData.reverse();
+  list = sortedData;
+  this.onProductListChange.next(list);
+  return list ;
+}
+ isBigEnough(value) {
+  return value >= 0;
+}
+filterProduct(arg, list){
+  if(arg =="clear")  {  return list.sort(this.sortRef("idProduit")) }
+  if(arg =="all")  {  return list.sort(this.sortRef("idProduit")) }
+  if(arg =="lte100")  {  return list.filter(produit => produit.prix <= 100) }
+  if(arg =="btn100-200") {return list.filter(produit => produit.prix > 100 && produit.prix <= 200)}
+  if(arg =="bt200-500") {return list.filter(produit => produit.prix > 200 && produit.prix < 500)}
+  if(arg =="gte500") {return list.filter(produit => produit.prix >= 500 )}
+  if(arg =="old") {return list.sort(this.sortRef("dateCreation"))}
+  if(arg =="new") {return list.sort(this.sortRef("dateCreation")).reverse()}
+}
+
+   }
+
+
+  
 
  
 
