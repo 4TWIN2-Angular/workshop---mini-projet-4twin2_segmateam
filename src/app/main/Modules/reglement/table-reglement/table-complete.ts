@@ -24,7 +24,6 @@ import { Facture } from "../../facture/facture";
 })
 export class NgbdTableComplete {
   reglements$: Reglement[];
-  searchlist : Reglement[]
   public val!:any;
   currentfacture:any;
   test:any;
@@ -56,22 +55,51 @@ export class NgbdTableComplete {
     getAllReglements() {
       this.service.GetAllReglements().subscribe((data) => {
       this.service.REGLEMENTS = data; 
-     this.searchlist=data 
+     this.service.reglementsearch=data;
     });
     this.total$ = this.service.total$;
    
   }
   DeleteReglement(id){
-    this.service.DeleteReglement(id).subscribe((res)=>
-    {
-      Swal.fire('Reglement supprimé!', 'Le reglement a été bien supprimé' ,'success');
+    
+      Swal.fire({
+        title: 'Voulez-vous vraiment supprimer ce reglement ?',
+        text: 'Vous ne pourrez pas récupérer ce reglement',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Oui, supprimez-le !',
+        cancelButtonText: 'Non, gardez-le'
+      }).then((result) => {
+        if (result.value) {
+          this.service.DeleteReglement(id).subscribe((res)=>
+     {
+      Swal.fire(
+        'Supprimé !',
+        'Le reglement a été supprimé.',
+        'success'
+      )     }
+     )
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+            'Annulé',
+            'La suppression a été bien annulée :)',
+            'error'
+          )
+        }
+      })
     }
-    )
+
+    
+    // this.service.DeleteReglement(id).subscribe((res)=>
+    // {
+    //   Swal.fire('Reglement supprimé!', 'Le reglement a été bien supprimé' ,'success');
+    // }
+    // )
   
-  }
+  
   liveSearch(){
     this.service.liveSearch(this.val).subscribe((data)=>{
-      this.searchlist=data;
+      this.service.reglementsearch=data;
       console.log("hhhhhhhhhhh",data);
       
     })
@@ -88,14 +116,11 @@ export class NgbdTableComplete {
     }
   }
   ngOnInit(): void {
-     this.searchlist=this.service.REGLEMENTS
-    
     this.service.refresh$.subscribe(()=>
     {
       this.getAllReglements();
     });
     this.getAllReglements();
-    console.log("OFFFFFFFFF YA RABY",this.searchlist);
     
     
   }

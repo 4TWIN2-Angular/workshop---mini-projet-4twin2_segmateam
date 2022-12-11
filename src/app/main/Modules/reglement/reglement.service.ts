@@ -5,10 +5,10 @@ import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { DateFormatter } from "utils/dateformat";
 import { Reglement } from "./table-reglement/Reglement";
-import { DecimalPipe } from "@angular/common";
 import { debounceTime, delay, switchMap, tap } from "rxjs/operators";
 import { SortColumn, SortDirection } from "./table-reglement/sortable.directive";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { environment } from "environments/environment";
 
 interface SearchResult {
   reglements: Reglement[];
@@ -54,7 +54,7 @@ export class ReglementService {
     reglementsearch=[];
   REGLEMENTS = [];
   Countfacture=[];
-  api: string = "http://localhost:9090";
+  api: string = environment.apiUrl;
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
   private _refresh$ = new Subject<void>();
@@ -72,7 +72,7 @@ export class ReglementService {
     sortDirection: "",
   };
 
-  constructor(private pipe: DecimalPipe, private http: HttpClient) {
+  constructor( private http: HttpClient) {
     this._search$
       .pipe(
         tap(() => this._loading$.next(true)),
@@ -111,21 +111,14 @@ export class ReglementService {
       ));
   }
  
-  EditReglement(reglement:any,id:any){
-    console.log("aaaaafff",reglement.date);
+  EditReglement(reglement:any){
 
-    console.log("DATE RECEIVED",reglement);
-    return this.http.put<any>(this.api+"/reglement/edit/"+id,reglement).subscribe(data=>
-        
-        console.log(data),
-        
-        Swal.fire('Reglement modifié!', 'Le reglement a été bien modifié', 'success')
-        
-  
-      
-    )
-    
-  }
+    return this.http.put<any>(this.api+"/reglement/edit",reglement).pipe(
+      tap(()=>{
+        this._refresh$.next()
+      }
+      )
+  )}
   DeleteReglement(reglement:any) {
     
     return this.http.delete(this.api +'/reglement/'+reglement).pipe(
@@ -136,21 +129,35 @@ export class ReglementService {
     );
   }
 
-  liveSearch(val: any): Observable<Reglement[]> {
+    liveSearch(val: any): Observable<Reglement[]> {
   
     const reglement = of(
+      
       this.REGLEMENTS.filter((reg) =>
-        reg.montantPaye.toString().includes(val.toString())
+        (reg.montantPaye.toString().includes(val.toString())) || (reg.montantRestant.toString().includes(val.toString()) || (reg.date.toString().includes(val.toString())))
       ),
-      this.REGLEMENTS.filter((reg) =>
-        reg.montantRestant.toString().includes(val.toString())
-      ),
-      this.REGLEMENTS.filter((reg) =>
-      reg.date.toString().includes(val.toString())
-    )
+    
+
+     
     );
     return reglement;
   }
+  // liveSearch(val: any): Observable<Reglement[]> {
+  
+  //   const reglement = of(
+      
+  //     this.REGLEMENTS.filter((reg) =>
+  //       reg.montantPaye.toString().includes(val.toString())
+  //     ),
+  //     this.REGLEMENTS.filter((reg) =>
+  //       reg.montantRestant.toString().includes(val.toString())
+  //     ),
+  //     this.REGLEMENTS.filter((reg) =>
+  //     reg.date.toString().includes(val.toString())
+  //   )
+  //   );
+  //   return reglement;
+  // }
   get total$() {
     return this._total$.asObservable();
   }
@@ -195,7 +202,7 @@ export class ReglementService {
       this._state;
 
     // 1. sort
-    let reglements = sort(this.REGLEMENTS, sortColumn, sortDirection);
+    let reglements = sort(this.reglementsearch, sortColumn, sortDirection);
 
     // 2. filter
     // reglements = reglements.filter((reglement) =>
