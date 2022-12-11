@@ -8,6 +8,7 @@ import { Reglement } from "./table-reglement/Reglement";
 import { debounceTime, delay, switchMap, tap } from "rxjs/operators";
 import { SortColumn, SortDirection } from "./table-reglement/sortable.directive";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { environment } from "environments/environment";
 
 interface SearchResult {
   reglements: Reglement[];
@@ -53,7 +54,7 @@ export class ReglementService {
     reglementsearch=[];
   REGLEMENTS = [];
   Countfacture=[];
-  api: string = "http://localhost:9090";
+  api: string = environment.apiUrl;
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
   private _refresh$ = new Subject<void>();

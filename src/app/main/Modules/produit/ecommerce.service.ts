@@ -4,13 +4,14 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { products } from './Model/Product';
+import { environment } from "environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EcommerceService implements Resolve<any> {
   // Public
-  api: string = "http://localhost:9090";
+  api: string = environment.apiUrl
   public productList: Array<any>;
   public selectedProduct;
   public relatedProducts;
