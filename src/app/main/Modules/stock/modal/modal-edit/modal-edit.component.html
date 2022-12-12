@@ -1,0 +1,99 @@
+<div class="slideout-content">
+    <!-- Modal to add reglement starts-->
+    <div
+      class="modalsd modal-slide-in sdfade new-reglement-sidebar"
+      id="modals-slide-in"
+    >
+      <div class="modal-dialog">
+        <form class="new-reglement-sidebar modal-content pt-0"  #f="ngForm"
+        name="form"
+          (ngSubmit)="OnSubmit()">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="toggleSidebar('modal-edit')"
+          >
+            ×
+          </button>
+          <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Stock</h5>
+          </div>
+          <div class="modal-body flex-grow-1">
+            <!-- Libelle Stock -->
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >Libelle Stock</label
+              >
+              <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="Libelle Stock"
+                name="libelleStock"
+                [(ngModel)]="form.libelleStock"
+                #libelleStock="ngModel"
+              />
+            </div>
+  
+             <!-- Quantité  -->
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >Quantité</label
+              >
+              <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="Quantité"
+                name="qte"
+               [(ngModel)]="form.qte"
+               #qte="ngModel"
+            required
+              />
+            </div>
+    <!-- Quantité Min  -->
+    <div class="form-group">
+        <label class="form-label" for="basic-icon-default-fullname"
+          >Quantité Minimale</label
+        >
+        <input
+          type="text"
+          class="form-control dt-full-name"
+          id="basic-icon-default-fullname"
+          placeholder="Quantité minimale"
+          name="qteMin"
+          required
+          [(ngModel)]="form.qteMin"
+          #qteMin = "ngModel"
+        />
+      </div>     
+            <div class="form-group">
+              <br />
+              <br />
+              <button
+                type="submit"
+                class="btn btn-primary mr-1"
+                (click)="EditStock();submit(f)"
+                rippleEffect
+               
+              >
+                Submit
+              </button>
+          
+              <button
+                type="reset"
+                class="btn btn-outline-secondary"
+                (click)="toggleSidebar('modal-edit')"
+                rippleEffect
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

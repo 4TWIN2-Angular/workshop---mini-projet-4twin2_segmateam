@@ -1,0 +1,161 @@
+
+  <div class="mb-3 row">
+    <label
+      for="table-complete-search"
+      class="col-xs-3 col-sm-auto col-form-label"
+      >Recherche:</label
+    >
+    <div class="col-xs-3 col-sm-auto">
+      <input
+        id="table-complete-search"
+        type="text"
+        class="form-control"
+        name="searchTerm"
+        (keyup)="onKeyUp($event)"
+      />
+      
+    </div>
+    <button
+    class="btn btn-primary ml-1"
+    rippleEffect
+    (click)="toggleSidebar('new-fournisseur-sidebar')"
+  >
+    <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+    ><span class="d-none d-sm-inline-block">Ajouter Fournisseur</span>
+  </button>
+    
+  </div>
+  <div class="col-md-6 col-12">
+    <div class="d-flex justify-content-between align-items-center m-1">
+      <label class="d-flex align-items-center"
+        >Show
+        <select class="form-control mx-25" [(ngModel)]="basicSelectedOption" name="pageSize">
+          <option value="2">2</option>
+          <option value="4">4</option>
+          <option value="6">6</option>
+          
+        </select>
+        entries</label
+      >
+    </div>
+  </div>
+  <table class="table table-striped " >
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col" sortable="code" (sort)="onSort($event)">code</th>
+        <th scope="col" sortable="libelle" (sort)="onSort($event)">
+          libelle
+        </th>
+        <th scope="col" sortable="categorie" (sort)="onSort($event)">
+          Categorie
+        </th>
+        <th scope="col" sortable="adresse" (sort)="onSort($event)">
+          Adresse
+      </th>
+      <th scope="col" sortable="adresse" (sort)="onSort($event)">
+        Action
+      </th>
+      
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i = index ;let Fournisseur of Fournisseurs$ | slice: (page-1) * basicSelectedOption : page * basicSelectedOption " >
+        <th scope="row" *ngIf="page > page-1" >{{ i+1 }}
+          <button (click)="toggleDetails(row)"  class="btn btn-outline-primary btn-sm" rippleEffect (click)="getDetailsFournisseur(Fournisseur.idFournissuer)" >
+          +
+          </button>
+        </th>
+        <td>
+          <ngb-highlight
+            [result]="Fournisseur.codeFournisseur"
+            [term]="service.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td >
+          <!-- <img
+            [src]="'https://upload.wikimedia.org/wikipedia/commons/' + 'TN'"
+            class="me-2"
+            style="width: 20px"
+          /> -->
+          <ngb-highlight
+            [result]="Fournisseur.libelleFournisseur"
+            [term]="service.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td >
+          <ngb-highlight
+            [result]="Fournisseur.categorieFournisseur"
+            [term]="service.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td >
+          <ngb-highlight
+          [result]="Fournisseur.addresse"
+          [term]="service.searchTerm"
+        ></ngb-highlight>
+        </td>
+        <td>
+          <div class="btn-group">
+            <div ngbDropdown>
+              <button
+                ngbDropdownToggle
+                class="btn btn-primary btn-sm"
+                type="button"
+                id="dropdownMenuButton"
+                rippleEffect
+              >
+                info
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownMenuButton">
+               
+              <a (click)="toggleSidebarUpdate('update-fournisseur-sidebar',Fournisseur.idFournissuer)" ngbDropdownItem class="d-flex align-items-center"
+                ><i data-feather="archive" class="mr-50"></i> Update</a
+              >
+              <a (click)="deleteFournisseur(Fournisseur.idFournissuer)" ngbDropdownItem class="d-flex align-items-center"
+                ><i data-feather="trash-2" class="mr-50"></i> Delete</a
+              >
+              </div>
+            </div>
+          </div>
+          
+        </td>
+      </tr>
+      <tr *ngIf="test">     
+          <app-F-details [dfournisseur]="DetailF"></app-F-details>
+      </tr>
+       
+    </tbody>
+  
+  </table>
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [(page)]="page"
+    [pageSize]="basicSelectedOption"
+    [collectionSize]="Fournisseurs$.length"></ngb-pagination>
+  </div>
+
+
+
+
+
+    
+  
+
+  
+<core-sidebar
+  class="modal modal-slide-in sidebar-todo-modal fade"
+  name="new-fournisseur-sidebar"
+  overlayClass="modal-backdrop"
+>
+
+<app-new-founisseur-sidebar ></app-new-founisseur-sidebar>
+</core-sidebar>
+
+<core-sidebar
+  class="modal modal-slide-in sidebar-todo-modal fade"
+  name="update-fournisseur-sidebar"
+  overlayClass="modal-backdrop"
+>
+<app-update-founisseur-sidebar [idFournisseur]="idF"></app-update-founisseur-sidebar>
+</core-sidebar>
+

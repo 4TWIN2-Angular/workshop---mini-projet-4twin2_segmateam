@@ -1,0 +1,248 @@
+
+<div class="slideout-content">
+    <!-- Modal to add reglement starts-->
+    <div
+      class="modalsd modal-slide-in sdfade new-user-modal"
+      id="modals-slide-in"
+    >
+   
+      <div class="modal-dialog">
+        <form
+          class="add-new-user modal-content pt-0"
+          #f="ngForm"
+          name="form"
+            (ngSubmit)="f.form.valid && onSubmit()"
+          >
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="toggleSidebar('update-fournisseur-sidebar')"
+          >
+            ×
+          </button>
+          <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">Nouveau Fournisseur</h5>
+          </div>
+          
+           
+          <div class="modal-body flex-grow-1">
+                  
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >Code</label
+              >
+              <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="code"
+                [(ngModel)]="form.codeFournisseur"
+                name="codeFournisseur"
+                #codeFournisseur="ngModel"
+                required
+                pattern="^[A-Z]{3}[0-9]{3}"
+              />
+              <span
+              
+              class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf=" codeFournisseur.errors && codeFournisseur.errors['required'] "
+                  >This field is required!</small
+                >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="codeFournisseur.errors && codeFournisseur.errors['pattern'] "
+                  >exemple Code fournisseur :  AAA123</small
+                >
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >libelle</label
+              >
+              <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="libelle"
+                [(ngModel)]="form.libelleFournisseur"
+                name="libelleFournisseur"
+                #libelleFournisseur="ngModel"
+                required
+              />
+              <span
+               
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="f.submitted && libelleFournisseur.errors && libelleFournisseur.errors['required']"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+             <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >categorie</label
+              >
+              <select 
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              placeholder="categorie"
+              [(ngModel)]="form.categorieFournisseur"
+              name="categorieFournisseur"
+              #categorieFournisseur ="ngModel"
+              required
+              >
+                <option value="ORDINAIRE">ORDINAIRE</option>
+                <option value="CONVENTIONNE">CONVENTIONNE</option>
+              </select>
+              
+              <span
+
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="f.submitted && categorieFournisseur.errors && categorieFournisseur.errors['required']"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >addresse</label
+              >
+              <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="addresse"
+                [(ngModel)]="form.addresse"
+                name="addresse"
+                #addresse="ngModel"
+                required
+                value=  "{{ latitude }} {{longitude}} "
+                
+              />
+              <span
+                
+                class="invalid-form"
+              >
+
+              </span>
+            </div>
+             
+            <google-map [zoom]="userLocationZoom" height="400px" width="100%" [center]="userLocationCenter" >
+              <map-marker [position]="userLocationCenter"></map-marker>
+            </google-map>
+            <br>
+
+           <button 
+            [ngClass]="{'btn btn-success btn-icon scroll-to-top waves-effect waves-float waves-light show-scroll-to-top':f.valid,
+                        'btn btn-primary btn-icon scroll-to-top waves-effect waves-float waves-light show-scroll-to-top':!f.valid  
+                    }"  >
+            suivant
+           </button>
+           <br>
+           <div *ngIf="test">
+           <h4 class="form-label" for="basic-icon-default-fullname"
+               >Details Fournisseur</h4>
+               <br>
+           
+               <form 
+                #fd="ngForm"
+               name="dform"
+                 
+                (ngSubmit)="fd.dform.valid &&  onSubmitDetail()" >
+           <div class="form-group">
+             <label class="form-label" for="basic-icon-default-fullname"
+               >Matricule</label
+             >
+             <input
+               type="text"
+               class="form-control dt-full-name"
+               id="basic-icon-default-fullname"
+               placeholder="matricule"
+               
+               name="matricule"
+               [(ngModel)]="dform.matricule"
+                #matricule="ngModel"
+                required
+
+             />
+             <span
+             
+             class="invalid-form"
+             >
+               <small
+                 class="form-text text-danger"
+                 *ngIf="fd.submitted && matricule.errors && matricule.errors['required']"
+                 >This field is required!</small
+               >
+             </span>
+           </div>
+           
+           <div class="form-group">
+             <label class="form-label" for="basic-icon-default-fullname"
+               >Date Debut Collaboration</label
+             >
+             <section id="default-date-and-range">
+               <dl-date-time-picker
+                 startView="day"
+                 maxView="year"
+                 minView="minute"
+                 minuteStep="5"
+                 
+                 [(ngModel)]="dform.dateDebutCollaboration"
+                #dateDebutCollaboration="ngModel"
+                name="dateDebutCollaboration"
+                
+               >
+               </dl-date-time-picker>
+             </section>
+             <span
+              
+               class="invalid-form"
+             >
+               <small
+                 class="form-text text-danger"
+                 *ngIf="fd.submitted && dateDebutCollaboration.errors && dateDebutCollaboration.errors['required']"
+                 >This field is required!</small
+               >
+             </span>
+           </div>
+          
+           <button
+           type="submit"
+           class="btn btn-primary mr-1"
+           
+           [disabled]="!fd.valid"
+           (click)="toggleSidebar('update-fournisseur-sidebar')"
+           rippleEffect
+         >
+           Modifier
+         </button>
+         <button
+           type="reset"
+           class="btn btn-outline-secondary"
+           (click)="toggleSidebar('update-fournisseur-sidebar')"
+           rippleEffect
+         >
+           Annuller
+         </button>
+       </form>
+     </div>
+            
+          </div>
+        
+          
+          
+        </form>
+      </div>
+    </div>
+  </div>
