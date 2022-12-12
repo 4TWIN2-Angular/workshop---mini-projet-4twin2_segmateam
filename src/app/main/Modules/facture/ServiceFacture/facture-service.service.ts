@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import {Facture} from "../facture";
-import {SortColumn, SortDirection} from "../../tables/sortable.directive";
-import {Reglement} from "../../tables/Reglement";
+
+import { DateFormatter } from "utils/dateformat";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
-import {DecimalPipe} from "@angular/common";
+import {DatePipe, DecimalPipe} from "@angular/common";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {debounceTime, delay, switchMap, tap} from "rxjs/operators";
 import {DetailFacture} from "../DetailFacture/detail-facture/DetailFacture";
-import {reflectTypeEntityToDeclaration} from "@angular/compiler-cli/src/ngtsc/reflection";
+import { SortColumn, SortDirection } from '../../reglement/table-reglement/sortable.directive';
+import moment from 'moment';
 
 interface SearchResult {
   factures: Facture[];
   total: number;
 }
+
 interface State {
   page: number;
   pageSize: number;
@@ -20,12 +22,14 @@ interface State {
   sortColumn: SortColumn;
   sortDirection: SortDirection;
 }
+
 const compare = (v1: string | number, v2: string | number) =>
-    v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+  v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+
 function sort(
-    factures: Facture[],
-    column: SortColumn,
-    direction: string
+  factures : Facture[],
+  column: SortColumn,
+  direction: string
 ): Facture[] {
   if (direction === "" || column === "") {
     return factures;
@@ -42,6 +46,8 @@ function sort(
   providedIn: 'root'
 })
 export class FactureServiceService {
+  id!:number;
+  detailfacture:DetailFacture[];
   api: string = "http://localhost:9090/Facture";
   newUrl : string
   urlDetailF: string = "http://localhost:9090/DetailFac";
@@ -53,6 +59,7 @@ export class FactureServiceService {
   private _search$ = new Subject<void>();
   private _factures$ = new BehaviorSubject<Facture[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
+  private _refresh$=new Subject<void>()
 
   private _state: State = {
     page: 1,
@@ -61,23 +68,58 @@ export class FactureServiceService {
     sortColumn: "",
     sortDirection: "",
   };
-  constructor(private http:HttpClient) {
 
+  getDetailsFacture(id:number):Observable<DetailFacture[]>{
+    return this.http.get<DetailFacture[]>(this.urlDetailF+"/All/"+id);
   }
 
-public  findByFacture(id:number):Observable<DetailFacture[]>{
-    return this.http.get<DetailFacture[]>(this.urlDetailF+"/"+id);
+
+  constructor(private http:HttpClient) {
+    this._search$
+      .pipe(
+        tap(() => this._loading$.next(true)),
+        debounceTime(200),
+        switchMap(() => this._search()),
+        delay(200),
+        tap(() => this._loading$.next(false))
+      )
+      .subscribe((result) => {
+        this._factures$.next(result.factures);
+        this._total$.next(result.total);
+      });
+
+    this._search$.next();
+
+  }
+  updateDetailFacture(detailFacture:DetailFacture):Observable<DetailFacture>{
+
+  return this.http.put<DetailFacture>(this.urlDetailF,detailFacture);
+    console.log("update Detail facture")
+  }
+  updateFacture(facture:Facture):Observable<Facture>{
+
+    return this.http.put<Facture>(this.api,facture);
+    console.log("update facture")
+  }
+
+public getDetailF(id:number): Observable<DetailFacture>{
+  return this.http.get<DetailFacture>(this.urlDetailF+"/"+id)
 }
 
-
+public GetAllDetailFactures(): Observable<DetailFacture[]> {
+  return this.http.get<DetailFacture[]>(this.urlDetailF);
+}
   public GetAllFactures(): Observable<Facture[]> {
     return this.http.get<Facture[]>(this.api);
   }
+  public idFacture(id:number):Observable<DetailFacture>{
+    return this.http.get<DetailFacture>(this.urlDetailF+"/idF/"+id)
+  }
 
-  deleteDetailF(dF:DetailFacture):Observable<DetailFacture>{
-    console.log("detail user");
-    return this.http.delete<DetailFacture>(
-        this.urlDetailF+"/"+dF.idDetailFacture); }
+  public deleteDetailF(dF:DetailFacture):Observable<DetailFacture>{
+    console.log("detail Facture user");
+    return this.http.delete<DetailFacture>(this.urlDetailF+"/del",{body:dF } ); 
+  }
 
   // /---------------- Facture
   deleteFacture(facture:Facture):Observable<Facture>{
@@ -85,36 +127,88 @@ public  findByFacture(id:number):Observable<DetailFacture[]>{
     return this.http.delete<Facture>( this.api+"/"+facture.idFacture);
   }
 
-  addFacture(facture:Facture):Observable<Facture>{
+  addFacture(facture:any):Observable<Facture>{
+   
+    var datereg=facture.dateCreationFacture;
+    datereg=DateFormatter.DateFromObject(datereg.year,datereg.month,datereg.day);
+    facture.dateCreationFacture=datereg ;
+
+    var dateD=facture.dateDernierModification;
+    dateD=DateFormatter.DateFromObject(dateD.year,dateD.month,dateD.day);
+    facture.dateDernierModification=dateD ;
 
     return this.http.post<Facture>(this.api+"/add",facture);
-    console.log("service appelé");
+    console.log("facture ajoutee");
+  }
+  // addDetailFacture(detailFacture:DetailFacture):Observable<DetailFacture>{
+
+  //   return this.http.post<DetailFacture>(this.urlDetailF+"/add",detailFacture);
+  //   console.log("DetailFacture ajoutee");
+  // }
+
+  addDetailFacture(id:number,detailFacture:DetailFacture):Observable<DetailFacture>{
+
+    return this.http.post<DetailFacture>(this.urlDetailF+"/add/"+id,detailFacture);
+    console.log("DetailFacture ajoutee");
   }
 
-
-
-  updateFacture(facture:Facture):Observable<Facture>{
-
-    return this.http.put<Facture>(this.api+"/"+facture.idFacture,facture);
-    console.log("update user");
-  }
 
   getFacture(id:number):Observable<Facture>{
 
     return this.http.get<Facture>(this.api+"/"+id);
-    console.log("get user");
+    console.log("get facture");
   }
 
+  get total$() {
+    return this._total$.asObservable();
+  }
+  get loading$() {
+    return this._loading$.asObservable();
+  }
+  get page() {
+    return this._state.page;
+  }
+  get pageSize() {
+    return this._state.pageSize;
+  }
+  get searchTerm() {
+    return this._state.searchTerm;
+  }
+  set page(page: number) {
+    this._set({ page });
+  }
+  set pageSize(pageSize: number) {
+    this._set({ pageSize });
+  }
+  set searchTerm(searchTerm: string) {
+    this._set({ searchTerm });
+  }
+  set sortColumn(sortColumn: SortColumn) {
+    this._set({ sortColumn });
+  }
+  set sortDirection(sortDirection: SortDirection) {
+    this._set({ sortDirection });
+  }
 
+  private _set(patch: Partial<State>) {
+    Object.assign(this._state, patch);
+    this._search$.next();
+  }
+  private _search(): Observable<SearchResult> {
+    const { sortColumn, sortDirection, pageSize, page, searchTerm } =
+      this._state;
 
+ 
+    let factures = sort(this.FACTURES, sortColumn, sortDirection);
 
+  
+    const total = factures.length;
 
+    
+    console.log(" size", pageSize);
+    console.log("facture", factures);
 
-
-
-
-
-
-
-
+    return of({ factures , total });
+  }
+  
 }

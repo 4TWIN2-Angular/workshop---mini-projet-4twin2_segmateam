@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+
 import { HomeComponent } from "./main/Modules/home/home.component";
 import { ReglementModule } from "./main/Modules/reglement/reglement.module";
 import {FactureModule} from "./main/Modules/facture/facture.module";
@@ -14,6 +15,20 @@ const routes: Routes = [
     path: "facture",
     loadChildren: () =>
         import("./main/Modules/facture/facture.module").then((m) => m.FactureModule),
+  }, 
+  {
+    path: "produit",
+    loadChildren: () =>
+      import("./main/Modules/produit/produit.module").then(
+        (m) => m.ProduitModule
+      ),
+  },
+  {
+    path: "reglement",
+    loadChildren: () =>
+      import("./main/Modules/reglement/reglement.module").then(
+        (m) => m.ReglementModule 
+      ),
   },
   {
     path: "home",
@@ -32,7 +47,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), ReglementModule],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

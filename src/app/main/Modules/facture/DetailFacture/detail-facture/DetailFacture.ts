@@ -4,7 +4,9 @@ export class DetailFacture{
     qteCommande :number ;
     prixTotalDetail : number;
     pourcentageRemise : number;
-    montantRemiseD : number;
+    montantRemise : number;
+  
+
 
 }
 

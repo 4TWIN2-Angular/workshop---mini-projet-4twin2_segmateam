@@ -1,0 +1,34 @@
+
+
+<p>update-detail-facture works! {{idFacture}}</p>
+
+
+
+
+<form [formGroup]="myForm" (ngSubmit)="saveUser()"> <!--property binding-->
+   
+    <div class="form-group">
+      <label for="qteCommande">qteCommande</label>
+      <input type="text" formControlName="qteCommande" class="form-control" id="qteCommande" placeholder="Enter qteCommande">
+    </div>
+ 
+     <div class="form-group">
+        <label for="prixTotalDetail">birthadate</label>
+        <input type="text" formControlName="prixTotalDetail"  class="form-control" id="prixTotalDetail" placeholder="Enter LastName">
+      </div>
+    <div class="form-group">
+        <label for="pourcentageRemise">LastName</label>
+        <input type="text" formControlName="pourcentageRemise" class="form-control" id="pourcentageRemise" placeholder="Enter pourcentageRemise">
+      </div>
+        <div class="form-group">
+        <label for="montantRemise">Email address</label>
+        <input type="email" formControlName="montantRemise"  class="form-control" id="montantRemise"  placeholder="Enter montantRemise">
+        
+      </div>
+
+   
+
+  <button  type="submit"  class="btn btn-primary" >Submit</button>
+  </form>
+
+

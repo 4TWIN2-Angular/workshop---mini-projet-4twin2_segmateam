@@ -3,6 +3,7 @@ export class Facture{
     montantRemise :number ;
     montantFacture : number;
     dateCreationFacture :Date;
-    dateDerniereModification :Date;
+    dateDernierModification :Date;
     archive:boolean
+    
 }

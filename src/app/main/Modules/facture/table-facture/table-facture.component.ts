@@ -1,53 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {Facture} from "../facture";
 import {FactureServiceService} from "../ServiceFacture/facture-service.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
-
+import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
+import { Observable, Subject } from 'rxjs';
+import { DetailFacture } from '../DetailFacture/detail-facture/DetailFacture';
+import { DetailFactureComponent } from '../DetailFacture/detail-facture/detail-facture.component';
+import { NgbdSortableHeader, SortEvent } from '../../reglement/table-reglement/sortable.directive';
+import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { AffiDetailFactureComponent } from '../DetailFacture/affi-detail-facture/affi-detail-facture.component';
 @Component({
   selector: 'app-table-facture',
   templateUrl: './table-facture.component.html',
   styleUrls: ['./table-facture.component.scss']
 })
 export class TableFactureComponent implements OnInit {
+  @ViewChild(AffiDetailFactureComponent) df : AffiDetailFactureComponent; 
+  nb:number
+  show : boolean = false;
+  id:Number;
+  DetailF:DetailFacture[]
   factures: Facture[]
-
+  
+  private _unsubscribeAll: Subject<any>;
   public editFacture: Facture;
-  public deleteFacture: Facture;
+  public deleteFacture: Facture; 
+ //jdid
+ total$: Observable<number>;
+  editing: Observable<number>;
+  editStatus: Boolean;
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
-  constructor(private fs: FactureServiceService, private router: Router) {
+  ///jdiiid 
+  public selectedOption = 10;
+  public ColumnMode = ColumnMode;
+  rows:any
+
+  constructor(private _coreSidebarService: CoreSidebarService ,
+    public fs: FactureServiceService, private router: Router) {
+      this._unsubscribeAll = new Subject(); }
+
+  toggleSidebar(name): void {
+    this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
 
+
+
+
   ngOnInit(): void {
-    this.fs.GetAllFactures().subscribe(data => {
-      this.factures = data
-      console.log(this.factures)
-    });
+   
+   this.getFactures(); 
+    // this.fs.GetAllFactures().subscribe(data => {
+    //   this.factures = data;
+    //   console.log("facture" , this.factures)
+    // });
+  
+
   }
 
   public getFactures(): void {
-    this.fs.GetAllFactures().subscribe(data => {
-      this.factures = data
-      console.log(this.factures)
+    this.fs.GetAllFactures().subscribe((data )=> {
+      this.fs.FACTURES = data 
+  
     });
+    this.total$ = this.fs.total$;
   }
 
-  public onAddFacture(addForm: NgForm): void {
-    document.getElementById('add-employee-form').click();
 
-    this.fs.addFacture(addForm.value).subscribe(
-        (response: Facture) => {
-          console.log(response);
-          this.getFactures();
-          addForm.reset();
-        },
-        (error: HttpErrorResponse) => {
-          alert(error.message);
-          addForm.reset();
-        }
-    );
-  }
 
   public onUpdateEmloyee(facture: Facture): void {
     this.fs.updateFacture(facture).subscribe(
@@ -61,19 +82,48 @@ export class TableFactureComponent implements OnInit {
     );
   }
 
-  delete(i: number) {
-    this.fs.deleteFacture(this.factures[i]).subscribe
-    (() => this.fs.GetAllFactures().subscribe(
-            res => this.factures = res),
-        (error: HttpErrorResponse) => {
-          alert(error.message);
-        }
-    );
+  delete(f:Facture){
+  
+      this.fs.deleteFacture(f).subscribe(
+        
+      )
+     
+  
+  }
+ 
 
+  GoDetails(i: number) {  
+    this.nb=i ;   
+    this.show=true;
+     this.df.affichage2(i);
   }
 
-  GoDetails(i: number) {
-    this.router.navigate(['detailFacture', i])
-  }
 
+
+  onSort({ column, direction }: SortEvent) {
+    // resetting other headers
+    this.headers.forEach((header) => {
+      if (header.sortable !== column) {
+        header.direction = "";
+      }
+    });
+
+    this.fs.sortColumn = column;
+    this.fs.sortDirection = direction;
+  }
 }
+  // public onAddFacture(addForm: NgForm): void {
+  //   document.getElementById('add-new-facture-form').click();
+
+  //   this.fs.addFacture(addForm.value).subscribe(
+  //       (response: Facture) => {
+  //         console.log(response);
+  //         this.getFactures();
+  //         addForm.reset();
+  //       },
+  //       (error: HttpErrorResponse) => {
+  //         alert(error.message);
+  //         addForm.reset();
+  //       }
+  //   );
+  // }

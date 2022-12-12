@@ -1,149 +1,306 @@
+ <!-- <div class="slideout-content">
+    Modal to add reglement starts
+    <br>
+    <br>
+    <br>
+ <div class="modalsd modal-slide-in sdfade new-facture"
+      id="modals-slide-in">
+
+      <div class="modal-dialog">
+
+        <form class="new-facture modal-content pt-0" [formGroup]="regform"> 
+            <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="toggleSidebar('new-facture')"
+          > ×
+        </button>
+        <br>
+        <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">New Reglement</h5>
+          </div>
+               
+        <div class="modal-body flex-grow-1">
+            
+            <div class="form-group">
+                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
+                <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="Montant paye"
+                name="montantRemise"
+                formControlName="montantRemise"
+                required
+              />
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
+                <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="montantFacture"
+                name="montantFacture"
+                formControlName="montantFacture"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
+                <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="Montant paye"
+                name="dateCreationFacture"
+                formControlName="dateCreationFacture"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
+                <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="Montant paye"
+                name="dateDerniereModification"
+                formControlName="dateDerniereModification"
+                required
+              />
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="form-label" for="dateDerniereModification">dateDerniereModification</label>
+           </div>
+<div class="form-group">
+                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
+                <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="Montant paye"
+                name="archive"
+                formControlName="archive"
+                required
+              />
+            </div>
+       <button
+            type="submit"
+            class="btn btn-primary mr-1"
+            (click)="AddFacture();submit(regform)"
+            rippleEffect
+            [disabled]="regform.status === 'INVALID'"
+          >
+            Submit
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+             [routerLink]="['/facture']"
+            rippleEffect >
+            Cancel
+          </button>
+        
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+-->
+
 
 
 <div class="slideout-content">
-    <!-- Modal to add reglement starts-->
-    <div class="modalsd modal-slide-in sdfade new-user-modal"
-            id="modals-slide-in">
-        <div class="modal-dialog" role="document">
-
-            <form  class="add-new-user modal-content pt-0" #newRegForm="ngForm"  ><br>
-
-                <br>
-
-<!--                <button type="button"  class="close" data-dismiss="modal"  aria-label="Close"-->
-<!--                        (click)="toggleSidebar('new-reglement-sidebar')"-->
-<!--                        [routerLink]="['/facture']" >facture   </button>-->
-                <div class="modal-header mb-1">
-                    <h5 class="modal-title" id="exampleModalLabel">New Facture</h5>
-                </div>
-
-
-
-
-
-                <div class="modal-body flex-grow-1">
-
-                    <div class="form-group">
-                        <label class="form-label" for="montantFacture">Montant payee</label>
-                        <input type="text" required  pattern="[0-9]*"  class="fmontantFacture"
-                                id="montantFacture"
-                                placeholder="Montant paye"
-                                name="montantFacture" [(ngModel)]="montantFacture"  #montantF="ngModel"/>
-
-                        <span *ngIf="montantF.touched && montantF.invalid"  class="invalid-form">
-                             <small style="color: #ff0700" class="form-text text-danger"
-                                    *ngIf="montantF.errors['required']" class="alert alert-danger" role="alert">
-                              Montant Facture Obligatoire !
-                                </small>
-                         <small class="form-text text-danger"
-                            *ngIf="montantF.hasError('pattern')" class="alert alert-danger" role="alert">
-                                que des chiffres
-                               </small>
-                        </span>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="montantRemise">Montant Restant</label>
-                        <input type="text" class="montantRemise" required
-                                pattern="[0-9]*"
-                                id="montantRemise"
-                                placeholder="Montant restant"
-                                name="montantrestant"
-                                [(ngModel)]="montantRemise"
-                                #montantR="ngModel"/>
-                        <span *ngIf="montantR.touched && montantR.invalid"  class="invalid-form">
-                             <small style="color: #ff0700" class="form-text text-danger"
-                                    *ngIf="montantR.errors['required']" class="alert alert-danger" role="alert">
-                              Montant Remise Obligatoire !
-                                </small>
-<!--                         <small class="form-text text-danger"-->
-<!--                                *ngIf="montantR.hasError('pattern')" class="alert alert-danger" role="alert">-->
-<!--                                que des chiffres-->
-<!--                               </small>-->
-                        </span>
-
-
-                    </div>
-                        <div class="form-group">
-                        <label class="form-label" for="Archive" >Archive </label>
-                         <input type="text" class="Archive" required
-                                pattern="[0-9]"
-                                id="Archive"
-                                placeholder="Montant restant"
-                                name="montantrestant"
-                                [(ngModel)]="archive"
-                                #archivE="ngModel"/>
-
-                            <span *ngIf="archivE.touched && archivE.invalid"  class="invalid-form">
-                             <small style="color: #ff0700" class="form-text text-danger"
-                                    *ngIf="archivE.errors['required']" class="alert alert-danger" role="alert">
-                              archivE Obligatoire !
-                                </small>
-
-                        </span>
-                    <br>
-
-                        </div>
-                    <div class="form-group">
-                    <label class="dateCreationFacture" >Date de Creation</label>
-
-                    <section id="default-date-and-range">
-                        <dl-date-time-picker required startView="day" maxView="year" minView="minute"
-                                minuteStep="5"
-                                name="date"
-                                [(ngModel)]="dateCreationFacture"
-                                #dC="ngModel">
-                        </dl-date-time-picker>
-                    </section>
-
-                    <span *ngIf="!dC.touched && dC.invalid"  class="invalid-form">
-                             <small style="color:red " class="form-text text-danger"
-                                    *ngIf="dC.errors['required']" class="alert alert-danger" role="alert">
-                              date creeation  Obligatoire !</small>
-
-                        </span>
-                    </div>
-                        <div class="form-group">
-                    <label class="dateDerniereModification" for="dateDerniereModification"
-                    >Date de derniere Modification</label>
-                    <section id="dateDerniereModification">
-                        <dl-date-time-picker required startView="day"
-                                maxView="year"
-                                minView="minute"
-                                minuteStep="5"
-                                name="date"
-                                [(ngModel)]="dateDerniereModification"
-                                #dD="ngModel">
-                        </dl-date-time-picker>
-                    </section>
-                    <span *ngIf="!dD.touched && dD.invalid"  class="invalid-form">
-                             <small style="color:red " class="form-text text-danger"
-                                    *ngIf="dD.errors['required']" class="alert alert-danger" role="alert">
-                              Date Derniere Modification Obligatoire !
-                                </small>
-                    </span>
-                        </div>
-<!--                    <button [disabled]="newRegForm.invalid"-->
-<!--                            type="submit" class="btn btn-primary mr-1" (click)="submit(newRegForm)"  [routerLink]="['/facture']" rippleEffect>Submit </button>-->
-
-<!--                    <button type="reset"-->
-<!--                            class="btn btn-outline-secondary"-->
-
-<!--                            (click)="toggleSidebar('new-reglement-sidebar')"-->
-<!--                            rippleEffect-->
-<!--                            [routerLink]="['/facture']">-->
-<!--                        Cancel-->
-<!--                    </button>-->
-
-                    <div class="modal-footer">
-                        <button type="button" id="add-employee-form" class="btn btn-secondary" data-dismiss="modal"  [routerLink]="['/facture']" >Close</button>
-                        <button type="submit" class="btn btn-primary" (click)="submit(newRegForm)"  [routerLink]="['/facture']" >Save changes</button>
-                    </div>
-
-                </div>
-
-            </form>
+  <!-- Modal to add reglement starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-facture"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form class="new-facture modal-content pt-0" [formGroup]="regform">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-facture')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">New Facture</h5>
         </div>
+        <div class="modal-body flex-grow-1">
+          <!-- MONTANT PAYEE -->
+          <div class="form-group">
+            <label class="form-label" for="montantRemise"
+              >montantRemisee</label
+            >
+            <input
+              type="text"
+              class="montantRemise"
+              id="montantRemise"
+              placeholder="montantRemise"
+              name="montantRemise"
+              formControlName="montantRemise"
+             
+            />
+            <span
+              *ngIf="regform.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="regform['controls'].montantRemise.errors?.required"
+                >Ce champ est requis !</small
+              >
+              <small
+              class="form-text text-danger"
+              *ngIf="regform['controls'].montantRemise.errors?.pattern"
+              >Seulement des chiffres !</small >
+          
+            </span>
+          </div>
+
+
+           <!-- MONTANT RESTANT  -->
+          <div class="form-group">
+            <label class="form-label" for="montantFacture"
+              >montantFacture</label
+            >
+            <input
+              type="text"
+              class="montantFacture"
+              id="montantFacture"
+              placeholder="Montant restant"
+              name="montantFacture"
+              formControlName="montantFacture"
+
+              required
+            />
+            <span
+            *ngIf="regform.invalid"
+            class="invalid-form"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="regform['controls'].montantFacture.errors?.required"
+              >Ce champ est requis !</small
+            >
+            <small
+            class="form-text text-danger"
+            *ngIf="regform['controls'].montantFacture.errors?.pattern"
+            >Seulement des chiffres !</small
+          >
+          <small
+          class="form-text text-danger"
+          *ngIf="regform['controls'].montantFacture.errors?.min"
+          >La valeur minimum est 500 dt !</small
+        >
+          </span>
+          </div>
+
+          <!-- DATE INPUT  -->
+
+          <div class="form-group">
+          <label class="form-label" for="dateCreationFacture"
+            >Date de CREATION</label
+          >
+         
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="dateCreationFacture"
+                formControlName="dateCreationFacture"
+                ngbDatepicker
+              required
+                #d="ngbDatepicker"
+             
+              />
+              <button
+                class="btn btn-primary bi bi-calendar-event"
+                (click)="d.toggle()"
+                type="button"
+              ></button>
+            </div>
+          
+          </div>
+  <div class="form-group">
+            <label class="form-label" for="dateDernierModification"
+            >dateDernierModification</label
+          >
+            <div class="input-group">
+
+              
+
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="dateDernierModification"
+                formControlName="dateDernierModification"
+                ngbDatepicker
+             
+                #db="ngbDatepicker"
+         
+              />
+<button
+                class="btn btn-primary bi bi-calendar-event"
+                (click)="db.toggle()"
+                type="button"
+              ></button>
+            </div>
+          </div>
+            <br />
+
+            <div class="form-group">
+            <div class="custom-control custom-control-success custom-switch">
+              <p class="mb-50">Regelement payé</p>
+              <input
+                type="checkbox"
+                formControlName="archive"
+                class="custom-control-input"
+                id="customSwitch4"
+               
+              />
+              <label class="custom-control-label" for="customSwitch4"></label>
+            </div>
+            <br />
+<!-- 
+            [disabled]="regform.status === 'INVALID'" -->
+
+            <button
+              type="submit"
+              class="btn btn-primary mr-1"
+              (click)="AddFacture();submit(regform)"
+              rippleEffect
+              
+            >
+              Submit
+            </button>
+            <button
+              type="reset"
+              class="btn btn-outline-secondary"
+              (click)="toggleSidebar('new-facture')"
+              rippleEffect
+              
+            >
+              Cancel
+            </button>
+          </div>
+
+          
+        </div>
+      </form>
     </div>
+  </div>
 </div>
+

@@ -16,11 +16,20 @@ export const menu: CoreMenu[] = [
     icon: "inbox",
     url: "reglement",
   },
-  {
-    id: "facture",
-    title: "Factures",
+    {
+        id: "facture",
+        title: "Factures",
+        type: "item",
+        icon: "inbox",
+        url: "facture",
+    },
+
+    {
+    id: "Produit",
+    title: "Produit",
     type: "item",
     icon: "inbox",
-    url: "facture",
+    url: "produit",
+
   },
 ];

@@ -3,12 +3,13 @@ import { Injectable, PipeTransform } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
-
-import { Reglement } from "./Reglement";
+import { DateFormatter } from "utils/dateformat";
+import { Reglement } from "./table-reglement/Reglement";
 // import { COUNTRIES } from "./countries";
 import { DecimalPipe } from "@angular/common";
 import { debounceTime, delay, switchMap, tap } from "rxjs/operators";
-import { SortColumn, SortDirection } from "./sortable.directive";
+import { SortColumn, SortDirection } from "./table-reglement/sortable.directive";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 interface SearchResult {
   reglements: Reglement[];
@@ -86,6 +87,33 @@ export class ReglementService {
   GetAllReglements(): Observable<Reglement[]> {
     return this.http.get<Reglement[]>(this.api + "/reglement/all");
   }
+  
+  AddReglement(reglement:any){
+    
+    var datereg=reglement.date;
+    datereg=DateFormatter.DateFromObject(datereg.year,datereg.month,datereg.day)
+    reglement.date=datereg;
+    console.log("DATE RECEIVED",reglement);
+    return this.http.post<Reglement[]>(this.api+"/reglement/add",reglement).subscribe(data=>
+      {
+        Swal.fire('Reglement ajouté!', 'Le reglement a été bien ajouté', 'success')
+        console.log(data)
+  
+      }
+        
+      
+      
+    )
+    
+  }
+  DeleteReglement(reglement:any) {
+    
+    return this.http.delete<Reglement[]>(this.api +'/reglement/'+reglement).subscribe(data=>
+      console.log(data)
+      )
+      
+
+  }
   get total$() {
     return this._total$.asObservable();
   }
@@ -122,7 +150,9 @@ export class ReglementService {
     Object.assign(this._state, patch);
     this._search$.next();
   }
-
+  GetReglementById(id: number) {
+    return this.REGLEMENTS.find((reglement) => reglement.idReglement == id);
+  }
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } =
       this._state;

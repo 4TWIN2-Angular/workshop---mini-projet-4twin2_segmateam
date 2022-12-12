@@ -1,0 +1,155 @@
+<div class="slideout-content">
+  <!-- Modal to add reglement starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-reglement-sidebar"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form class="new-reglement-sidebar modal-content pt-0" [formGroup]="regform">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-reglement-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">New Reglement</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <!-- MONTANT PAYEE -->
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              >Montant payee</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              placeholder="Montant paye"
+              name="montantpaye"
+              formControlName="montantPaye"
+              required
+            />
+            <span
+              *ngIf="regform.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="regform['controls'].montantPaye.errors?.required"
+                >Ce champ est requis !</small
+              >
+              <small
+              class="form-text text-danger"
+              *ngIf="regform['controls'].montantPaye.errors?.pattern"
+              >Seulement des chiffres !</small
+            >
+            <small
+            class="form-text text-danger"
+            *ngIf="regform['controls'].montantPaye.errors?.min"
+            >La valeur minimum est 10 !</small
+          >
+            </span>
+          </div>
+
+           <!-- MONTANT RESTANT  -->
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-fullname"
+              >Montant Restant</label
+            >
+            <input
+              type="text"
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              placeholder="Montant restant"
+              name="montantrestant"
+              formControlName="montantRestant"
+              required
+            />
+            <span
+            *ngIf="regform.invalid"
+            class="invalid-form"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="regform['controls'].montantRestant.errors?.required"
+              >Ce champ est requis !</small
+            >
+            <small
+            class="form-text text-danger"
+            *ngIf="regform['controls'].montantRestant.errors?.pattern"
+            >Seulement des chiffres !</small
+          >
+          <small
+          class="form-text text-danger"
+          *ngIf="regform['controls'].montantRestant.errors?.min"
+          >La valeur minimum est 5 !</small
+        >
+          </span>
+          </div>
+
+          <!-- DATE INPUT  -->
+          <label class="form-label" for="basic-icon-default-fullname"
+            >Date de reglement</label
+          >
+
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="date"
+                formControlName="date"
+                ngbDatepicker
+                required
+                #d="ngbDatepicker"
+                required
+              />
+              <button
+                class="btn btn-primary bi bi-calendar-event"
+                (click)="d.toggle()"
+                type="button"
+              ></button>
+            </div>
+            <br />
+            <div class="custom-control custom-control-success custom-switch">
+              <p class="mb-50">Regelement payé</p>
+              <input
+                type="checkbox"
+                formControlName="payee"
+                class="custom-control-input"
+                id="customSwitch4"
+               
+              />
+              <label class="custom-control-label" for="customSwitch4"></label>
+            </div>
+            <br />
+            <button
+              type="submit"
+              class="btn btn-primary mr-1"
+              (click)="AddReglement();submit(regform)"
+              rippleEffect
+              [disabled]="regform.status === 'INVALID'"
+            >
+              Submit
+            </button>
+            <button
+              type="reset"
+              class="btn btn-outline-secondary"
+              (click)="toggleSidebar('new-reglement-sidebar')"
+              rippleEffect
+              
+            >
+              Cancel
+            </button>
+          </div>
+
+          
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

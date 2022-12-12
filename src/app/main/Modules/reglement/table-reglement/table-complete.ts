@@ -9,7 +9,7 @@ import {
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { Observable, Subject } from "rxjs";
 import { Reglement } from "./Reglement";
-import { ReglementService } from "./reglement.service";
+import { ReglementService } from "../reglement.service";
 import { NgbdSortableHeader, SortEvent } from "./sortable.directive";
 import {
   AbstractControl,
@@ -53,6 +53,9 @@ export class NgbdTableComplete {
       this.service.REGLEMENTS = data;
     });
     this.total$ = this.service.total$;
+  }
+  DeleteReglement(id){
+    this.service.DeleteReglement(id)
   }
   ngOnInit(): void {
     this.getAllReglements();

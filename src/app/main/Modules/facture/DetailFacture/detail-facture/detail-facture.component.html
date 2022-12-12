@@ -1,8 +1,4 @@
-<p>detail-facture works!</p>
-
-
-
-
+<button type="button" class="btn btn-primary" [routerLink]="['/facture/addDetailFac',idF]" >Add Detail facture {{idF}} </button>
 
 
 
@@ -56,8 +52,9 @@
 <!--                                    <p class="card-text mb-25">{{ apiData.client.contact }}</p>-->
 <!--                                    <p class="card-text mb-0">{{ apiData.client.companyEmail }}</p>-->
 <!--                                </div>-->
-                                <div class="col-xl-4 p-0 mt-xl-0 mt-2">
-                                    <h6 class="mb-2"> Id Facture : {{id}}</h6>
+
+
+                                <div   class="col-xl-4 p-0 mt-xl-0 mt-2">
                                     <table>
 <!--                                        <tbody>-->
 <!--                                        <tr>-->
@@ -103,18 +100,19 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let u of DetailF ;let i=index">
-                                    <td class="py-1">
-                                        <p class="card-text font-weight-bold mb-25">{{u.idDetailFacture}}</p>
+                                <tr *ngFor="let u of DetailF ;let i=index" >
+                                    
+                                    <td  class="py-1">
+                                        <p class="card-text font-weight-bold mb-25">{{u.idDetailFacture }}</p>
                                         <p class="card-text text-nowrap">
-<!--                                            Developed a full stack native app using React Native, Bootstrap & Python-->
+
                                         </p>
                                     </td>
                                     <td class="py-1">
                                         <span class="font-weight-bold">{{u.prixTotalDetail}}</span>
                                     </td>
                                     <td class="py-1">
-                                        <span class="font-weight-bold">{{u.montantRemiseD}}</span>
+                                        <span class="font-weight-bold">{{u.montantRemise}}</span>
                                     </td>
                                     <td class="py-1">
                                         <span class="font-weight-bold">{{u.pourcentageRemise}}</span>
@@ -122,10 +120,16 @@
                                     <td class="py-1">
                                         <span class="font-weight-bold">{{u.qteCommande}}</span>
                                     </td>
+                                    
                                     <td class="py-1">
-                                       <button (click)="deleteDF(i)">delete</button>
+                                       <button  type="button" class="btn btn-danger" (click)="deleteDF(i)">delete</button>
+                                       <button  type="button" class="btn btn-primary" [routerLink]="['/facture/updateDf',u.idDetailFacture] ">Update</button>
+                                    
+                                    
+                                    
                                     </td>
-                                </tr>
+                                
+                            </tr>
 
 
                                 </tbody>
@@ -208,29 +212,35 @@
                     </div>
                 </div>
                 <!--/ Invoice Actions -->
+            <!-- update  -->
+             
+
+
+
+
             </div>
         </section>
     </div>
 
     <!-- Send Invoice Sidebar -->
-    <core-sidebar
+    <!-- <core-sidebar
             class="modal modal-slide-in sidebar-todo-modal fade"
             name="invoice-sidebar"
             overlayClass="modal-backdrop"
             hideOnEsc="true"
     >
 
-    </core-sidebar>
+    </core-sidebar> -->
     <!--/  Send Invoice Sidebar -->
 
     <!-- Add Payment Sidebar -->
-    <core-sidebar
+    <!-- <core-sidebar
             class="modal modal-slide-in sidebar-todo-modal fade"
             name="add-payment-sidebar"
             overlayClass="modal-backdrop"
             hideOnEsc="true"
     >
 
-    </core-sidebar>
+    </core-sidebar> -->
     <!--/  Add Payment Sidebar -->
 </div>

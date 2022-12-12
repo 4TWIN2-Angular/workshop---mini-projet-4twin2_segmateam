@@ -1,0 +1,33 @@
+<p>update-facture works!</p>
+
+<form [formGroup]="myForm" (ngSubmit)="saveUser()"> <!--property binding-->
+   
+    <div class="form-group">
+      <label for="montantRemise">montantRemise</label>
+      <input type="text" formControlName="montantRemise" class="form-control" id="montantRemise" placeholder="Enter montantRemise">
+    </div>
+ 
+     <div class="form-group">
+        <label for="montantFacture">montantFacture</label>
+        <input type="text" formControlName="montantFacture"  class="form-control" id="prixTotalDetail" placeholder="Enter LastName">
+      </div>
+    <div class="form-group">
+        <label for="archive">archive</label>
+        <input type="text" formControlName="archive" class="form-control" id="archive" placeholder="Enter archive">
+      </div>
+      
+      <div class="form-group">
+        <label for="dateCreationFacture">dateCreationFacture</label>
+        <input type="dateCreationFacture" formControlName="dateCreationFacture"  class="form-control" id="dateCreationFacture"  placeholder="Enter dateCreationFacture">
+        
+      </div>
+      <div class="form-group">
+        <label for="dateDernierModification">Email address</label>
+        <input type="email" formControlName="dateDernierModification"  class="form-control" id="dateDernierModification"  placeholder="Enter dateDernierModification">
+        
+      </div>
+
+   
+
+  <button type="submit"  class="btn btn-primary"  >Submit</button>
+  </form>
