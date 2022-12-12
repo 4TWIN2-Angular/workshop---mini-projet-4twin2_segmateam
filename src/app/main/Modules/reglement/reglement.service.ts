@@ -5,11 +5,10 @@ import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { DateFormatter } from "utils/dateformat";
 import { Reglement } from "./table-reglement/Reglement";
-// import { COUNTRIES } from "./countries";
-import { DecimalPipe } from "@angular/common";
 import { debounceTime, delay, switchMap, tap } from "rxjs/operators";
 import { SortColumn, SortDirection } from "./table-reglement/sortable.directive";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { environment } from "environments/environment";
 
 interface SearchResult {
   reglements: Reglement[];
@@ -52,13 +51,19 @@ function sort(
 
 @Injectable({ providedIn: "root" })
 export class ReglementService {
+    reglementsearch=[];
   REGLEMENTS = [];
-  api: string = "http://localhost:9090";
+  Countfacture=[];
+  api: string = environment.apiUrl;
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
+  private _refresh$ = new Subject<void>();
   private _reglements$ = new BehaviorSubject<Reglement[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
 
+  get refresh$(){
+    return this._refresh$;
+  }
   private _state: State = {
     page: 1,
     pageSize: 4,
@@ -67,7 +72,7 @@ export class ReglementService {
     sortDirection: "",
   };
 
-  constructor(private pipe: DecimalPipe, private http: HttpClient) {
+  constructor( private http: HttpClient) {
     this._search$
       .pipe(
         tap(() => this._loading$.next(true)),
@@ -85,35 +90,75 @@ export class ReglementService {
   }
 
   GetAllReglements(): Observable<Reglement[]> {
-    return this.http.get<Reglement[]>(this.api + "/reglement/all");
+    return this.http.get<Reglement[]>(this.api + "/reglement/all")
   }
   
   AddReglement(reglement:any){
-    
     var datereg=reglement.date;
+    if (datereg.month<10){
+      datereg.month='0'+datereg.month;
+      console.log("aaaa",datereg);
+    } 
+    if(datereg.day<10){
+      datereg.day='0'+datereg.day;
+    }
     datereg=DateFormatter.DateFromObject(datereg.year,datereg.month,datereg.day)
     reglement.date=datereg;
     console.log("DATE RECEIVED",reglement);
-    return this.http.post<Reglement[]>(this.api+"/reglement/add",reglement).subscribe(data=>
-      {
-        Swal.fire('Reglement ajouté!', 'Le reglement a été bien ajouté', 'success')
-        console.log(data)
-  
+    return this.http.post<Reglement[]>(this.api+"/reglement/add",reglement).pipe(
+      tap(()=>{
+        this._refresh$.next()
       }
-        
-      
-      
-    )
-    
+      ));
   }
+ 
+  EditReglement(reglement:any){
+
+    return this.http.put<any>(this.api+"/reglement/edit",reglement).pipe(
+      tap(()=>{
+        this._refresh$.next()
+      }
+      )
+  )}
   DeleteReglement(reglement:any) {
     
-    return this.http.delete<Reglement[]>(this.api +'/reglement/'+reglement).subscribe(data=>
-      console.log(data)
+    return this.http.delete(this.api +'/reglement/'+reglement).pipe(
+      tap(()=>{
+        this._refresh$.next()
+      }
       )
-      
-
+    );
   }
+
+    liveSearch(val: any): Observable<Reglement[]> {
+  
+    const reglement = of(
+      
+      this.REGLEMENTS.filter((reg) =>
+        (reg.montantPaye.toString().includes(val.toString())) || (reg.montantRestant.toString().includes(val.toString()) || (reg.date.toString().includes(val.toString())))
+      ),
+    
+
+     
+    );
+    return reglement;
+  }
+  // liveSearch(val: any): Observable<Reglement[]> {
+  
+  //   const reglement = of(
+      
+  //     this.REGLEMENTS.filter((reg) =>
+  //       reg.montantPaye.toString().includes(val.toString())
+  //     ),
+  //     this.REGLEMENTS.filter((reg) =>
+  //       reg.montantRestant.toString().includes(val.toString())
+  //     ),
+  //     this.REGLEMENTS.filter((reg) =>
+  //     reg.date.toString().includes(val.toString())
+  //   )
+  //   );
+  //   return reglement;
+  // }
   get total$() {
     return this._total$.asObservable();
   }
@@ -158,7 +203,7 @@ export class ReglementService {
       this._state;
 
     // 1. sort
-    let reglements = sort(this.REGLEMENTS, sortColumn, sortDirection);
+    let reglements = sort(this.reglementsearch, sortColumn, sortDirection);
 
     // 2. filter
     // reglements = reglements.filter((reglement) =>

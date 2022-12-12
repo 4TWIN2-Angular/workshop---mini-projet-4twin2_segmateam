@@ -8,7 +8,8 @@
       type="text"
       class="form-control"
       name="searchTerm"
-      [(ngModel)]="service.searchTerm"
+      [(ngModel)]="val" (keyup)="liveSearch()"
+     
     />
     <!-- <span class="col col-form-label" *ngIf="service.loading$ | async"
         >Loading...</span
@@ -45,14 +46,24 @@
         Montant Restant
       </th>
       <th scope="col" sortable="payee" (sort)="onSort($event)">Payee</th>
+      <th scope="col" sortable="facture" (sort)="onSort($event)">Nombre de factures</th>
       <th scope="col">Outils</th>
     </tr>
   </thead>
   <tbody>
+  
+    <tr *ngIf="this.service.reglementsearch.length==0">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td  style="color: red;font-weight: 900;">Pas de réglements</td>
+    </tr>
     <tr
-      *ngFor="let reglement of this.service.REGLEMENTS.slice((service.page - 1) * service.pageSize,
+  
+      *ngFor="let reglement of service.reglementsearch.slice((service.page - 1) * service.pageSize,
         (service.page - 1) * service.pageSize + service.pageSize);let i = index" [attr.data-index]="i"
     >
+   
       <th scope="row">{{ page<=1? i+(service.pageSize-1) :i+1}}</th>
       <td>
         <ngb-highlight
@@ -94,6 +105,32 @@
             ></ngb-highlight>
           </span>
         </ng-template>
+      </td>
+      <td>
+        <div *ngIf="reglement.facture;else nofacture">
+          <span class="badge bg-success">
+            <ngb-highlight
+              result="Existante"
+              [term]="service.searchTerm"
+            ></ngb-highlight>
+            
+          </span>&nbsp;
+          <a  [routerLink]="['detail-facture', reglement.facture.idFacture]" (click)="Toggledetail(reglement.facture)">
+            <i class="feather icon-info" style="color: rgba(0, 197, 10, 0.541)">
+             
+              
+            </i>
+          </a>
+        </div>
+        <ng-template #nofacture>
+          <span class="badge bg-danger">
+            <ngb-highlight
+              result="Non existante"
+              [term]="service.searchTerm"
+            ></ngb-highlight>
+          </span>
+        </ng-template>
+
       </td>
       <td>
         <a
@@ -139,3 +176,5 @@
 >
   <router-outlet></router-outlet>
 </core-sidebar>
+
+<app-detail-facture-reglement [test]="test" [hidden]="!toggle" [facture]="currentfacture"></app-detail-facture-reglement>

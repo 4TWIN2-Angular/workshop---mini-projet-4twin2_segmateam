@@ -6,7 +6,9 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-facture',
   templateUrl: './facture.component.html',
-  styleUrls: ['./facture.component.scss']
+  styleUrls: ['./facture.component.scss'],
+  providers: [FactureServiceService],
+
 })
 export class FactureComponent implements OnInit {
   factures:Facture[]

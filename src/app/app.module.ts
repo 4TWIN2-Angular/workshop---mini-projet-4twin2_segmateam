@@ -23,12 +23,13 @@ import { ContentHeaderModule } from "./layout/components/content-header/content-
 import { HomeComponent } from "./main/Modules/home/home.component";
 import { ReglementModule } from "./main/Modules/reglement/reglement.module";
 import { FormsModule, ReactiveFormsModule, NgForm } from "@angular/forms";
-import { FactureComponent } from "./main/Modules/facture/facture.component";
-
+import { DatePipe } from '@angular/common'
+import { HomeAnimationComponent } from "./main/Components/HomeAnimation/animation.component";
+import { CardBasicComponent } from "./main/Components/card-basic/card-basic.component";
 const appRoutes: Routes = [];
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent,HomeAnimationComponent,CardBasicComponent],
   imports: [
     CommonModule,
     ContentHeaderModule,
@@ -62,5 +63,6 @@ const appRoutes: Routes = [];
 
   bootstrap: [AppComponent],
   exports: [ReactiveFormsModule, FormsModule],
+  providers:[DatePipe]
 })
 export class AppModule {}

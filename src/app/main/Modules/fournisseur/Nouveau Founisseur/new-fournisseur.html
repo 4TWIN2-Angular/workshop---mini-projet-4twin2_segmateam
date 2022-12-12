@@ -1,0 +1,225 @@
+
+<div class="slideout-content">
+    <!-- Modal to add reglement starts-->
+    <div
+      class="modalsd modal-slide-in sdfade new-user-modal"
+      id="modals-slide-in"
+    >
+   
+      <div class="modal-dialog">
+        <form
+          class="add-new-user modal-content pt-0"
+          
+          #newRegForm="ngForm"
+          [formGroup]="FournisseurForm"
+        >
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="toggleSidebar('new-fournisseur-sidebar')"
+          >
+            ×
+          </button>
+          <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">Nouveau Fournisseur</h5>
+          </div>
+          
+           
+          <div class="modal-body flex-grow-1">
+                  
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >Code</label
+              >
+              <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="code"
+                formControlName="codeFournisseur"
+                
+              />
+              <span
+              
+              class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="FournisseurForm.get('codeFournisseur').hasError('required')"
+                  >This field is required!</small
+                >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="FournisseurForm.get('codeFournisseur').invalid"
+                  > exemple Code fournisseur :  AAA123 </small
+                >
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >libelle</label
+              >
+              <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="libelle"
+                formControlName="libelleFournisseur"
+              />
+              <span
+               
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="FournisseurForm.get('libelleFournisseur').hasError('required')"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+             <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >categorie</label
+              >
+              <select 
+              class="form-control dt-full-name"
+              id="basic-icon-default-fullname"
+              placeholder="categorie"
+              formControlName="categorieFournisseur">
+                <option value="ORDINAIRE">ORDINAIRE</option>
+                <option value="CONVENTIONNE">CONVENTIONNE</option>
+              </select>
+              
+              <span
+
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="FournisseurForm.get('categorieFournisseur').hasError('required')"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >addresse</label
+              >
+              <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="addresse"
+                formControlName="addresse"
+                value=  "{{ latitude }} {{longitude}} "
+                
+              />
+              <span
+                
+                class="invalid-form"
+              >
+
+              </span>
+            </div>
+             
+            <google-map [zoom]="userLocationZoom" height="400px" width="100%" [center]="userLocationCenter" >
+              <map-marker [position]="userLocationCenter"></map-marker>
+            </google-map>
+            <br>
+           <button class="btn btn-primary btn-icon scroll-to-top waves-effect waves-float waves-light show-scroll-to-top"
+            [ngStyle]="{'background-color': !FournisseurForm.valid ? 'green' : 'none'}"  (click)="onSubmit()">
+            suivant
+           </button>
+            <br>
+            <div *ngIf="test">
+            <h4 class="form-label" for="basic-icon-default-fullname"
+                >Details Fournisseur</h4>
+                <br>
+            
+                <form [formGroup]="DetailFournisseurFrom" (ngSubmit)="onSubmitDetail()" >
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >Matricule</label
+              >
+              <input
+                type="text"
+                class="form-control dt-full-name"
+                id="basic-icon-default-fullname"
+                placeholder="matricule"
+                formControlName="matricule"
+              />
+              <span
+              
+              class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="DetailFournisseurFrom.get('matricule').hasError('required')"
+                  >This field is required!</small
+                >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="DetailFournisseurFrom.get('matricule').hasError['minLenth']  "
+                  >8 characters long.!</small
+                >
+                
+              </span>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-fullname"
+                >Date Debut Collaboration</label
+              >
+              <section id="default-date-and-range">
+                <dl-date-time-picker
+                  startView="day"
+                  maxView="year"
+                  minView="minute"
+                  minuteStep="5"
+                  formControlName="dateDebutCollaboration"
+                >
+                </dl-date-time-picker>
+              </section>
+              <span
+               
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="DetailFournisseurFrom.get('dateDebutCollaboration').hasError('required')"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+           
+            <button
+            type="submit"
+            class="btn btn-primary mr-1"
+            [disabled]="!FournisseurForm.valid && !DetailFournisseurFrom.valid"
+            
+            (click)="toggleSidebar('new-fournisseur-sidebar')"
+            rippleEffect
+          >
+            Ajouter
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-fournisseur-sidebar')"
+            (click)="FournisseurForm.reset()"
+            rippleEffect
+          >
+            Annuller
+          </button>
+        </form>
+      </div>
+          </div>
+        
+          
+          
+        </form>
+      </div>
+    </div>
+  </div>

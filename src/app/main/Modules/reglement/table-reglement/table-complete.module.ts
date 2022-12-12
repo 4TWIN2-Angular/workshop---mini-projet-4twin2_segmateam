@@ -14,6 +14,7 @@ import {
 } from "angular-bootstrap-datetimepicker";
 import { NewRegSidebarComponent } from "../new-reglement/new-reglement-sidebar.component";
 import { EditRegSidebarComponent } from "../edit-reglement/edit-reglement-sidebar.component";
+import { DetailFactureReglementComponent } from "../detail-facture-reglement/detail-facture-reglement.component";
 
 @NgModule({
   imports: [
@@ -31,6 +32,8 @@ import { EditRegSidebarComponent } from "../edit-reglement/edit-reglement-sideba
     NgbdSortableHeader,
     NewRegSidebarComponent,
     EditRegSidebarComponent,
+    DetailFactureReglementComponent
+     
   ],
   exports: [NgbdTableComplete],
   bootstrap: [],

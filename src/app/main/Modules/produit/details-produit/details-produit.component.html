@@ -1,1 +1,48 @@
-<p>details-produit works!</p>
+<div class="container" >
+  <div class="row">
+    <div class="col-md-5">
+      <div class="wii">
+      <div class="card ecommerce-card" style="margin-left: 10%; margin-top: 10px;">
+        <div class="project-info-box">
+          <h5>Product ID: {{ prod.idProduit }}</h5>
+          <p class="mb-0">
+            Description: this is an awesome {{ prod.libelleProduit }}
+          </p>
+        </div>
+        <div class="project-info-box mt-4">
+          <p><b>Creation: </b> {{ prod.dateCreation }}</p>
+          <p><b>Modification: </b>{{ prod.dateDernierModification }}</p>
+          <p>
+            <b>Stock: </b>
+            <i
+              class="fa mr-25"
+              [ngClass]="
+                prod.stock != null ? 'fa-heart text-danger' : 'fa-heart-o'
+              "
+            ></i>
+          </p>
+        
+          <p class="mb-0"><b>Prix:</b> {{ prod.prix }}DT 
+            <a  style="float: right;"  (click)="modalOpenVC2()" >
+            <i class="feather icon-edit"  style="float: right;color: orange; font-size: 1.5rem;"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-7">
+      <img [src]="prod.image" alt="project-image" class="rounded" />
+    </div>
+  </div>
+</div>
+<div class="col-md-3">
+<a
+  type="button"
+  class="btn btn-danger"
+  style="float: right; margin-top:-5px;"
+  (click)="confirmBox(prod.idProduit)"
+>
+  Supprimer
+</a>
+</div>
+<app-modifier-produit  [open]="this.open" [prod]="prod" ></app-modifier-produit>

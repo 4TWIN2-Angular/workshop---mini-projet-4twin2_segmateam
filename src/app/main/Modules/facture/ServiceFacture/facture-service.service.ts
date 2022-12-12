@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import {Facture} from "../facture";
-
-import { DateFormatter } from "utils/dateformat";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {DatePipe, DecimalPipe} from "@angular/common";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
@@ -9,6 +7,7 @@ import {debounceTime, delay, switchMap, tap} from "rxjs/operators";
 import {DetailFacture} from "../DetailFacture/detail-facture/DetailFacture";
 import { SortColumn, SortDirection } from '../../reglement/table-reglement/sortable.directive';
 import moment from 'moment';
+import { DateFormatter } from 'utils/dateformat';
 
 interface SearchResult {
   factures: Facture[];
@@ -40,15 +39,29 @@ function sort(
     });
   }
 }
+// const compare = (v1: string | number, v2: string | number) =>
+//     v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+// function sort(
+//     factures: Facture[],
+//     // column: SortColumn,
+//     direction: string
+// ): Facture[] {
+//   if (direction === "" || column === "") {
+//     return factures;
+//   } else {
+//     return factures.sort((a, b) => {
+//       const res = compare(a[column].toString(), b[column].toString());
+//       return direction === "asc" ? res : -res;
+//     });
+//   }
+// }
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class FactureServiceService {
-  id!:number;
-  detailfacture:DetailFacture[];
-  api: string = "http://localhost:9090/Facture";
+  api: string = "http://localhost:9090/facture";
   newUrl : string
   urlDetailF: string = "http://localhost:9090/DetailFac";
   FACTURES = [];
@@ -110,7 +123,7 @@ public GetAllDetailFactures(): Observable<DetailFacture[]> {
   return this.http.get<DetailFacture[]>(this.urlDetailF);
 }
   public GetAllFactures(): Observable<Facture[]> {
-    return this.http.get<Facture[]>(this.api);
+    return this.http.get<Facture[]>(this.api+"/all");
   }
   public idFacture(id:number):Observable<DetailFacture>{
     return this.http.get<DetailFacture>(this.urlDetailF+"/idF/"+id)

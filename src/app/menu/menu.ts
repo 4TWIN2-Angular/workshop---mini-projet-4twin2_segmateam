@@ -1,5 +1,5 @@
 import { CoreMenu } from "@core/types";
-
+let sed:string ="produit/";
 export const menu: CoreMenu[] = [
   {
     id: "home",
@@ -32,4 +32,13 @@ export const menu: CoreMenu[] = [
     url: "produit",
 
   },
+
+  {
+    id: "fournisseur",
+    title: "Fournisseurs",
+    type: "item",
+    icon: "inbox",
+    url: "fournisseur",
+  }
+
 ];
