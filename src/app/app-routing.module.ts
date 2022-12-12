@@ -40,6 +40,13 @@ const routes: Routes = [
         import("./main/Modules/stock/stock.module").then(
           (m) => m.StockModule),
   },
+  {
+    path: "fournisseur",
+    loadChildren: () =>
+      import("./main/Modules/fournisseur/fournisseur.module").then(
+        (m) => m.FournisseurModule
+      ),
+  },
  
   {
     path: "home",

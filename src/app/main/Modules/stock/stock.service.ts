@@ -1,6 +1,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 import { SortColumn, SortDirection } from '../reglement/table-reglement/sortable.directive';
@@ -47,7 +48,7 @@ function sort(
 export class StockService {
   STOCK = [] ; 
   PRODUITS = [] ; 
-  api: string = "http://localhost:8090";
+  api: string = environment.apiUrl;
   private _refresh$ = new Subject<void>();
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
