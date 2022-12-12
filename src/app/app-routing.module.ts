@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 
 
 import { HomeComponent } from "./main/Modules/home/home.component";
+import { MainstockComponent } from "./main/Modules/stock/mainstock/mainstock.component";
 
 
 
@@ -30,34 +31,23 @@ const routes: Routes = [
    {   
     path: "facture",
     loadChildren: () =>
-        import("./main/Modules/facture/facture.module").then((m) => m.FactureModule),
-  },{
+        import("./main/Modules/facture/facture.module").then(
+          (m) => m.FactureModule),
+  },
+  {   
+    path: "stock",
+    loadChildren: () =>
+        import("./main/Modules/stock/stock.module").then(
+          (m) => m.StockModule),
+  },
+  {
     path: "fournisseur",
     loadChildren: () =>
       import("./main/Modules/fournisseur/fournisseur.module").then(
         (m) => m.FournisseurModule
       ),
   },
-  {
-    path: "produit",
-    loadChildren: () =>
-      import("./main/Modules/produit/produit.module").then(
-        (m) => m.ProduitModule
-      ),
-  },
-  {
-    path: "reglement",
-    loadChildren: () =>
-      import("./main/Modules/reglement/reglement.module").then(
-        (m) => m.ReglementModule
-      ),
-  },
-  
-   {   
-    path: "facture",
-    loadChildren: () =>
-        import("./main/Modules/facture/facture.module").then((m) => m.FactureModule),
-  },
+ 
   {
     path: "home",
     component: HomeComponent,

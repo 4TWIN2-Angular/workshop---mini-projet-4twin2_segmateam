@@ -37,7 +37,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     ModifierProduitComponent,
     
   ],
-  imports: [
+  imports: [  
     CommonModule,
     ProduitRoutingModule,
     SwiperModule,

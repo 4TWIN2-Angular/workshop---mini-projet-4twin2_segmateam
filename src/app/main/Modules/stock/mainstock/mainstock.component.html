@@ -1,0 +1,60 @@
+
+ 
+
+
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+      <tr>
+        <th>Produit</th>
+        <th>Qte</th>
+        <th>Status</th>
+        <th>QteMin</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+   
+      <tr *ngFor="let stock of STOCKs ; let i=index">
+        <td>
+          <div class="d-flex align-items-center">
+           
+            <div class="ms-3">
+              <p class="fw-bold mb-1">{{stock.libelleStock}}</p>
+              <p class="text-muted mb-0"></p>
+            </div>
+          </div>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">{{stock.qte}}</p>
+          
+        </td>
+        <!-- <td>
+          <span [ngClass]="{'badge badge-success rounded-pill d-inline': stock.qte > stock.qteMin, 'badge badge-warning rounded-pill d-inline': (stock.qte < stock.qteMin)&&(stock.qte > 0),'badge badge-danger rounded-pill d-inline': stock.qte == 0 }">En Stock</span>
+        </td> -->
+        <td *ngIf="stock.qte > stock.qteMin ">
+          <span class="badge badge-success rounded-pill d-inline">En Stock</span>
+        </td>
+        <td *ngIf="(stock.qte < stock.qteMin)&&(stock.qte > 0) ">
+          <span class="badge badge-warning rounded-pill d-inline">Presque en repture</span>
+        </td>
+        <td *ngIf="stock.qte == 0 ">
+          <span class="badge badge-danger rounded-pill d-inline">Repture</span>
+        </td>
+        <td>{{stock.qteMin}}
+        </td>
+        <td>
+           <a (click)="openScrollableContent(stock.idStock)"><img src="../../../../../assets/images/ico/search.png" width="30px" height="30px"></a>
+          
+           <a (click)="DeleteStock(stock.idStock)"><img src="../../../../../assets/images/ico/del_bucket.png" width="30px" height="30px"></a>
+  
+           <a (click)="openModalEdit(stock.idStock)"><img src="../../../../../assets/images/ico/edit (1).png" width="30px" height="30px"></a>
+        </td>  
+      </tr>
+    </tbody>
+
+    <button type="button" class="btn btn-primary" (click)="openModalAdd()">Add new stock</button>
+  
+
+    
+
+ 
