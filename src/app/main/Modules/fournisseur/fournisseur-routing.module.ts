@@ -11,7 +11,7 @@ const routes: Routes = [
     component: FournisseurComponent,
     children: [
       {
-        path: "add-fournisseu",
+        path: "add-fournisseur",
         component:NewFounisseurSidebarComponent ,
       },
       

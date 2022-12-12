@@ -3,8 +3,8 @@ import { RouterModule, Routes } from "@angular/router";
 
 
 import { HomeComponent } from "./main/Modules/home/home.component";
-import { ReglementModule } from "./main/Modules/reglement/reglement.module";
-import {FactureModule} from "./main/Modules/facture/facture.module";
+
+
 
 const routes: Routes = [
   {
@@ -12,11 +12,6 @@ const routes: Routes = [
     loadChildren: () =>
       import("./main/pages/pages.module").then((m) => m.PagesModule),
   },
-  {
-    path: "facture",
-    loadChildren: () =>
-        import("./main/Modules/facture/facture.module").then((m) => m.FactureModule),
-  }, 
   {
     path: "produit",
     loadChildren: () =>
@@ -30,6 +25,38 @@ const routes: Routes = [
       import("./main/Modules/reglement/reglement.module").then(
         (m) => m.ReglementModule
       ),
+  },
+  
+   {   
+    path: "facture",
+    loadChildren: () =>
+        import("./main/Modules/facture/facture.module").then((m) => m.FactureModule),
+  },{
+    path: "fournisseur",
+    loadChildren: () =>
+      import("./main/Modules/fournisseur/fournisseur.module").then(
+        (m) => m.FournisseurModule
+      ),
+  },
+  {
+    path: "produit",
+    loadChildren: () =>
+      import("./main/Modules/produit/produit.module").then(
+        (m) => m.ProduitModule
+      ),
+  },
+  {
+    path: "reglement",
+    loadChildren: () =>
+      import("./main/Modules/reglement/reglement.module").then(
+        (m) => m.ReglementModule
+      ),
+  },
+  
+   {   
+    path: "facture",
+    loadChildren: () =>
+        import("./main/Modules/facture/facture.module").then((m) => m.FactureModule),
   },
   {
     path: "home",
