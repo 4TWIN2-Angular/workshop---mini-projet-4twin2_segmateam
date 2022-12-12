@@ -69,13 +69,13 @@
               #mr="ngModel"
               [ngClass]="{
                 'is-invalid':
-                  (RegForm.submitted && mr.invalid) || reglement.montantRestant <= 10
+                  (RegForm.submitted && mr.invalid) || (reglement.montantRestant < 10)
               }"
             />
             <span class="invalid-form">
               <small
                 class="form-text text-danger"
-                *ngIf="reglement.montantRestant <= 10"
+                *ngIf="reglement.montantRestant < 10"
                 >Le montant restant doit etre superieur à 10!</small
               >
               <small

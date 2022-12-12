@@ -19,10 +19,11 @@ id:number
 
   ngOnInit(): void {
 
-    this.createForm(new Facture());
+    this.createForm(new Facture);
 
     this.ac.paramMap.subscribe(params=>{
       this.id=+params.get('idFacture');
+      console.log(this.id)
       if (this.id){
        
         //update

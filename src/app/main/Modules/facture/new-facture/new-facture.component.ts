@@ -61,7 +61,8 @@ export class NewFactureComponent implements OnInit {
 
     AddFacture() {
     
-      this.fs.addFacture(this.regform.value).subscribe();
+      this.fs.addFacture(this.regform.value).subscribe(
+      );
       console.log("form updated",this.regform.value);}
 
   

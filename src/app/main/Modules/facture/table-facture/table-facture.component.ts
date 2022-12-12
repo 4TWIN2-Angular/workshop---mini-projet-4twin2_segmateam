@@ -84,9 +84,7 @@ export class TableFactureComponent implements OnInit {
 
   delete(f:Facture){
   
-      this.fs.deleteFacture(f).subscribe(
-        
-      )
+      this.fs.deleteFacture(f).subscribe()
      
   
   }

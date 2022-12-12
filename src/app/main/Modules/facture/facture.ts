@@ -1,4 +1,4 @@
-export interface Facture{
+export class Facture{
     idFacture : Number
     montantRemise :Number ;
     montantFacture : Number;
