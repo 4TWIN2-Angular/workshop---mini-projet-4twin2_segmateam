@@ -1,0 +1,158 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+   
+      <app-content-header [contentHeader]="contentHeader"></app-content-header>
+      <!-- User List -->
+      <section class="users-list-wrapper">
+        <div>
+          <div class="card card-congratulations">
+            <div class="card-body text-center">
+              
+              <div class="avatar avatar-xl bg-primary shadow">
+                <div class="avatar-content">
+                  <i data-feather="award" class="font-large-1"></i>
+                </div>
+              </div>
+              <div class="text-center">
+                <h1 class="mb-1 text-white">Welcome <strong>{{currentUser.userName}}</strong>.</h1>
+               <!-- <p class="card-text m-auto w-75">
+                  You have done <strong>57.6%</strong> more sales today. Check your new badge in your profile.
+                </p>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- users count   -->
+      <div class="row">
+      <div class="col-xl-4 col-md-4 col-sm-6">
+        <div class="card text-center">
+          <div class="card-body">
+            <div class="avatar bg-light-info p-50 m-0 mb-1">
+              <div class="avatar-content">
+                <i data-feather="user" class="font-medium-6"></i>
+              </div>
+            </div>
+            <h2 class="font-weight-bolder">{{ c }}</h2>
+            <p class="mb-0 line-ellipsis">Users</p>
+          </div>
+        </div>
+      </div>
+      <!-- end users count   -->
+      <!-- operateur count   -->
+      <div class="col-xl-4 col-md-4 col-sm-6">
+        <div class="card text-center">
+          <div class="card-body">
+            <div class="avatar bg-light-success p-50 m-0 mb-1">
+              <div class="avatar-content">
+                <i data-feather="user" class="font-medium-6"></i>
+              </div>
+            </div>
+            <h2 class="font-weight-bolder">{{ co }}</h2>
+            <p class="mb-0 line-ellipsis">Operateurs</p>
+          </div>
+        </div>
+      </div>
+      <!-- end operateur count   -->
+      <!-- Admin count   -->
+      <div class="col-xl-4 col-md-4 col-sm-6">
+        <div class="card text-center">
+          <div class="card-body">
+            <div class="avatar bg-light-warning p-50 m-0 mb-1">
+              <div class="avatar-content">
+                <i data-feather="user" class="font-medium-6"></i>
+              </div>
+            </div>
+            <h2 class="font-weight-bolder">{{ ca }}</h2>
+            <p class="mb-0 line-ellipsis">Admins</p>
+          </div>
+        </div>
+      </div>
+      <!-- end Admin count   -->
+    </div>
+      
+        <!-- users filter start 
+        <div class="card">
+          
+          <div class="card-body">
+            <div class="users-list-filter">
+              <form>
+                <div class="row">
+                  <div class="col-12 col-md-4">
+                    <fieldset class="form-group">
+
+                    </fieldset>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <fieldset class="form-group">
+ 
+                    </fieldset>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <fieldset class="form-group">
+                     
+                    </fieldset>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+         users filter end -->
+  
+        <div class="card">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              
+            </div>
+            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+               
+            
+              </div>
+            </div>
+          </div>
+     
+           
+
+              <div id="content" #content> 
+               
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>UserName</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of userList">
+                            <td>{{user.userName}}</td>
+                            <td>{{user.userFirstName}}</td>
+                            <td> {{user.userLastName}}
+                            </td>
+                            <td *ngIf=" user.role[0].roleName =='User'">Operateur</td>
+                            <td *ngIf=" user.role[0].roleName =='Admin'">Admin</td>
+                            
+                            <td>
+                                <button class="btn btn-sm btn-danger" (click)="delete(user.userName)" >
+                                    Delete
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+          
+        </div>
+      </section>
+      <!--/ User List -->
+    </div>
+  
+    <!-- New User Sidebar -->
+
+    <!--/ New User Sidebar -->
+  </div>
+  

@@ -1,0 +1,190 @@
+<div class="auth-wrapper auth-v2">
+  <div class="auth-inner row m-0">
+    <!-- Brand logo--><a class="brand-logo" href="javascript:void(0);">
+      <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+      <h2 class="brand-text text-primary ml-1">Vuexy</h2></a
+    >
+    <!-- /Brand logo-->
+    <!-- Left Text-->
+    <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
+      <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+        <img
+          class="img-fluid"
+          [src]="
+            coreConfig.layout.skin === 'dark'
+              ? 'assets/images/pages/register-v2-dark.svg'
+              : 'assets/images/pages/register-v2.svg'
+          "
+          alt="Register V2"
+        />
+      </div>
+    </div>
+    <!-- /Left Text-->
+    <!-- Register-->
+    <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+        <h2 class="card-title font-weight-bold mb-1">Adventure starts here 🚀</h2>
+        <p class="card-text mb-2">Make your app management easy and fun!</p>
+       <!-- <form class="auth-register-form mt-2">
+          <div class="form-group">
+            <label for="register-username" class="form-label">Username</label>
+            <input
+              type="text"
+              formControlName="username"
+              class="form-control"
+              placeholder="johndoe"
+              aria-describedby="register-username"
+              tabindex="1"
+              autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+            />
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+              <div *ngIf="f.username.errors.required">Username is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-email" class="form-label">Email</label>
+            <input
+              type="text"
+              formControlName="email"
+              class="form-control"
+              placeholder="john@example.com"
+              aria-describedby="register-email"
+              tabindex="2"
+              [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+            />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="register-password" class="form-label">Password</label>
+
+            <div class="input-group input-group-merge form-password-toggle">
+              <input
+                [type]="passwordTextType ? 'text' : 'password'"
+                formControlName="password"
+                class="form-control form-control-merge"
+                placeholder="············"
+                aria-describedby="register-password"
+                tabindex="3"
+                [ngClass]="{ 'is-invalid error': submitted && f.password.errors }"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text cursor-pointer"
+                  ><i
+                    class="feather font-small-4"
+                    [ngClass]="{
+                      'icon-eye-off': passwordTextType,
+                      'icon-eye': !passwordTextType
+                    }"
+                    (click)="togglePasswordTextType()"
+                  ></i
+                ></span>
+              </div>
+            </div>
+            <div
+              *ngIf="submitted && f.password.errors"
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.password.errors }"
+            >
+              <div *ngIf="f.password.errors.required">Password is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input" type="checkbox" id="register-privacy-policy" tabindex="4" />
+              <label class="custom-control-label" for="register-privacy-policy">
+                I agree to <a href="javascript:void(0);">privacy policy & terms</a>
+              </label>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" tabindex="5" rippleEffect>Sign up</button>
+        </form>
+        -->
+                      <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+                        <!-- loginForm pour le nom du form &  ngSubmit pour executer la fonction aprer submit -->
+                        <!-- le creation du fonction login se fait au nivaux du login.component.ts -->
+                        <!-- avent de créer la fonction, il faut ajouter FormsModule dans app.module.ts au imports  -->
+                        <!-- userName and  userPassword sont les attributs de JwtRequest dans JwtController  -->
+                        <label class="form-label" for="login-email">Username</label>
+                         <div class="form-group mb-3">
+                        <input type="text"
+                        required
+                        ngModel 
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': userName.invalid && userName.touched }"
+                        #userName="ngModel"
+                        name="userName"
+                        id="userName"
+                        placeholder="Enter your username"
+                        class="form-control "
+                        >
+                        <div class="invalid-feedback" *ngIf="userName.invalid && userName.touched ">usermame required.</div>
+                      </div>
+                        <label class="form-label" for="login-email">userFirstName</label>
+                        <div class="form-group mb-3">
+                        <input type="text"
+                        required
+                        ngModel 
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': userFirstName.invalid && userFirstName.touched }"
+                        #userFirstName="ngModel"
+                        name="userFirstName"
+                        id="userFirstName"
+                        placeholder="Enter your first name"
+                        class="form-control "
+                        >
+                        <div class="invalid-feedback" *ngIf="userFirstName.invalid && userFirstName.touched ">userFirstName required.</div>
+                      </div>
+                        <label class="form-label" for="login-email">userLastName</label>
+                        <div class="form-group mb-3">
+                        <input type="text"
+                        required
+                        ngModel 
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': userLastName.invalid && userLastName.touched }"
+                        #userLastName="ngModel"
+                        name="userLastName"
+                        id="userLastName"
+                        placeholder="Enter your last name"
+                        class="form-control"
+                        >
+                        <div class="invalid-feedback" *ngIf="userLastName.invalid && userLastName.touched ">userLastName required.</div>
+                       
+                      </div>
+                      <label class="form-label" for="login-email">password</label>
+                        <div class="form-group mb-3">
+                        <input type="password"
+                        required
+                        minlength="4"
+                        ngModel 
+                        class="form-control"
+                        #userPassword="ngModel"
+                        [ngClass]="{ 'is-invalid': userPassword.invalid && userPassword.touched }"
+                        name="userPassword"
+                        id="userPassword"
+                        placeholder="Enter your password"
+                        class="form-control "
+                        >
+                        <div class="invalid-feedback" *ngIf="userPassword.invalid && userPassword.touched ">Password required and must contain at least 4 characters.</div>
+                      </div>
+                        <input 
+                        [disabled]="registerForm.invalid"
+                        type="submit"
+                        value="Register"
+                        class="btn btn-primary btn-block">
+                    </form>
+        <p class="text-center mt-2">
+          <span>Already have an account?</span
+          ><a routerLink="/pages/authentication/login-v2"><span>&nbsp;Sign in instead</span></a>
+        </p>
+        
+        
+      </div>
+    </div>
+    <!-- /Register-->
+  </div>
+</div>

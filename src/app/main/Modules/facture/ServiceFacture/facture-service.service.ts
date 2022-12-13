@@ -61,6 +61,11 @@ function sort(
   providedIn: 'root'
 })
 export class FactureServiceService {
+  httpOptions = {
+    headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })
+  }
   api: string = "http://localhost:9090/facture";
   newUrl : string
   urlDetailF: string = "http://localhost:9090/DetailFac";
@@ -83,7 +88,7 @@ export class FactureServiceService {
   };
 
   getDetailsFacture(id:number):Observable<DetailFacture[]>{
-    return this.http.get<DetailFacture[]>(this.urlDetailF+"/All/"+id);
+    return this.http.get<DetailFacture[]>(this.urlDetailF+"/All/"+id,this.httpOptions);
   }
 
 
@@ -106,38 +111,39 @@ export class FactureServiceService {
   }
   updateDetailFacture(detailFacture:DetailFacture):Observable<DetailFacture>{
 
-  return this.http.put<DetailFacture>(this.urlDetailF,detailFacture);
+  return this.http.put<DetailFacture>(this.urlDetailF,detailFacture,this.httpOptions);
     console.log("update Detail facture")
   }
   updateFacture(facture:Facture):Observable<Facture>{
 
-    return this.http.put<Facture>(this.api,facture);
+    return this.http.put<Facture>(this.api,facture,this.httpOptions);
     console.log("update facture")
   }
 
 public getDetailF(id:number): Observable<DetailFacture>{
-  return this.http.get<DetailFacture>(this.urlDetailF+"/"+id)
+  return this.http.get<DetailFacture>(this.urlDetailF+"/"+id,this.httpOptions)
 }
 
 public GetAllDetailFactures(): Observable<DetailFacture[]> {
-  return this.http.get<DetailFacture[]>(this.urlDetailF);
+  return this.http.get<DetailFacture[]>(this.urlDetailF,this.httpOptions);
 }
   public GetAllFactures(): Observable<Facture[]> {
-    return this.http.get<Facture[]>(this.api+"/all");
+    return this.http.get<Facture[]>(this.api+"/all",this.httpOptions);
   }
   public idFacture(id:number):Observable<DetailFacture>{
-    return this.http.get<DetailFacture>(this.urlDetailF+"/idF/"+id)
+    return this.http.get<DetailFacture>(this.urlDetailF+"/idF/"+id,this.httpOptions)
   }
 
   public deleteDetailF(dF:DetailFacture):Observable<DetailFacture>{
     console.log("detail Facture user");
-    return this.http.delete<DetailFacture>(this.urlDetailF+"/del",{body:dF } ); 
+    return this.http.delete<DetailFacture>(this.urlDetailF+`/del,{body:dF }`,this.httpOptions );
+  //  return this._http.delete(this.PATH_OF_API + `/delete/${userName}`,this.httpOptions); 
   }
 
   // /---------------- Facture
   deleteFacture(facture:Facture):Observable<Facture>{
     console.log("delete user");
-    return this.http.delete<Facture>( this.api+"/"+facture.idFacture);
+    return this.http.delete<Facture>( this.api+"/"+facture.idFacture,this.httpOptions);
   }
 
   addFacture(facture:any):Observable<Facture>{
@@ -150,7 +156,7 @@ public GetAllDetailFactures(): Observable<DetailFacture[]> {
     dateD=DateFormatter.DateFromObject(dateD.year,dateD.month,dateD.day);
     facture.dateDernierModification=dateD ;
 
-    return this.http.post<Facture>(this.api+"/add",facture);
+    return this.http.post<Facture>(this.api+"/add",facture,this.httpOptions);
     console.log("facture ajoutee");
   }
   // addDetailFacture(detailFacture:DetailFacture):Observable<DetailFacture>{
@@ -161,14 +167,14 @@ public GetAllDetailFactures(): Observable<DetailFacture[]> {
 
   addDetailFacture(id:number,detailFacture:DetailFacture):Observable<DetailFacture>{
 
-    return this.http.post<DetailFacture>(this.urlDetailF+"/add/"+id,detailFacture);
+    return this.http.post<DetailFacture>(this.urlDetailF+"/add/"+id,detailFacture,this.httpOptions);
     console.log("DetailFacture ajoutee");
   }
 
 
   getFacture(id:number):Observable<Facture>{
 
-    return this.http.get<Facture>(this.api+"/"+id);
+    return this.http.get<Facture>(this.api+"/"+id,this.httpOptions);
     console.log("get facture");
   }
 

@@ -1,8 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AdminModule } from "./main/Modules/Admin/admin.module";
 
 
 import { HomeComponent } from "./main/Modules/home/home.component";
+import { ProfileModule } from "./main/Modules/profile/profile.module";
 import { MainstockComponent } from "./main/Modules/stock/mainstock/mainstock.component";
 
 
@@ -67,7 +69,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{onSameUrlNavigation: 'reload'})],
+  imports: [ProfileModule,AdminModule,RouterModule.forRoot(routes,{onSameUrlNavigation: 'reload'})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

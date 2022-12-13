@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { first, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
+import { AuthenticationService } from 'app/auth/service';
 
 @Component({
   selector: 'app-auth-login-v2',
@@ -34,8 +35,13 @@ export class AuthLoginV2Component implements OnInit {
     private _coreConfigService: CoreConfigService,
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _authenticationService: AuthenticationService
   ) {
+    // redirect to home if already logged in
+    /*if (this._authenticationService.currentUserValue) {
+      this._router.navigate(['/home']);
+    }*/
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -78,12 +84,20 @@ export class AuthLoginV2Component implements OnInit {
 
     // Login
     this.loading = true;
-
-    // redirect to home page
-    setTimeout(() => {
-      this._router.navigate(['/']);
-    }, 100);
+    this._authenticationService
+      .login(this.f.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this._router.navigate([this.returnUrl]);
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        }
+      );
   }
+
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -93,7 +107,7 @@ export class AuthLoginV2Component implements OnInit {
    */
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
       password: ['', Validators.required]
     });
 
@@ -113,5 +127,29 @@ export class AuthLoginV2Component implements OnInit {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+  }
+  login(loginForm: NgForm) {
+    this.loading = true;
+    this._authenticationService.login(loginForm.value).subscribe(
+      // response c'est la response du spring
+      (response: any) => {
+        this._authenticationService.setRoles(response.user.role);
+        this._authenticationService.setToken(response.jwtToken);
+
+        // redirection 
+        const role = response.user.role[0].roleName;
+        if (role === 'Admin') {
+          this._router.navigate(['/admin']);
+        } else {
+          this._router.navigate(['/home']);
+        }
+        
+       
+      },
+      (error) => {
+        this.error = error;
+        this.loading = false;
+      }
+    );
   }
 }
