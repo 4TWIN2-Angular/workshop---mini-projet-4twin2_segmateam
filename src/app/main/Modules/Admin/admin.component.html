@@ -132,8 +132,8 @@
                             <td>{{user.userFirstName}}</td>
                             <td> {{user.userLastName}}
                             </td>
-                            <td *ngIf=" user.role[0].roleName =='User'">Operateur</td>
-                            <td *ngIf=" user.role[0].roleName =='Admin'">Admin</td>
+                            <td *ngIf=" user.role[0].roleName =='User'" [ngStyle]="{'color':'green'}">Operateur</td>
+                            <td *ngIf=" user.role[0].roleName =='Admin'" [ngStyle]="{'color':'red'}">Admin</td>
                             
                             <td>
                                 <button class="btn btn-sm btn-danger" (click)="delete(user.userName)" >

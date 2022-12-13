@@ -39,9 +39,9 @@ export class AuthLoginV2Component implements OnInit {
     private _authenticationService: AuthenticationService
   ) {
     // redirect to home if already logged in
-    /*if (this._authenticationService.currentUserValue) {
+    if (this._authenticationService.currentUserValue) {
       this._router.navigate(['/home']);
-    }*/
+    }
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
