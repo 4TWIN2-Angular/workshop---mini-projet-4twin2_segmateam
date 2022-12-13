@@ -43,7 +43,7 @@ countadmin=this.userService.countadmin().subscribe((data: number) => {
         type: '',
         links: [
           {
-            name: 'Liste Des Utilisateurs',
+            name: 'List of Users',
             isLink: false
           }
         ]
