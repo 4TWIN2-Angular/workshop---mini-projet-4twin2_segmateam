@@ -8,6 +8,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalAddComponent } from '../modal/modal-add/modal-add.component';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { ModalEditComponent } from '../modal/modal-edit/modal-edit.component';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-mainstock',
@@ -20,6 +21,8 @@ export class MainstockComponent implements OnInit {
   Prods : Produit[] 
   stockAdd : Stock
   stockEdit : Stock
+  public val!:any;
+  SearchItem: string;
   constructor(private modalService: NgbModal,
     public service : StockService ,public router: Router ) { 
     // this._unsubscribeAll = new Subject();
@@ -52,6 +55,7 @@ getSelectedStock(id : number){
 getAllProduitsByStock(id : number){
   this.service.getAllProduits(id).subscribe((data) => {
     this.Prods = data;
+    this.service.stockSearch = data ; 
     console.log(this.Prods);
   })} 
 
@@ -93,6 +97,58 @@ getAllProduitsByStock(id : number){
       }
       )        
     }
+    liveSearch(Search:string):Observable<Stock[]>{ 
+    
+    
+      const stocks = of (this.STOCKs.filter(stock=>(
+      stock.libelleStock.toUpperCase().includes(Search.toUpperCase()))));
+      console.log(stocks);
+      
+      return stocks
+    }
 
+    onKeyUp(event:any){
+      this.SearchItem = event.target.value;
+      if(this.SearchItem !=""){
+      this.liveSearch(this.SearchItem).subscribe(
+        (data)=>this.STOCKs = data ,
+        (error)=>console.log(error)
+      )
+     }else{
+      this.getAllStock()
+     }
+    }
+
+    filter(string :String){
+      if(string == "EnStock"){
+        this.service.GetEnStock().subscribe(
+          (data)=>this.STOCKs = data 
+        )
+      }else if(string == "OutOfStock"){
+        this.service.GetOutOfStock().subscribe(
+          (data)=>this.STOCKs = data 
+        )
+      }else if(string == "POut"){
+        this.service.GetPOutofStock().subscribe(
+          (data)=>this.STOCKs = data 
+        )
+      }else if(string == "All"){
+        this.service.getAllStock().subscribe(
+          (data)=>this.STOCKs = data 
+        )
+      }
+    }
+  
+    
+        
+
+
+    // liveSearch(){
+    //   this.service.liveSearch(this.val,this.STOCKs).subscribe((data)=>{
+    //     this.service.stockSearch=data;
+    //     console.log("Test ya mounir",data);
+        
+    //   })
+    // }
 
 }

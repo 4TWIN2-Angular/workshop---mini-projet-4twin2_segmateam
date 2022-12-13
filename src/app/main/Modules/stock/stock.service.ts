@@ -30,6 +30,7 @@ function sort(
   stocks: Stock[],
   column: SortColumn,
   direction: string
+  
 ): Stock[] {
   if (direction === "" || column === "") {
     return stocks;
@@ -46,8 +47,10 @@ function sort(
   providedIn: 'root'
 })
 export class StockService {
+  stockSearch=[];
   STOCK = [] ; 
   PRODUITS = [] ; 
+  stockFilter : Observable<Stock[]>; 
   api: string = environment.apiUrl;
   private _refresh$ = new Subject<void>();
   private _loading$ = new BehaviorSubject<boolean>(true);
@@ -122,7 +125,32 @@ export class StockService {
   GetStockById(id: number): Observable<Stock> {
     return this.http.get<Stock>(this.api + "/stock/" + id);
   }
+
+  GetEnStock():Observable<Stock[]>{
+    return this.http.get<Stock[]>(this.api + "/stock/getStockByFilter");
+  }
+
+  GetOutOfStock():Observable<Stock[]>{
+    return this.http.get<Stock[]>(this.api + "/stock/getStockByFilter0");
+  }
+
+  GetPOutofStock():Observable<Stock[]>{
+    return this.http.get<Stock[]>(this.api + "/stock/getStockByFilterInf");
+  }
+
   
+  liveSearch(val: any,stk :Stock[]): Observable<Stock[]> {
+  
+    console.log(this.STOCK);
+    console.log("val", val);
+    
+    const stock = of(
+      stk.filter((st) =>
+        (st.libelleStock.toString().includes(val.toString())))
+      );
+    return stock;
+  }
+
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } =
       this._state;
@@ -130,17 +158,16 @@ export class StockService {
     // 1. sort
     let stocks = sort(this.STOCK, sortColumn, sortDirection);
 
-    // 2. filter
-    // reglements = reglements.filter((reglement) =>
-    //   matches(reglement, searchTerm, this.pipe)
-    // );
     const totalqte = stocks.length;
 
-    console.log("trahh", totalqte);
+    console.log("uu", totalqte);
     console.log("page size", pageSize);
     console.log("stock", stocks);
 
     return of({ stocks, totalqte });
   }
+
+
+
 }
 
