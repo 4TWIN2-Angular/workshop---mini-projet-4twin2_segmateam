@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Facture } from '../facture';
 import { FactureServiceService } from '../ServiceFacture/facture-service.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 
 @Component({
   selector: 'app-update-facture',
@@ -10,59 +12,54 @@ import { FactureServiceService } from '../ServiceFacture/facture-service.service
   styleUrls: ['./update-facture.component.scss']
 })
 export class UpdateFactureComponent implements OnInit {
-  myForm:FormGroup
-  list : Facture[]
-  newFact :Facture =new Facture
-id:number
-  constructor(private route:Router ,private fs:FactureServiceService,
-    private ac:ActivatedRoute) { }
 
+  dateC:any;
+  dateD:any  ;
+  facture:any ;
+id:number ; 
+
+
+  constructor(
+    private _coreSidebarService: CoreSidebarService
+    ,private route:Router ,private fs:FactureServiceService,
+    private ac:ActivatedRoute) { }
+    toggleSidebar(name): void {
+      this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
+    }
+  
+    submit(form) {
+      if (form.valid) {
+       
+      }
+      this.EditFacture();
+      console.warn(form.value);
+    }
+
+    GetFactureById(id:number) {
+this.facture = this.fs.GetFactureById(id); 
+
+    
+        console.log("iffacture yrrrrrr" , this.facture)
+    }
+
+
+    EditFacture(){
+      this.fs.updateFacture(this.facture).subscribe(data=>
+        Swal.fire('Reglement modifié!', 'Le reglement a été bien modifié', 'success') 
+    )
+    this.ngOnInit();
+    }
   ngOnInit(): void {
 
-    this.createForm(new Facture);
-
     this.ac.paramMap.subscribe(params=>{
-      this.id=+params.get('idFacture');
-      console.log(this.id)
-      if (this.id){
-       
-        //update
-        this.fs.getFacture(this.id).subscribe(
-          res=>{
-          this.newFact=res,
-           this.createForm(this.newFact)
-           console.log(this.newFact)}
-           )  }}
-      )
-      this.myForm.reset();
+      this.id=+params.get('idFacture') ;
+    this.GetFactureById(this.id);
+  console.log(this.id) ; }) ;
+
+
+
+   
   }
 
  
-  
-  createForm(user:Facture){
-    this.myForm=new FormGroup({
-     
-      montantRemise:new FormControl(user.montantRemise, Validators.required),
-      montantFacture:new FormControl(user.montantFacture, Validators.required),
-      dateCreationFacture:new FormControl(user.dateCreationFacture),
-      dateDernierModification:new FormControl(user.dateDernierModification),
-      archive:new FormControl(user.archive, Validators.required)
-
-    })
-  
-  }
-
-  saveUser(){
-    this.newFact.montantRemise=  this.myForm.get('montantRemise').value;
-    this.newFact.montantFacture=  this.myForm.get('montantFacture').value;
-    this.newFact.dateCreationFacture=  this.myForm.get('dateCreationFacture').value;
-    this.newFact.dateDernierModification=  this.myForm.get('dateDernierModification').value;
-    this.newFact.archive=  this.myForm.get('archive').value;
-
-  if (this.id){
-    this.fs.updateFacture(this.newFact).subscribe();
-    this.myForm.reset();
-    this.route.navigate(['facture/table-facture'])
-   }
-}
 }

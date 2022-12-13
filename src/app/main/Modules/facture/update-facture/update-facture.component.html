@@ -1,33 +1,173 @@
-<p>update-facture works!</p>
+  <div >
 
-<form [formGroup]="myForm" (ngSubmit)="saveUser()"> <!--property binding-->
-   
-    <div class="form-group">
-      <label for="montantRemise">montantRemise</label>
-      <input type="text" formControlName="montantRemise" class="form-control" id="montantRemise" placeholder="Enter montantRemise">
+    <div
+     
+    >
+      <div class="modal-dialog">
+        <form
+          class="edit-reglement modal-content pt-0"
+        
+          #RegForm="ngForm"
+        >
+         
+          <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Facture </h5>
+          </div>
+          <div class="modal-body flex-grow-1">
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-montantRemise"
+                >Montant payee</label
+              >
+              <input
+                type="text"
+                class="form-control dt-montantRemise"
+                id="basic-icon-default-montantRemise"
+                placeholder="montantRemise "
+                name="montantRemise"
+                required
+                
+                pattern="^[0-9]*$"
+                [(ngModel)]="facture.montantRemise"
+                #mp="ngModel"
+                [ngClass]="{
+                  'is-invalid': RegForm.submitted && mp.invalid
+                }"
+              />
+              <span class="invalid-form">
+                <small
+                  class="form-text text-danger"
+                  *ngIf="mp.errors?.['required']"
+                  >Ce champ est requis !</small>
+                  <small
+                  class="form-text text-danger"
+                  *ngIf="mp.errors?.['pattern']"
+                  >Que des chiffres!</small>
+
+              </span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-montantFacture"
+                >Montant facture </label
+              >
+              <input
+                type="text"
+                class="form-control dt-montantFacture"
+                id="basic-icon-default-montantFacture"
+                placeholder="Montant facture"
+                name="montantFacture"
+                required
+                [(ngModel)]="facture.montantFacture"
+                pattern="^[0-9]*$"
+                #mr="ngModel"
+                [ngClass]="{
+                  'is-invalid':
+                    (RegForm.submitted && mr.invalid) 
+                }"
+              />
+              <span class="invalid-form">
+                <small
+                class="form-text text-danger"
+                *ngIf="mr.errors?.['pattern']"
+                >Que des chiffres!</small>
+                <small
+                  class="form-text text-danger"
+                  *ngIf="mr.errors?.['required']"
+                  >Ce champ est requis !</small
+                >
+              </span>
+            </div>
+          
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-dateCreationFacture"
+                >dateCreationFacture facture </label
+              >
+              <input
+                type="text"
+                class="form-control dt-dateCreationFacture"
+                id="basic-icon-default-dateCreationFacture"
+                placeholder="Montant dateCreationFacture"
+                name="dateCreationFacture"
+                required
+                [(ngModel)]="facture.dateCreationFacture"
+                pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                #dd="ngModel"
+                [ngClass]="{
+                  'is-invalid':
+                    (RegForm.submitted && mr.invalid) 
+                }"
+              />
+              <span class="invalid-form">
+                
+                <small
+                  class="form-text text-danger"
+                  *ngIf="dd.errors?.['pattern']"
+                  >Example : 2022-12-08</small
+                >
+              </span>
+
+            
+            </div>
+
+             
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-dateDernierModification"
+                >date Dernier Modification facture </label
+              >
+              <input
+                type="text"
+                class="form-control dt-dateDernierModification"
+                id="basic-icon-default-dateDernierModification"
+                placeholder="Montant dateDernierModification"
+                name="dateDernierModification"
+                required
+                [(ngModel)]="facture.dateDernierModification"
+                pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
+                #dr="ngModel"
+                [ngClass]="{
+                  'is-invalid':
+                    (RegForm.submitted && mr.invalid) 
+                }"
+              />
+              <span class="invalid-form">
+                
+                <small
+                  class="form-text text-danger"
+                  *ngIf="dr.errors?.['pattern']"
+                  >Example : 2022-12-08</small
+                >
+              </span>
+
+            </div>
+
+            <div class="custom-control custom-control-success custom-switch">
+              <p class="mb-50">facture archivée</p>
+              <input
+                type="checkbox"
+                
+                [(ngModel)]="facture.archive"
+                name="archive"
+                class="custom-control-input"
+                id="customSwitch5"
+              />
+  
+  
+              <label class="custom-control-label" for="customSwitch5"></label>
+            </div> 
+            <br />
+            <button
+              type="submit"
+              class="btn btn-primary mr-1"
+              (click)="submit(RegForm)"
+              [routerLink]="['/facture/table-facture']"
+              rippleEffect
+              [disabled]="RegForm.form.status === 'INVALID'"
+            >
+              Submit
+            </button>
+            
+          </div>
+        </form>
+      </div>
     </div>
- 
-     <div class="form-group">
-        <label for="montantFacture">montantFacture</label>
-        <input type="text" formControlName="montantFacture"  class="form-control" id="prixTotalDetail" placeholder="Enter LastName">
-      </div>
-    <div class="form-group">
-        <label for="archive">archive</label>
-        <input type="text" formControlName="archive" class="form-control" id="archive" placeholder="Enter archive">
-      </div>
-      
-      <div class="form-group">
-        <label for="dateCreationFacture">dateCreationFacture</label>
-        <input type="dateCreationFacture" formControlName="dateCreationFacture"  class="form-control" id="dateCreationFacture"  placeholder="Enter dateCreationFacture">
-        
-      </div>
-      <div class="form-group">
-        <label for="dateDernierModification">Email address</label>
-        <input type="email" formControlName="dateDernierModification"  class="form-control" id="dateDernierModification"  placeholder="Enter dateDernierModification">
-        
-      </div>
-
-   
-
-  <button type="submit"  class="btn btn-primary"  >Submit</button>
-  </form>
+  </div>
+  

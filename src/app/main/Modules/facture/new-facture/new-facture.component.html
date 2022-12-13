@@ -1,120 +1,4 @@
- <!-- <div class="slideout-content">
-    Modal to add reglement starts
-    <br>
-    <br>
-    <br>
- <div class="modalsd modal-slide-in sdfade new-facture"
-      id="modals-slide-in">
 
-      <div class="modal-dialog">
-
-        <form class="new-facture modal-content pt-0" [formGroup]="regform"> 
-            <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-            (click)="toggleSidebar('new-facture')"
-          > ×
-        </button>
-        <br>
-        <div class="modal-header mb-1">
-            <h5 class="modal-title" id="exampleModalLabel">New Reglement</h5>
-          </div>
-               
-        <div class="modal-body flex-grow-1">
-            
-            <div class="form-group">
-                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
-                <input
-                type="text"
-                class="form-control dt-full-name"
-                id="basic-icon-default-fullname"
-                placeholder="Montant paye"
-                name="montantRemise"
-                formControlName="montantRemise"
-                required
-              />
-            </div>
-            <div class="form-group">
-                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
-                <input
-                type="text"
-                class="form-control dt-full-name"
-                id="basic-icon-default-fullname"
-                placeholder="montantFacture"
-                name="montantFacture"
-                formControlName="montantFacture"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
-                <input
-                type="text"
-                class="form-control dt-full-name"
-                id="basic-icon-default-fullname"
-                placeholder="Montant paye"
-                name="dateCreationFacture"
-                formControlName="dateCreationFacture"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
-                <input
-                type="text"
-                class="form-control dt-full-name"
-                id="basic-icon-default-fullname"
-                placeholder="Montant paye"
-                name="dateDerniereModification"
-                formControlName="dateDerniereModification"
-                required
-              />
-            </div>
-
-
-
-            <div class="form-group">
-                <label class="form-label" for="dateDerniereModification">dateDerniereModification</label>
-           </div>
-<div class="form-group">
-                <label class="form-label" for="basic-icon-default-fullname">montantRemise</label>
-                <input
-                type="text"
-                class="form-control dt-full-name"
-                id="basic-icon-default-fullname"
-                placeholder="Montant paye"
-                name="archive"
-                formControlName="archive"
-                required
-              />
-            </div>
-       <button
-            type="submit"
-            class="btn btn-primary mr-1"
-            (click)="AddFacture();submit(regform)"
-            rippleEffect
-            [disabled]="regform.status === 'INVALID'"
-          >
-            Submit
-          </button>
-          <button
-            type="reset"
-            class="btn btn-outline-secondary"
-             [routerLink]="['/facture']"
-            rippleEffect >
-            Cancel
-          </button>
-        
-        </div>
-        </form>
-      </div>
-    </div>
-  </div>
--->
 
 
 
@@ -141,13 +25,13 @@
         <div class="modal-body flex-grow-1">
           <!-- MONTANT PAYEE -->
           <div class="form-group">
-            <label class="form-label" for="montantRemise"
-              >montantRemisee</label
+            <label class="form-label" for="basic-icon-default-montantRemise"
+              >montant  Remisee</label
             >
             <input
               type="text"
-              class="montantRemise"
-              id="montantRemise"
+              class="basic-icon-default-montantRemise"
+              id="basic-icon-default-montantRemise"
               placeholder="montantRemise"
               name="montantRemise"
               formControlName="montantRemise"
@@ -182,8 +66,10 @@
               id="montantFacture"
               placeholder="Montant restant"
               name="montantFacture"
+              
               formControlName="montantFacture"
 
+             
               required
             />
             <span
@@ -214,6 +100,7 @@
           <label class="form-label" for="dateCreationFacture"
             >Date de CREATION</label
           >
+          <br><br/>
          
             <div class="input-group">
               <input
@@ -224,6 +111,7 @@
                 ngbDatepicker
               required
                 #d="ngbDatepicker"
+              
              
               />
               <button
@@ -250,6 +138,7 @@
                 ngbDatepicker
              
                 #db="ngbDatepicker"
+             
          
               />
 <button
@@ -282,7 +171,7 @@
               class="btn btn-primary mr-1"
               (click)="AddFacture();submit(regform)"
               rippleEffect
-              
+              [disabled]="regform.status === 'INVALID'" 
             >
               Submit
             </button>
@@ -290,9 +179,7 @@
               type="reset"
               class="btn btn-outline-secondary"
               (click)="toggleSidebar('new-facture')"
-              rippleEffect
-              
-            >
+              rippleEffect >
               Cancel
             </button>
           </div>

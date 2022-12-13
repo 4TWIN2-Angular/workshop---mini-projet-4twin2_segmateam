@@ -11,6 +11,7 @@ import { DetailFactureComponent } from '../DetailFacture/detail-facture/detail-f
 import { NgbdSortableHeader, SortEvent } from '../../reglement/table-reglement/sortable.directive';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { AffiDetailFactureComponent } from '../DetailFacture/affi-detail-facture/affi-detail-facture.component';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'app-table-facture',
   templateUrl: './table-facture.component.html',
@@ -83,9 +84,31 @@ export class TableFactureComponent implements OnInit {
   }
 
   delete(f:Facture){
-  
-      this.fs.deleteFacture(f).subscribe()
-     
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer ce reglement ?',
+      text: 'Vous ne pourrez pas récupérer ce reglement',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, supprimez-le !',
+      cancelButtonText: 'Non, gardez-le'
+    }).then((result) => {
+      if (result.value) {
+      this.fs.deleteFacture(f).subscribe((res)=>
+      {
+        Swal.fire(
+          'Supprimé !',
+          'Le reglement a été supprimé.',
+          'success'
+        )     }
+       )
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire(
+              'Annulé',
+              'La suppression a été bien annulée :)',
+              'error'
+            )
+          }
+        })
   
   }
  

@@ -71,7 +71,7 @@
                                   <td  [ngStyle]="u.pourcentageRemise>=50 ?{'color':'red'}:{}"  class="py-1">
                                       <span class="font-weight-bold">{{u.pourcentageRemise}} %</span>
                                   </td>
-                                  <td class="py-1">
+                                  <td [ngClass]="u.qteCommande > 50 ?'one':'two' " class="py-1">
                                       <span class="font-weight-bold">{{u.qteCommande}}</span>
                                   </td>
                                   
