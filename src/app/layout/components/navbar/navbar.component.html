@@ -60,7 +60,9 @@
         aria-expanded="false"
       >
         <div class="user-nav d-sm-flex d-none">
-          <span class="user-name font-weight-bolder">John Doe</span><span class="user-status">Sample</span>
+          <span class="user-name font-weight-bolder">{{ this.currentUser.userFirstName }} {{ this.currentUser.userLastName }} </span>
+          <span class="user-status"*ngIf=" this.currentUser.role[0].roleName =='User'">Operateur</span>
+          <span class="user-status"*ngIf=" this.currentUser.role[0].roleName =='Admin'">Admin</span>
         </div>
         <span class="avatar"
           ><img
@@ -72,14 +74,14 @@
         ></span>
       </a>
       <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">
-        <a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'user'" [class]="'mr-50'"></span> Profile</a
+        <a ngbDropdownItem [routerLink]="['/profile']"><span [data-feather]="'user'" [class]="'mr-50'"></span> Profile</a
         ><a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'mail'" [class]="'mr-50'"></span> Inbox</a
         ><a ngbDropdownItem [routerLink]="['/']"><span [data-feather]="'check-square'" [class]="'mr-50'"></span> Task</a
         ><a ngbDropdownItem [routerLink]="['/']"
           ><span [data-feather]="'message-square'" [class]="'mr-50'"></span> Chats</a
         >
         <div class="dropdown-divider"></div>
-        <a ngbDropdownItem [routerLink]="['/pages/authentication/login-v2']"
+        <a (click)="logout()" ngbDropdownItem [routerLink]="['/pages/authentication/login-v2']"
           ><span [data-feather]="'power'" [class]="'mr-50'"></span> Logout</a
         >
       </div>

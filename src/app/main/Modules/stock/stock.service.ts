@@ -1,5 +1,5 @@
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -30,6 +30,7 @@ function sort(
   stocks: Stock[],
   column: SortColumn,
   direction: string
+  
 ): Stock[] {
   if (direction === "" || column === "") {
     return stocks;
@@ -46,9 +47,16 @@ function sort(
   providedIn: 'root'
 })
 export class StockService {
+  stockSearch=[];
   STOCK = [] ; 
   PRODUITS = [] ; 
+  stockFilter : Observable<Stock[]>; 
   api: string = environment.apiUrl;
+  httpOptions = {
+    headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })
+  }
   private _refresh$ = new Subject<void>();
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
@@ -88,16 +96,16 @@ export class StockService {
   }
 
   getAllProduits(id : number): Observable<Produit[]> {
-    return this.http.get<Produit[]>(this.api + "/stock/getProdByStock/"+id);
+    return this.http.get<Produit[]>(this.api + "/stock/getProdByStock/"+id,this.httpOptions);
   }
 
   getAllStock(): Observable<Stock[]> {
-    return this.http.get<Stock[]>(this.api + "/stock");
+    return this.http.get<Stock[]>(this.api + "/stock",this.httpOptions);
     
   }
   //Add stock 
   AddStock(stock: Stock): Observable<Stock> {
-    return this.http.post<Stock>(this.api + "/stock", stock).pipe(
+    return this.http.post<Stock>(this.api + "/stock", stock,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
@@ -105,7 +113,7 @@ export class StockService {
   }
   //Delete stock
   deleteStock(id: number): Observable<Stock> {
-    return this.http.delete<Stock>(this.api + "/stock/" + id).pipe(
+    return this.http.delete<Stock>(this.api + "/stock/" + id,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
@@ -113,16 +121,41 @@ export class StockService {
   }
 //update stock 
   updateStock(stock: Stock): Observable<Stock> {
-    return this.http.put<Stock>(this.api + "/stock", stock).pipe(
+    return this.http.put<Stock>(this.api + "/stock", stock,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
       ));
   }
   GetStockById(id: number): Observable<Stock> {
-    return this.http.get<Stock>(this.api + "/stock/" + id);
+    return this.http.get<Stock>(this.api + "/stock/" + id,this.httpOptions);
   }
+
+  GetEnStock():Observable<Stock[]>{
+    return this.http.get<Stock[]>(this.api + "/stock/getStockByFilter");
+  }
+
+  GetOutOfStock():Observable<Stock[]>{
+    return this.http.get<Stock[]>(this.api + "/stock/getStockByFilter0");
+  }
+
+  GetPOutofStock():Observable<Stock[]>{
+    return this.http.get<Stock[]>(this.api + "/stock/getStockByFilterInf");
+  }
+
   
+  liveSearch(val: any,stk :Stock[]): Observable<Stock[]> {
+  
+    console.log(this.STOCK);
+    console.log("val", val);
+    
+    const stock = of(
+      stk.filter((st) =>
+        (st.libelleStock.toString().includes(val.toString())))
+      );
+    return stock;
+  }
+
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } =
       this._state;
@@ -130,17 +163,16 @@ export class StockService {
     // 1. sort
     let stocks = sort(this.STOCK, sortColumn, sortDirection);
 
-    // 2. filter
-    // reglements = reglements.filter((reglement) =>
-    //   matches(reglement, searchTerm, this.pipe)
-    // );
     const totalqte = stocks.length;
 
-    console.log("trahh", totalqte);
+    console.log("uu", totalqte);
     console.log("page size", pageSize);
     console.log("stock", stocks);
 
     return of({ stocks, totalqte });
   }
+
+
+
 }
 
