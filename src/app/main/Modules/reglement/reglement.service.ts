@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/adjacent-overload-signatures */
 import { Injectable, PipeTransform } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { DateFormatter } from "utils/dateformat";
@@ -55,6 +55,11 @@ export class ReglementService {
   REGLEMENTS = [];
   Countfacture=[];
   api: string = environment.apiUrl;
+  httpOptions = {
+    headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })
+  }
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
   private _refresh$ = new Subject<void>();
@@ -90,7 +95,7 @@ export class ReglementService {
   }
 
   GetAllReglements(): Observable<Reglement[]> {
-    return this.http.get<Reglement[]>(this.api + "/reglement/all")
+    return this.http.get<Reglement[]>(this.api + "/reglement/all",this.httpOptions)
   }
   
   AddReglement(reglement:any){
@@ -105,7 +110,7 @@ export class ReglementService {
     datereg=DateFormatter.DateFromObject(datereg.year,datereg.month,datereg.day)
     reglement.date=datereg;
     console.log("DATE RECEIVED",reglement);
-    return this.http.post<Reglement[]>(this.api+"/reglement/add",reglement).pipe(
+    return this.http.post<Reglement[]>(this.api+"/reglement/add",reglement,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
@@ -114,7 +119,7 @@ export class ReglementService {
  
   EditReglement(reglement:any){
 
-    return this.http.put<any>(this.api+"/reglement/edit",reglement).pipe(
+    return this.http.put<any>(this.api+"/reglement/edit",reglement,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
@@ -122,7 +127,7 @@ export class ReglementService {
   )}
   DeleteReglement(reglement:any) {
     
-    return this.http.delete(this.api +'/reglement/'+reglement).pipe(
+    return this.http.delete(this.api +'/reglement/'+reglement,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }

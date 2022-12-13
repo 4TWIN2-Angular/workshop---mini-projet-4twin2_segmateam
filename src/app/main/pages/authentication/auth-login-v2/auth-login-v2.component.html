@@ -26,12 +26,7 @@
         <h2 class="card-title font-weight-bold mb-1">Welcome to Vuexy! 👋</h2>
         <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
 
-        <ngb-alert [type]="'danger'" [dismissible]="false" *ngIf="error">
-          <div class="alert-body">
-            <p>{{ error }}</p>
-          </div>
-        </ngb-alert>
-
+<!--
         <form class="auth-login-form mt-2" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label class="form-label" for="login-email">Email</label>
@@ -96,6 +91,56 @@
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Sign in
           </button>
         </form>
+-->
+<ngb-alert [type]="'danger'" [dismissible]="false" *ngIf="error">
+  <div class="alert-body">
+    <p>Username or password is incorret</p>
+  </div>
+</ngb-alert>
+                      <form class="auth-login-form mt-2" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+                        <!-- loginForm pour le nom du form &  ngSubmit pour executer la fonction aprer submit -->
+                        <!-- le creation du fonction login se fait au nivaux du login.component.ts -->
+                        <!-- avent de créer la fonction, il faut ajouter FormsModule dans app.module.ts au imports  -->
+                        <!-- userName and  userPassword sont les attributs de JwtRequest dans JwtController  -->
+                        <div class="form-group">
+                        <label class="form-label" for="login-email">Username</label>
+                        <input type="text"
+                        required
+                        ngModel
+                        #userName="ngModel" 
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': userName.invalid && userName.touched }"
+                        
+                        name="userName"
+                        id="userName"
+                        placeholder="Enter your username"
+                        class="form-control mb-3"
+                        >
+                        <div class="invalid-feedback" *ngIf="userName.invalid && userName.touched ">usermame required.</div>
+                      </div>
+                      <div class="form-group">
+                        <div class="d-flex justify-content-between">
+                          <label for="login-password">Password</label
+                          ><a routerLink="/pages/authentication/forgot-password-v2"><small>Forgot Password?</small></a>
+                        </div>
+                        <div class="input-group input-group-merge form-password-toggle"></div>
+                        <input type="password"
+                        required
+                        ngModel
+                        class="form-control form-control-merge"
+                        [ngClass]="{ 'is-invalid error': userPassword.invalid && userPassword.touched }"
+                        #userPassword="ngModel"
+                        name="userPassword"
+                        id="userPassword"
+                        placeholder="Enter your password"
+                        class="form-control mb-3"
+                        >
+                        <div class="invalid-feedback" *ngIf="userPassword.invalid && userPassword.touched ">Password required.</div>
+                      </div>
+                        <input [disabled]="loginForm.invalid" type="submit"
+                        value="Login"
+                        class="btn btn-primary btn-block">
+                      </form>
         <p class="text-center mt-2">
           <span>New on our platform?</span
           ><a routerLink="/pages/authentication/register-v2"><span>&nbsp;Create an account</span></a>

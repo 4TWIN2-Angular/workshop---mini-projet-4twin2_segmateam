@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -12,6 +12,12 @@ import { environment } from "environments/environment";
 export class EcommerceService implements Resolve<any> {
   // Public
   api: string = environment.apiUrl
+  httpOptions = {
+    headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })
+  }
+
   public productList: Array<any>;
   public selectedProduct;
   public relatedProducts;
@@ -62,28 +68,28 @@ export class EcommerceService implements Resolve<any> {
    * Get Products
    */
    getProducts(): Observable<products[]> {
-    return this.http.get<products[]>(this.api+'/produit/all');
+    return this.http.get<products[]>(this.api+'/produit/all',this.httpOptions);
   }
   getProductsById(id:number): Observable<products[]> {
-    return this.http.get<products[]>(this.api+'/produit/retrieve/'+id);
+    return this.http.get<products[]>(this.api+'/produit/retrieve/'+id,this.httpOptions);
   }
   
 
   postData(data: any): Observable<any> {
-    return this.http.post(this.api+'/produit/add', data).pipe(tap(()=>{  
+    return this.http.post(this.api+'/produit/add', data,this.httpOptions).pipe(tap(()=>{  
     this._refrD$.next()
     }))
 
 }
 
 del(id: number){
-  return this.http.delete(this.api+'/produit/'+id).pipe(tap(()=>{  
+  return this.http.delete(this.api+'/produit/'+id,this.httpOptions).pipe(tap(()=>{  
     this._refrD$.next()
     }))
 
 }
 updateData(data:any) {
-  return this.http.put(this.api+'/produit/edit',data).pipe(tap(()=>{  
+  return this.http.put(this.api+'/produit/edit',data,this.httpOptions).pipe(tap(()=>{  
     this._refrD$.next()
     }))
 }

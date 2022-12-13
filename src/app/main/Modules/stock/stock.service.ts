@@ -1,5 +1,5 @@
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -49,6 +49,11 @@ export class StockService {
   STOCK = [] ; 
   PRODUITS = [] ; 
   api: string = environment.apiUrl;
+  httpOptions = {
+    headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+    })
+  }
   private _refresh$ = new Subject<void>();
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
@@ -88,16 +93,16 @@ export class StockService {
   }
 
   getAllProduits(id : number): Observable<Produit[]> {
-    return this.http.get<Produit[]>(this.api + "/stock/getProdByStock/"+id);
+    return this.http.get<Produit[]>(this.api + "/stock/getProdByStock/"+id,this.httpOptions);
   }
 
   getAllStock(): Observable<Stock[]> {
-    return this.http.get<Stock[]>(this.api + "/stock");
+    return this.http.get<Stock[]>(this.api + "/stock",this.httpOptions);
     
   }
   //Add stock 
   AddStock(stock: Stock): Observable<Stock> {
-    return this.http.post<Stock>(this.api + "/stock", stock).pipe(
+    return this.http.post<Stock>(this.api + "/stock", stock,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
@@ -105,7 +110,7 @@ export class StockService {
   }
   //Delete stock
   deleteStock(id: number): Observable<Stock> {
-    return this.http.delete<Stock>(this.api + "/stock/" + id).pipe(
+    return this.http.delete<Stock>(this.api + "/stock/" + id,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
@@ -113,14 +118,14 @@ export class StockService {
   }
 //update stock 
   updateStock(stock: Stock): Observable<Stock> {
-    return this.http.put<Stock>(this.api + "/stock", stock).pipe(
+    return this.http.put<Stock>(this.api + "/stock", stock,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
       ));
   }
   GetStockById(id: number): Observable<Stock> {
-    return this.http.get<Stock>(this.api + "/stock/" + id);
+    return this.http.get<Stock>(this.api + "/stock/" + id,this.httpOptions);
   }
   
   private _search(): Observable<SearchResult> {
