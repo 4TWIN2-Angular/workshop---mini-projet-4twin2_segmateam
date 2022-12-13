@@ -1,6 +1,63 @@
 
  
+<div class="mb-3 row">
+  <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label"
+    >Recherche:</label
+  >
+  <div class="col-xs-3 col-sm-auto">
+    <input
+      id="table-complete-search"
+      type="text"
+      class="form-control"
+      name="searchTerm"
+      (keyup)="onKeyUp($event)"
+     
+    />
 
+    
+       
+<div class="row mt-1 d-none d-lg-block">
+  <div class="col-sm-12">
+    <h6 class="filter-heading">Filters</h6>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+  
+    <div class="multi-range-price">
+      <h6 class="filter-title mt-0">Stocks</h6>
+      <ul class="list-unstyled price-range" id="price-range">
+        <li>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="priceAll" name="price-range" class="custom-control-input" checked />
+            <label class="custom-control-label" for="priceAll" (click)="filter('All')" >All</label>
+          </div>
+        </li>
+        <li>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="priceRange1" name="price-range" class="custom-control-input" />
+            <label class="custom-control-label" for="priceRange1" (click)="filter('EnStock')" >En Stock</label>
+          </div>
+        </li>
+        <li>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="priceRange1" name="price-range" class="custom-control-input" />
+            <label class="custom-control-label" for="priceRange1" (click)="filter('POut')">Presque En Repture</label>
+          </div>
+        </li>
+        <li>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="priceRange2" name="price-range" class="custom-control-input" />
+            <label class="custom-control-label" for="priceRange2" (click)="filter('OutOfStock')">En Repture</label>
+          </div>
+        </li>
+      </ul>
+    </div>
+   
+
+
+</div>
+</div>
 
 <table class="table align-middle mb-0 bg-white">
     <thead class="bg-light">
