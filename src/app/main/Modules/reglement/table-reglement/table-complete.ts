@@ -49,6 +49,8 @@ export class NgbdTableComplete {
     this.editing = id;
     this.editStatus = true;
   }
+
+  // how to implement cloudinary in angular
   toggleSidebar(name): void {
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }

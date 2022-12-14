@@ -12,11 +12,15 @@ import { DatePipe } from '@angular/common';
 })
 export class FactureComponent implements OnInit {
   factures:Facture[]
-  constructor(private fs:FactureServiceService) { }
+  show :boolean = false
+  constructor(private fs:FactureServiceService,private route:Router) { }
 
   ngOnInit(): void {
   
   }
-
+go(){
+  this.show=true
+this.route.navigate(['facture/table-facture'])
+}
 
 }
