@@ -86,15 +86,15 @@ export class FactureServiceService {
     sortColumn: "",
     sortDirection: "",
   };
-  GetFactureById(id: number) {
-    return this.FACTURES.find((facture) => facture.idFacture == id);
-  }
-  getDetailsFacture(id:number):Observable<DetailFacture[]>{
-    return this.http.get<DetailFacture[]>(this.urlDetailF+"/All/"+id,this.httpOptions);
-  }
+
   get refresh$(){
     return this._refresh$;
   }
+
+  getDetailsFacture(id:number):Observable<DetailFacture[]>{
+    return this.http.get<DetailFacture[]>(this.urlDetailF+"/All/"+id,this.httpOptions);
+  }
+
 
   constructor(private http:HttpClient) {
     this._search$
@@ -140,18 +140,21 @@ public GetAllDetailFactures(): Observable<DetailFacture[]> {
 
   public deleteDetailF(dF:DetailFacture):Observable<DetailFacture>{
     console.log("detail Facture user");
-    return this.http.delete<DetailFacture>(this.urlDetailF+`/del,{body:dF}`,this.httpOptions );
+    return this.http.delete<DetailFacture>(this.urlDetailF+`/del,{body:dF }`,this.httpOptions );
   //  return this._http.delete(this.PATH_OF_API + `/delete/${userName}`,this.httpOptions); 
   }
 
   // /---------------- Facture
   deleteFacture(facture:Facture):Observable<Facture>{
     console.log("delete user");
+
     return this.http.delete<Facture>( this.api+"/"+facture.idFacture,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
-      ));;
+      )
+    );
+
   }
 
   addFacture(facture:any):Observable<Facture>{
@@ -164,11 +167,12 @@ public GetAllDetailFactures(): Observable<DetailFacture[]> {
     dateD=DateFormatter.DateFromObject(dateD.year,dateD.month,dateD.day);
     facture.dateDernierModification=dateD ;
 
+
     return this.http.post<Facture>(this.api+"/add",facture,this.httpOptions).pipe(
       tap(()=>{
         this._refresh$.next()
       }
-      ));;
+      ));
     console.log("facture ajoutee");
   }
   // addDetailFacture(detailFacture:DetailFacture):Observable<DetailFacture>{
@@ -189,7 +193,9 @@ public GetAllDetailFactures(): Observable<DetailFacture[]> {
     return this.http.get<Facture>(this.api+"/"+id,this.httpOptions);
     console.log("get facture");
   }
-
+  GetFactureById(id: number) {
+    return this.FACTURES.find((facture) => facture.idFacture == id);
+  }
   get total$() {
     return this._total$.asObservable();
   }
