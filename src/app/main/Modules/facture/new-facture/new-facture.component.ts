@@ -8,6 +8,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import { NgbDate, NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DateFormatter } from "utils/dateformat";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {
   DlDateTimeDateModule,
   DlDateTimePickerModule,
@@ -35,7 +36,7 @@ export class NewFactureComponent implements OnInit {
       Validators.pattern("^[0-9]*$"),
       Validators.min(500)
     ]),
-    dateCreationFacture : new FormControl(    ),
+    dateCreationFacture : new FormControl(""),
     dateDernierModification :  new FormControl(""),
     archive:  new FormControl(""),
     
@@ -61,8 +62,11 @@ export class NewFactureComponent implements OnInit {
 
     AddFacture() {
     
-      this.fs.addFacture(this.regform.value).subscribe(
+      this.fs.addFacture(this.regform.value).subscribe((result)=>{
+        Swal.fire('Facture Ajoutee ! , La facture a été bien ajouté ','success')
+      }
       );
+     
       console.log("form updated",this.regform.value);}
 
   
@@ -85,6 +89,16 @@ export class NewFactureComponent implements OnInit {
   ngOnInit(): void {
     console.log("loaded");
     console.log("ROUTEEE",this.route);
+
+    this.fs.refresh$.subscribe(()=>
+    {
+      this.fs.GetAllFactures().subscribe(
+        (data)=>
+      this.fs.FACTURES=data)
+    })
+
+    this.fs.GetAllFactures().subscribe((data)=>
+    this.fs.FACTURES=data) 
  
     
   }

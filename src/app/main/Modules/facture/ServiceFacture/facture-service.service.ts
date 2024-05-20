@@ -82,6 +82,10 @@ export class FactureServiceService {
     sortDirection: "",
   };
 
+  get refresh$(){
+    return this._refresh$;
+  }
+
   getDetailsFacture(id:number):Observable<DetailFacture[]>{
     return this.http.get<DetailFacture[]>(this.urlDetailF+"/All/"+id);
   }
@@ -137,7 +141,12 @@ public GetAllDetailFactures(): Observable<DetailFacture[]> {
   // /---------------- Facture
   deleteFacture(facture:Facture):Observable<Facture>{
     console.log("delete user");
-    return this.http.delete<Facture>( this.api+"/"+facture.idFacture);
+    return this.http.delete<Facture>( this.api+"/"+facture.idFacture).pipe(
+      tap(()=>{
+        this._refresh$.next()
+      }
+      )
+    );
   }
 
   addFacture(facture:any):Observable<Facture>{
@@ -150,7 +159,11 @@ public GetAllDetailFactures(): Observable<DetailFacture[]> {
     dateD=DateFormatter.DateFromObject(dateD.year,dateD.month,dateD.day);
     facture.dateDernierModification=dateD ;
 
-    return this.http.post<Facture>(this.api+"/add",facture);
+    return this.http.post<Facture>(this.api+"/add",facture).pipe(
+      tap(()=>{
+        this._refresh$.next()
+      }
+      ));
     console.log("facture ajoutee");
   }
   // addDetailFacture(detailFacture:DetailFacture):Observable<DetailFacture>{
@@ -171,7 +184,9 @@ public GetAllDetailFactures(): Observable<DetailFacture[]> {
     return this.http.get<Facture>(this.api+"/"+id);
     console.log("get facture");
   }
-
+  GetFactureById(id: number) {
+    return this.FACTURES.find((facture) => facture.idFacture == id);
+  }
   get total$() {
     return this._total$.asObservable();
   }
